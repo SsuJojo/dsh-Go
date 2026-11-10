@@ -573,8 +573,33 @@ class _ToolBuilder {
   ApprovalOutcome? approvalOutcome;
   ToolResultEvent? result;
 
+  ToolChatItem? _built;
+  ToolResultEvent? _builtResult;
+  Object? _builtMeta;
+  ApprovalOutcome? _builtOutcome;
+  bool _builtApprovalAsked = false;
+  bool _builtTurnEnded = false;
+  ApprovalRequest? _builtPending;
+
+  /// The fold re-runs [build] for every tool after each appended event (a
+  /// working turn appends in bursts). Rebuilding a [ToolChatItem] when none of
+  /// its inputs changed would hand fresh instances to the UI on every burst:
+  /// row caches and `select`s downstream key on item identity, so unchanged
+  /// inputs must return the previous instance. Every field the output depends
+  /// on is in the guard — [ToolResultEvent.meta] is a view over `data`, hence
+  /// its own identity check.
   ToolChatItem build(ApprovalRequest? pending) {
     final result = this.result;
+    final built = _built;
+    if (built != null &&
+        identical(result, _builtResult) &&
+        identical(result?.meta, _builtMeta) &&
+        approvalOutcome == _builtOutcome &&
+        approvalAsked == _builtApprovalAsked &&
+        turnEnded == _builtTurnEnded &&
+        identical(pending, _builtPending)) {
+      return built;
+    }
     final ToolStatus status;
     if (result != null) {
       final denied = approvalOutcome != null && approvalOutcome != ApprovalOutcome.allowedOnce;
@@ -586,7 +611,13 @@ class _ToolBuilder {
     } else {
       status = ToolStatus.running;
     }
-    return ToolChatItem(
+    _builtResult = result;
+    _builtMeta = result?.meta;
+    _builtOutcome = approvalOutcome;
+    _builtApprovalAsked = approvalAsked;
+    _builtTurnEnded = turnEnded;
+    _builtPending = pending;
+    return _built = ToolChatItem(
       callId: callId,
       name: name,
       arguments: arguments,

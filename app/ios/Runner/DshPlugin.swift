@@ -394,8 +394,16 @@ private struct LocalEngineFiles {
   }
 
   func resolve(_ path: String) -> String? {
+    guard let root = canonical(guestRoot.path) else { return nil }
+    return resolve(path, root: root)
+  }
+
+  /// Same check as [resolve], for callers that resolve many files under one
+  /// root: the guest root's canonical form is computed once by the caller
+  /// instead of once per file (issue #872). Each file's own realpath and
+  /// readability checks stay per-file.
+  func resolve(_ path: String, root: String) -> String? {
     guard
-      let root = canonical(guestRoot.path),
       let file = canonical(RelocatedGuestPaths.map(path, root: root)),
       file.hasPrefix(root + "/"),
       let values = try? FileManager.default.attributesOfItem(atPath: file),
@@ -428,7 +436,7 @@ private struct LocalEngineFiles {
         // Never recurse into or publish a symlink from the output scan.
         if type == .typeDirectory {
           if level < maxDepth { walk(entry, level: level + 1) }
-        } else if type == .typeRegular, let path = resolve(entry.path),
+        } else if type == .typeRegular, let path = resolve(entry.path, root: root),
           path.hasPrefix(expected + "/"),
           let size = values[.size] as? NSNumber, let modified = values[.modificationDate] as? Date
         {

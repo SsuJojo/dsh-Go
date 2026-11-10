@@ -321,4 +321,112 @@ void main() {
       expect(a.turnStart, runInfoTurnTwoStart);
     });
   });
+
+  group('narration scanner equivalence (#860)', () {
+    // Frozen copy of the pre-#860 implementation. The suffix scanner in
+    // activity_copy.dart must return exactly this for every input: the pill
+    // text is user-visible and this change is meant to be behavior-neutral.
+    String? reference(String text) {
+      final matches = RegExp(r'(?:^|\n)⏵[ \t]*([^\n⏵]*)').allMatches(text);
+      if (matches.isEmpty) return null;
+      var line = matches.last.group(1)!.replaceAll(RegExp(r'[\x00-\x1F\x7F]'), '').trim();
+      if (line.isEmpty) return null;
+      final end = RegExp(r'[。．!?！？;；]|\.(?=\s|$|[A-Z][a-z])').firstMatch(line);
+      if (end != null) line = line.substring(0, end.end);
+      var width = 0;
+      var cut = line.length;
+      var offset = 0;
+      for (final rune in line.runes) {
+        final w = referenceWide(rune) ? 2 : 1;
+        if (width + w > 80) {
+          cut = offset;
+          break;
+        }
+        width += w;
+        offset += rune > 0xFFFF ? 2 : 1;
+      }
+      if (cut < line.length) {
+        final head = line.substring(0, cut);
+        final soft = [' ', '，', '、', ',', ';', '；'].map(head.lastIndexOf).fold(-1, (a, b) => a > b ? a : b);
+        line = soft > 0 ? head.substring(0, soft) : head;
+      }
+      line = line.replaceFirst(RegExp(r'[。．.!！,，、;；]+$'), '').trim();
+      return line.isEmpty ? null : line;
+    }
+
+    // Frozen copy of `_wide` from activity_copy.dart at the time of #860.
+    bool referenceWide(int rune) =>
+        (rune >= 0x1100 && rune <= 0x115F) ||
+        (rune >= 0x2E80 && rune <= 0xA4CF) ||
+        (rune >= 0xAC00 && rune <= 0xD7A3) ||
+        (rune >= 0xF900 && rune <= 0xFAFF) ||
+        (rune >= 0xFE30 && rune <= 0xFE4F) ||
+        (rune >= 0xFF00 && rune <= 0xFF60) ||
+        (rune >= 0xFFE0 && rune <= 0xFFE6) ||
+        (rune >= 0x1F000 && rune <= 0x1FAFF) ||
+        (rune >= 0x20000 && rune <= 0x3FFFD);
+
+    void check(String text) =>
+        expect(extractNarration(text), reference(text), reason: 'codeUnits ${text.codeUnits}');
+
+    test('hand-picked edges agree', () {
+      final edges = [
+        '',
+        '⏵',
+        '⏵ ',
+        '\n⏵',
+        '\n⏵\n',
+        '⏵\n⏵',
+        '⏵a⏵b',
+        'x⏵ y',
+        '\r\n⏵ x',
+        '⏵ x\r',
+        '⏵ \t a \t ',
+        '⏵⏵⏵',
+        '\n\n⏵ last',
+        'a\nb\n⏵ tail',
+        '⏵ x\ny\n⏵ ',
+        '⏵ 中文。后面还有',
+        '⏵ Sentence. Next',
+        '⏵ v1.2.3 steps',
+        '⏵ end.',
+        '⏵ end',
+        '⏵ a; b',
+        '⏵ a；b',
+        '⏵ done！\n⏵',
+        '⏵ 1\x022',
+        '⏵ mixed宽字width',
+        '⏵ ${'很' * 45}',
+        '⏵ ${'很' * 20}，${'长' * 25}',
+        '⏵ ${'word ' * 20}',
+        '⏵ a\n⏵ ',
+        '⏵ a。',
+        '⏵ a.',
+        '⏵ a.Follow',
+        '⏵ a.b',
+      ];
+      for (final text in edges) {
+        check(text);
+      }
+    });
+
+    test('deterministic fuzz agrees', () {
+      const alphabet = ['a', 'x', ' ', '\t', '\n', '\r', '⏵', '。', '，', 'e'];
+      var seed = 0x859;
+      String next() {
+        seed = (seed * 1103515245 + 12345) & 0x7FFFFFFF;
+        return alphabet[seed % alphabet.length];
+      }
+
+      for (var round = 0; round < 4000; round++) {
+        check(List.generate(round % 18, next).join());
+      }
+    });
+
+    test('realistic streaming bodies agree', () {
+      check('${'正文' * 200}\n⏵ 正在重试第 3 次请求。然后继续\n其他正文');
+      check('${'正文' * 500}\n没有 ⏵ 标记的普通回复');
+      check('${'行' * 100}\n${'⏵ 早先的一句话，后来被覆盖了' * 3}\n⏵ 最新的一行还在进行中');
+    });
+  });
 }
