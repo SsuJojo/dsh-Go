@@ -326,6 +326,18 @@ void main() {
     // Frozen copy of the pre-#860 implementation. The suffix scanner in
     // activity_copy.dart must return exactly this for every input: the pill
     // text is user-visible and this change is meant to be behavior-neutral.
+    // Frozen copy of `_wide` from activity_copy.dart at the time of #860.
+    bool referenceWide(int rune) =>
+        (rune >= 0x1100 && rune <= 0x115F) ||
+        (rune >= 0x2E80 && rune <= 0xA4CF) ||
+        (rune >= 0xAC00 && rune <= 0xD7A3) ||
+        (rune >= 0xF900 && rune <= 0xFAFF) ||
+        (rune >= 0xFE30 && rune <= 0xFE4F) ||
+        (rune >= 0xFF00 && rune <= 0xFF60) ||
+        (rune >= 0xFFE0 && rune <= 0xFFE6) ||
+        (rune >= 0x1F000 && rune <= 0x1FAFF) ||
+        (rune >= 0x20000 && rune <= 0x3FFFD);
+
     String? reference(String text) {
       final matches = RegExp(r'(?:^|\n)⏵[ \t]*([^\n⏵]*)').allMatches(text);
       if (matches.isEmpty) return null;
@@ -353,18 +365,6 @@ void main() {
       line = line.replaceFirst(RegExp(r'[。．.!！,，、;；]+$'), '').trim();
       return line.isEmpty ? null : line;
     }
-
-    // Frozen copy of `_wide` from activity_copy.dart at the time of #860.
-    bool referenceWide(int rune) =>
-        (rune >= 0x1100 && rune <= 0x115F) ||
-        (rune >= 0x2E80 && rune <= 0xA4CF) ||
-        (rune >= 0xAC00 && rune <= 0xD7A3) ||
-        (rune >= 0xF900 && rune <= 0xFAFF) ||
-        (rune >= 0xFE30 && rune <= 0xFE4F) ||
-        (rune >= 0xFF00 && rune <= 0xFF60) ||
-        (rune >= 0xFFE0 && rune <= 0xFFE6) ||
-        (rune >= 0x1F000 && rune <= 0x1FAFF) ||
-        (rune >= 0x20000 && rune <= 0x3FFFD);
 
     void check(String text) =>
         expect(extractNarration(text), reference(text), reason: 'codeUnits ${text.codeUnits}');
@@ -419,7 +419,7 @@ void main() {
       }
 
       for (var round = 0; round < 4000; round++) {
-        check(List.generate(round % 18, next).join());
+        check(List.generate(round % 18, (_) => next()).join());
       }
     });
 
