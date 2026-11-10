@@ -488,6 +488,14 @@ final class EngineChannel: NSObject, FlutterStreamHandler {
 
   private static let notice = "前后台状态尚未同步，本机任务可能仍在暂停或运行；正在重试。"
 
+  /// Log-line redaction patterns, compiled once. `appendLog` runs for every
+  /// log line and must not re-parse these each time (issue #871).
+  private static let redactExpressions: [NSRegularExpression] = [
+    #"([?&](?:token|key|api_key)=)[^\s&#]+"#,
+    #"((?i:authorization)\s*[:=]\s*(?:(?i:bearer)\s+)?)[^\s,;]+"#,
+    #"((?i:api[_-]?key|access[_-]?token|refresh[_-]?token)\s*[:=]\s*)[^\s,;]+"#,
+  ].map { try! NSRegularExpression(pattern: $0) }
+
   private let methods: FlutterMethodChannel
   private let events: FlutterEventChannel
   private let queue = DispatchQueue(label: "dsh.engine", qos: .userInitiated)
@@ -1216,12 +1224,9 @@ final class EngineChannel: NSObject, FlutterStreamHandler {
   @discardableResult
   private func appendLog(_ line: String, stream: String, emit shouldEmit: Bool = true) -> [String: Any] {
     var safe = line
-    for pattern in [
-      #"([?&](?:token|key|api_key)=)[^\s&#]+"#,
-      #"((?i:authorization)\s*[:=]\s*(?:(?i:bearer)\s+)?)[^\s,;]+"#,
-      #"((?i:api[_-]?key|access[_-]?token|refresh[_-]?token)\s*[:=]\s*)[^\s,;]+"#,
-    ] {
-      safe = safe.replacingOccurrences(of: pattern, with: "$1[REDACTED]", options: .regularExpression)
+    for expression in Self.redactExpressions {
+      safe = expression.stringByReplacingMatches(
+        in: safe, range: NSRange(safe.startIndex..., in: safe), withTemplate: "$1[REDACTED]")
     }
     for secret in secrets { safe = safe.replacingOccurrences(of: secret, with: "[REDACTED]") }
     if safe.count > 8192 { safe = String(safe.prefix(8192)) + " [日志行已截断]" }

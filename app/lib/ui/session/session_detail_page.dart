@@ -510,24 +510,34 @@ class SessionHero extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final l10n = context.l10n;
-    final turns = ref.watch(chatProvider(sessionId).select((s) => s.turns));
-    final items = ref.watch(chatProvider(sessionId).select((s) => s.items));
+    // Watch the folded numbers, not the chat state: a streaming session
+    // republishes many times a second and none of this changes unless one of
+    // the displayed values does (issue #862).
+    final head = ref.watch(
+      chatProvider(sessionId).select((s) {
+        final turns = s.turns;
+        final running = turns.where((t) => t.running).lastOrNull;
+        return (
+          turns: turns.length,
+          running: running?.start,
+          elapsed: turns.fold(Duration.zero, (sum, t) => sum + (t.duration ?? Duration.zero)),
+          steps: turns.fold(0, (sum, t) => sum + t.steps),
+          files: fileChangesOf(s.items.whereType<ToolChatItem>()).length,
+        );
+      }),
+    );
     final skew = ref.watch(chatProvider(sessionId).select((s) => s.clockSkew));
-    final running = turns.where((t) => t.running).lastOrNull;
-    final finished = turns.fold(Duration.zero, (sum, t) => sum + (t.duration ?? Duration.zero));
-    final steps = turns.fold(0, (sum, t) => sum + t.steps);
-    final files = fileChangesOf(items.whereType<ToolChatItem>()).length;
-    final subtitle = turns.isEmpty
+    final subtitle = head.turns == 0
         ? l10n.hubSessionNoTurns
-        : running == null
-        ? l10n.hubSessionTurns(turns.length)
-        : l10n.hubSessionTurnsRunning(turns.length);
+        : head.running == null
+        ? l10n.hubSessionTurns(head.turns)
+        : l10n.hubSessionTurnsRunning(head.turns);
 
     Widget hero(Duration total) {
       final stats = [
         (formatClock(total), l10n.hubSessionElapsed),
-        ('$steps', l10n.hubSessionSteps),
-        ('$files', l10n.hubSessionChangedFiles),
+        ('${head.steps}', l10n.hubSessionSteps),
+        ('${head.files}', l10n.hubSessionChangedFiles),
       ];
       if (title case final title?) {
         return PageHero(
@@ -567,11 +577,12 @@ class SessionHero extends ConsumerWidget {
       );
     }
 
-    if (running == null) return hero(finished);
+    final running = head.running;
+    if (running == null) return hero(head.elapsed);
     return LiveElapsed(
-      since: running.start,
+      since: running,
       skew: skew,
-      builder: (context, elapsed) => hero(finished + (elapsed ?? Duration.zero)),
+      builder: (context, elapsed) => hero(head.elapsed + (elapsed ?? Duration.zero)),
     );
   }
 }

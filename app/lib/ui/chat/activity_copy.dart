@@ -480,13 +480,39 @@ bool _wide(int rune) =>
 /// `⏵` 必须在行首(句中的 `⏵` 是模型在*提*这个格式,不是在用它);只取到
 /// 第一个句末标点,按显示宽度截到 80 列(约 40 个汉字),去掉控制字符。
 String? extractNarration(String text) {
-  final matches = RegExp(r'(?:^|\n)⏵[ \t]*([^\n⏵]*)').allMatches(text);
-  if (matches.isEmpty) return null;
-  var line = matches.last.group(1)!.replaceAll(RegExp(r'[\x00-\x1F\x7F]'), '').trim();
+  // 等价于对 `(?:^|\n)⏵[ \t]*([^\n⏵]*)` 取 allMatches.last:最后一个行首
+  // `⏵`,向后扫到行尾或下一个 `⏵` 为止(句中再出现的 `⏵` 不重新开组)。
+  // 行首的判定是 `^` 或 `\n` 两者之一,所以先找最后一个 `\n⏵`;正文第一行
+  // 就是 `⏵` 时它前面没有 `\n`,才退回下标 0。这段每帧都对最新正文跑一次,
+  // 改成只扫尾部一段,不再全量过正则。
+  final int mark;
+  final nl = text.lastIndexOf('\n⏵');
+  if (nl >= 0) {
+    mark = nl + 1;
+  } else if (text.startsWith('⏵')) {
+    mark = 0;
+  } else {
+    return null;
+  }
+  var end = text.length;
+  for (var i = mark + 1; i < text.length; i++) {
+    final unit = text.codeUnitAt(i);
+    if (unit == 0x0A || unit == 0x23F5) {
+      end = i;
+      break;
+    }
+  }
+  var begin = mark + 1;
+  while (begin < end) {
+    final unit = text.codeUnitAt(begin);
+    if (unit != 0x20 && unit != 0x09) break;
+    begin++;
+  }
+  var line = text.substring(begin, end).replaceAll(RegExp(r'[\x00-\x1F\x7F]'), '').trim();
   if (line.isEmpty) return null;
   // l10n:keep narration punctuation parser
-  final end = RegExp(r'[。．!?！？;；]|\.(?=\s|$|[A-Z][a-z])').firstMatch(line);
-  if (end != null) line = line.substring(0, end.end);
+  final endPunct = RegExp(r'[。．!?！？;；]|\.(?=\s|$|[A-Z][a-z])').firstMatch(line);
+  if (endPunct != null) line = line.substring(0, endPunct.end);
 
   var width = 0;
   var cut = line.length;
