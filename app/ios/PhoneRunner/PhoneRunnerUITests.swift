@@ -547,11 +547,15 @@ final class PhoneTools {
     var result: [String: Any] = ["text": ([header] + lines).joined(separator: "\n"), "screen": "s\(serial)",
       "appBundleID": after.application.identifier]
     if params["image"] as? Bool == true {
-      guard let data = screenshot.jpegData(compressionQuality: 0.5), data.count <= PhoneRunnerOutputBudget.jpegBytes else {
+      // One downscaled JPEG is both the response bytes and the coordinate space: the model
+      // answers in these pixels, so the ratio carries the screen mapping forward exactly.
+      let approved = PhoneRunnerImageScale.capped(screenshot)
+      guard let data = approved.image.jpegData(compressionQuality: 0.5), data.count <= PhoneRunnerOutputBudget.jpegBytes else {
         throw PhoneRunnerObservationError.output
       }
       result["image"] = data.base64EncodedString()
-      screenshotMetrics = (serial, screenshot.scale, screenshot.size.width * screenshot.scale, screenshot.size.height * screenshot.scale)
+      screenshotMetrics = (serial, CGFloat(approved.pixels.width) / screenshot.size.width,
+        CGFloat(approved.pixels.width), CGFloat(approved.pixels.height))
     }
     _ = try checkedResult(result)
     try observation.remember(screen: "s\(serial)", frame: after.frame, context: context(), capturedAt: before.time)
@@ -730,7 +734,7 @@ final class PhoneTools {
     guard x.isFinite, y.isFinite, x >= 0, y >= 0, x < Double(metrics.width), y < Double(metrics.height) else {
       throw ToolError("坐标不在这张截图内，没有点击。")
     }
-    // Recheck the original pixels, retaining the exact approved image's scale.
+    // Recheck the settled pixels, then map the approved JPEG's own pixels onto the screen.
     try validateObservation(params["observation"] as? String, consume: true)
     _ = try inputApplication()
     touch(CGPoint(x: CGFloat(x) / metrics.scale, y: CGFloat(y) / metrics.scale))

@@ -98,6 +98,43 @@ enum PhoneRunnerOutputBudget {
   }
 }
 
+/// The model-facing screenshot, downscaled once before JPEG encoding, the same way
+/// CoreDevice bounds its annotated image. A 1290x2796 screen at quality 0.5 otherwise
+/// spends a full-resolution encode and most of the payload budget on pixels the model
+/// reads at a fraction of that resolution. The returned pixel size is what the model's
+/// own coordinates are expressed in, so the ratio keeps a tap exact.
+enum PhoneRunnerImageScale {
+  /// Long edge of the approved JPEG: past what the model reads, far below the payload budget.
+  static let responseLongEdge = 1280
+
+  static func capped(_ image: UIImage) -> (image: UIImage, pixels: (width: Int, height: Int)) {
+    guard let source = image.cgImage, image.imageOrientation == .up,
+      source.width > 0, source.height > 0,
+      let space = CGColorSpace(name: CGColorSpace.sRGB) else { return (image, pixels(of: image)) }
+    let longest = max(source.width, source.height)
+    guard longest > responseLongEdge else { return (image, (source.width, source.height)) }
+    let ratio = Double(responseLongEdge) / Double(longest)
+    let width = max(1, Int(Double(source.width) * ratio))
+    let height = max(1, Int(Double(source.height) * ratio))
+    guard let context = CGContext(data: nil, width: width, height: height,
+      bitsPerComponent: 8, bytesPerRow: width * 4, space: space,
+      bitmapInfo: CGBitmapInfo.byteOrder32Big.rawValue | CGImageAlphaInfo.premultipliedLast.rawValue) else {
+      return (image, (source.width, source.height))
+    }
+    context.interpolationQuality = .medium
+    context.setBlendMode(.copy)
+    context.draw(source, in: CGRect(x: 0, y: 0, width: width, height: height))
+    guard let scaled = context.makeImage() else { return (image, (source.width, source.height)) }
+    // The dimensions travel separately: a UIImage's own size is points, not pixels.
+    return (UIImage(cgImage: scaled, scale: 1, orientation: .up), (width, height))
+  }
+
+  private static func pixels(of image: UIImage) -> (width: Int, height: Int) {
+    if let cg = image.cgImage { return (cg.width, cg.height) }
+    return (max(1, Int(image.size.width * image.scale)), max(1, Int(image.size.height * image.scale)))
+  }
+}
+
 /// Network callbacks and the main-thread tool runner share only this flag.
 /// It can stop subsequent primitives, not revoke an already-entered XCTest call.
 final class PhoneRunnerCallCancellation: @unchecked Sendable {
@@ -204,10 +241,20 @@ final class PhoneRunnerObservation {
     let scale: Double
     let pointSize: CGSize
     let digest: Data
-    /// Per-pixel luminance, kept to tell a real change from a fading scroll indicator (see [matches]).
+    /// Fingerprint geometry: the luma below is these pixels, not necessarily the original ones.
+    let lumaWidth: Int
+    let lumaHeight: Int
+    /// Per-fingerprint-pixel luminance, kept to tell a real change from a fading scroll indicator
+    /// (see [matches]).
     let luma: [UInt8]
 
-    /// Below this many pixels (test images) only identical pixels match.
+    /// Long edge of the fingerprint. One downscale feeds both the digest and the luma, so a
+    /// screen-sized frame costs a ~0.5MB draw and hash instead of a ~14MB draw, a ~14MB hash
+    /// and a multi-megapixel luminance loop, and the retained luma shrinks to match.
+    static let fingerprintLongEdge = 1024
+
+    /// Below this many fingerprint pixels (test images) only identical pixels match. Every real
+    /// screen keeps well over it, so the 1% tolerance below still applies there.
     static let tolerantPixels = 100_000
 
     init(appBundleID: String, orientation: Int, image: UIImage) throws {
@@ -216,68 +263,72 @@ final class PhoneRunnerObservation {
         pixels.width <= 12_000_000 / pixels.height,
         image.scale.isFinite, image.scale > 0, image.scale <= 8,
         image.size.width.isFinite, image.size.height.isFinite,
-        image.size.width > 0, image.size.height > 0,
-        let colorSpace = CGColorSpace(name: CGColorSpace.sRGB) else { throw PhoneRunnerObservationError.image }
+        image.size.width > 0, image.size.height > 0 else { throw PhoneRunnerObservationError.image }
       self.appBundleID = appBundleID
       self.orientation = PhoneRunnerObservation.interfaceOrientation(device: orientation,
         pixelWidth: pixels.width, pixelHeight: pixels.height)
       pixelWidth = pixels.width; pixelHeight = pixels.height
       imageOrientation = image.imageOrientation.rawValue
       scale = Double(image.scale); pointSize = image.size
-      var rgba = Data(count: pixels.width * pixels.height * 4)
-      let drew = rgba.withUnsafeMutableBytes { raw -> Bool in
-        guard let context = CGContext(data: raw.baseAddress, width: pixels.width, height: pixels.height,
-          bitsPerComponent: 8, bytesPerRow: pixels.width * 4, space: colorSpace,
-          bitmapInfo: CGBitmapInfo.byteOrder32Big.rawValue | CGImageAlphaInfo.premultipliedLast.rawValue) else { return false }
-        context.interpolationQuality = .none
+      // One aspect-preserving downscale of the long edge, rounded to the nearest pixel; an image
+      // already that small is read as it is. Drawn into a single-channel context, so the digest
+      // and the luma come out of the same pass.
+      let fingerprint: (width: Int, height: Int)
+      if pixels.width >= pixels.height {
+        fingerprint = (min(pixels.width, Frame.fingerprintLongEdge),
+          max(1, Int((Double(pixels.height) * Double(min(pixels.width, Frame.fingerprintLongEdge))
+            / Double(pixels.width)).rounded())))
+      } else {
+        fingerprint = (max(1, Int((Double(pixels.width) * Double(min(pixels.height, Frame.fingerprintLongEdge))
+          / Double(pixels.height)).rounded())), min(pixels.height, Frame.fingerprintLongEdge))
+      }
+      lumaWidth = fingerprint.width; lumaHeight = fingerprint.height
+      var gray = Data(count: fingerprint.width * fingerprint.height)
+      let drew = gray.withUnsafeMutableBytes { raw -> Bool in
+        guard let context = CGContext(data: raw.baseAddress, width: fingerprint.width,
+          height: fingerprint.height,
+          bitsPerComponent: 8, bytesPerRow: fingerprint.width, space: CGColorSpaceCreateDeviceGray(),
+          bitmapInfo: CGImageAlphaInfo.none.rawValue) else { return false }
+        // Only a real downscale needs a filter; a same-size copy keeps comparing exact pixels.
+        context.interpolationQuality =
+          fingerprint.width < pixels.width || fingerprint.height < pixels.height ? .medium : .none
         context.setBlendMode(.copy)
-        context.draw(pixels, in: CGRect(x: 0, y: 0, width: pixels.width, height: pixels.height))
+        context.draw(pixels, in: CGRect(x: 0, y: 0, width: fingerprint.width, height: fingerprint.height))
         return true
       }
       guard drew else { throw PhoneRunnerObservationError.image }
-      digest = Data(SHA256.hash(data: rgba))
-      luma = rgba.withUnsafeBytes { raw -> [UInt8] in
-        let bytes = raw.bindMemory(to: UInt8.self)
-        let count = bytes.count / 4
-        return [UInt8](unsafeUninitializedCapacity: count) {
-          (buffer: inout UnsafeMutableBufferPointer<UInt8>, initialized: inout Int) in
-          for i in 0..<count {
-            let base = i * 4
-            let red: Int = 77 * Int(bytes[base])
-            let green: Int = 150 * Int(bytes[base + 1])
-            let blue: Int = 29 * Int(bytes[base + 2])
-            buffer[i] = UInt8((red + green + blue) >> 8)
-          }
-          initialized = count
-        }
-      }
+      digest = Data(SHA256.hash(data: gray))
+      luma = [UInt8](gray)
     }
 
-    /// How two same-sized frames differ: pixels changed by more than a faint shade, the largest
-    /// change, and the box around them (in pixels). For diagnostics.
+    /// How two same-sized frames differ: fingerprint pixels changed by more than a faint shade,
+    /// the largest change, and the box around them in original pixels. For diagnostics.
     func difference(_ other: Frame) -> String {
       guard pixelWidth == other.pixelWidth, pixelHeight == other.pixelHeight,
         luma.count == other.luma.count, !luma.isEmpty else {
         return "size \(pixelWidth)x\(pixelHeight) vs \(other.pixelWidth)x\(other.pixelHeight)"
       }
       var changed = 0, largest = 0
-      var minX = pixelWidth, minY = pixelHeight, maxX = -1, maxY = -1
+      var minX = lumaWidth, minY = lumaHeight, maxX = -1, maxY = -1
       for i in 0..<luma.count {
         let delta: Int = abs(Int(luma[i]) - Int(other.luma[i]))
         largest = max(largest, delta)
         guard delta > 24 else { continue }
         changed += 1
-        let x = i % pixelWidth, y = i / pixelWidth
+        let x = i % lumaWidth, y = i / lumaWidth
         minX = min(minX, x); maxX = max(maxX, x); minY = min(minY, y); maxY = max(maxY, y)
       }
-      let box = changed == 0 ? "none" : "\(minX),\(minY)-\(maxX),\(maxY)"
+      // The box is reported in original pixels, so a log line still reads as screen coordinates.
+      let box = changed == 0 ? "none"
+        : "\(minX * pixelWidth / lumaWidth),\(minY * pixelHeight / lumaHeight)"
+          + "-\(maxX * pixelWidth / lumaWidth),\(maxY * pixelHeight / lumaHeight)"
       return "\(changed)/\(luma.count) pixels, largest \(largest), box \(box), size \(pixelWidth)x\(pixelHeight)"
     }
 
     /// The same screen to act on: the same app, direction and geometry, and either identical
-    /// pixels or, on a screen-sized image, at most 1% of pixels changed by more than a faint
-    /// shade. That lets a scroll indicator fade, the clock tick or a caret blink; a dialog, a
-    /// banner, the keyboard or anything that moves the layout changes far more.
+    /// pixels or, on a screen-sized image, at most 1% of fingerprint pixels changed by more than
+    /// a faint shade. That lets a scroll indicator fade, the clock tick or a caret blink; a dialog,
+    /// a banner, the keyboard or anything that moves the layout changes far more.
     func matches(_ other: Frame) -> Bool {
       guard appBundleID == other.appBundleID, orientation == other.orientation,
         pixelWidth == other.pixelWidth, pixelHeight == other.pixelHeight,
