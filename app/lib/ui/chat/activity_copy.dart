@@ -482,14 +482,17 @@ bool _wide(int rune) =>
 String? extractNarration(String text) {
   // 等价于对 `(?:^|\n)⏵[ \t]*([^\n⏵]*)` 取 allMatches.last:最后一个行首
   // `⏵`,向后扫到行尾或下一个 `⏵` 为止(句中再出现的 `⏵` 不重新开组)。
-  // 这段每帧都对最新正文跑一次,改成只扫尾部一段,不再全量过正则。
+  // 行首的判定是 `^` 或 `\n` 两者之一,所以先找最后一个 `\n⏵`;正文第一行
+  // 就是 `⏵` 时它前面没有 `\n`,才退回下标 0。这段每帧都对最新正文跑一次,
+  // 改成只扫尾部一段,不再全量过正则。
   final int mark;
-  if (text.startsWith('⏵')) {
+  final nl = text.lastIndexOf('\n⏵');
+  if (nl >= 0) {
+    mark = nl + 1;
+  } else if (text.startsWith('⏵')) {
     mark = 0;
   } else {
-    final nl = text.lastIndexOf('\n⏵');
-    if (nl < 0) return null;
-    mark = nl + 1;
+    return null;
   }
   var end = text.length;
   for (var i = mark + 1; i < text.length; i++) {
