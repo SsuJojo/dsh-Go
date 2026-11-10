@@ -165,6 +165,51 @@ final class IOSPhoneXCTestObservationTests: XCTestCase {
     XCTAssertEqual(original.pointSize, CGSize(width: 16, height: 12))
   }
 
+  func testScreenSizedFingerprintIsDownscaledButKeepsTheSameDecisions() throws {
+    let frame = try PhoneRunnerObservation.Frame(appBundleID: target, orientation: 1,
+      image: image(width: 2000, height: 1000))
+    // Long edge capped, short edge following it; the frame still reports the original geometry.
+    XCTAssertEqual(frame.lumaWidth, 1024)
+    XCTAssertEqual(frame.lumaHeight, 512)
+    XCTAssertEqual(frame.luma.count, 1024 * 512)
+    XCTAssertEqual(frame.pixelWidth, 2000)
+    XCTAssertEqual(frame.pixelHeight, 1000)
+    XCTAssertEqual(frame, try PhoneRunnerObservation.Frame(appBundleID: target, orientation: 1,
+      image: image(width: 2000, height: 1000)))
+    // A one-pixel change still flips the digest, and a screen-sized frame still tolerates it.
+    let changed = try PhoneRunnerObservation.Frame(appBundleID: target, orientation: 1,
+      image: image(width: 2000, height: 1000, changedPixel: 500_000))
+    XCTAssertNotEqual(frame.digest, changed.digest)
+    XCTAssertTrue(frame.matches(changed))
+    // Diagnostics keep reading in original pixels.
+    XCTAssertTrue(frame.difference(changed).hasSuffix("size 2000x1000"))
+    // An image already that small is never resized, so its comparison stays exact.
+    let small = try PhoneRunnerObservation.Frame(appBundleID: target, orientation: 1,
+      image: image(width: 16, height: 12))
+    XCTAssertEqual(small.lumaWidth, 16)
+    XCTAssertEqual(small.lumaHeight, 12)
+  }
+
+  func testApprovedJPEGIsCappedAndItsPixelsStillMapOntoTheScreen() throws {
+    let screen = try image(width: 2580, height: 1120, scale: 3)
+    let approved = PhoneRunnerImageScale.capped(screen)
+    XCTAssertEqual(approved.pixels.width, 1280)
+    XCTAssertEqual(approved.pixels.height, 555)
+    let jpeg = try XCTUnwrap(approved.image.jpegData(compressionQuality: 0.5))
+    XCTAssertLessThanOrEqual(jpeg.count, PhoneRunnerOutputBudget.jpegBytes)
+    // The ratio screen() stores: pixel coordinates the model sends come back in these pixels.
+    let pixelsPerPoint = CGFloat(approved.pixels.width) / screen.size.width
+    XCTAssertEqual(CGFloat(640) / pixelsPerPoint, screen.size.width / 2, accuracy: 0.000001)
+    // Rounding the short edge to whole pixels costs well under a point at the far edge.
+    XCTAssertLessThan(abs(CGFloat(555) / pixelsPerPoint - screen.size.height), 0.5)
+    // An image within the cap keeps its own bytes and dimensions.
+    let small = try image(width: 200, height: 100)
+    let kept = PhoneRunnerImageScale.capped(small)
+    XCTAssertTrue(kept.image === small)
+    XCTAssertEqual(kept.pixels.width, 200)
+    XCTAssertEqual(kept.pixels.height, 100)
+  }
+
   func testInvalidOrOversizedImageIsRefusedBeforeRemembering() throws {
     expect(.image) { _ = try PhoneRunnerObservation.Frame(appBundleID: target, orientation: 1, image: UIImage()) }
     expect(.image) { _ = try PhoneRunnerObservation.Frame(appBundleID: target, orientation: 1, image: image(width: 8193, height: 1)) }
