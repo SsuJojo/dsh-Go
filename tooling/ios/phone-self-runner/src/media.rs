@@ -7,7 +7,7 @@
 //! No global stopAll is sent. A preflight status check is not an atomic lock
 //! against a different controller starting a concurrent media session.
 use std::borrow::Cow;
-use std::collections::{BTreeSet, VecDeque};
+use std::collections::BTreeSet;
 use std::net::IpAddr;
 use std::sync::Arc;
 use std::sync::atomic::{AtomicBool, Ordering};
@@ -342,13 +342,24 @@ impl Drop for OwnedMedia {
 
 // RTP is discarded, never decoded, logged, stored, or sent to the model. Small
 // RTCP receiver reports keep the negotiated media gate alive. Their packet
-// counters use only observed headers and have a bounded duplicate window.
-#[derive(Default)]
+// counters use only observed headers and have a bounded duplicate window,
+// tracked as a fixed-size presence bitmap over the extended sequence space
+// instead of a heap-allocated ordered set.
+const DUP_WINDOW: u32 = 4096;
+// 65 * 64 = 4160 slots: the numeric window spans DUP_WINDOW + 1 extended
+// values, and word-granular sliding needs a few spare slots below it.
+const DUP_WINDOW_WORDS: usize = 65;
 struct ReceiveStats {
     first: Option<u32>, highest: u32, received: u32,
-    recent: BTreeSet<u32>, order: VecDeque<u32>,
+    seen: [u64; DUP_WINDOW_WORDS], base: u32,
     last_expected: u32, last_received: u32,
     sender_report: Option<(u32, Instant)>,
+}
+impl Default for ReceiveStats {
+    fn default() -> Self {
+        Self { first: None, highest: 0, received: 0, seen: [0; DUP_WINDOW_WORDS], base: 0,
+            last_expected: 0, last_received: 0, sender_report: None }
+    }
 }
 impl ReceiveStats {
     fn packet(&mut self, sequence: u16) {
@@ -357,12 +368,37 @@ impl ReceiveStats {
             if forward < 0x8000 { self.highest.wrapping_add(forward as u32) }
             else { self.highest.saturating_sub((self.highest as u16).wrapping_sub(sequence) as u32) }
         };
-        if self.first.is_none() { self.first = Some(extended); self.highest = extended; }
-        if extended < self.first.unwrap() || self.highest.saturating_sub(extended) > 4096 || !self.recent.insert(extended) { return; }
-        self.highest = self.highest.max(extended);
+        let Some(first) = self.first else {
+            // The first observed header is always counted and anchors both the
+            // numeric window and the bitmap.
+            self.first = Some(extended); self.highest = extended; self.base = extended;
+            self.seen[0] = 1;
+            self.received = self.received.saturating_add(1);
+            return;
+        };
+        if extended < first || self.highest.saturating_sub(extended) > DUP_WINDOW { return; }
+        if extended > self.highest {
+            // Slide the presence window along with the numeric one. Bits below
+            // the reachable left edge are only ever queried by packets the
+            // check above already rejects, so dropping them is unobservable;
+            // a forward jump past the whole span keeps nothing preservable.
+            let left = extended.saturating_sub(DUP_WINDOW);
+            if left > self.highest {
+                self.seen = [0; DUP_WINDOW_WORDS];
+                self.base = left;
+            } else if left.saturating_sub(self.base) >= 64 {
+                let shift = ((left - self.base) / 64) as usize;
+                self.seen.copy_within(shift.., 0);
+                self.seen[DUP_WINDOW_WORDS - shift..].fill(0);
+                self.base += (shift as u32) * 64;
+            }
+            self.highest = extended;
+        }
+        let index = (extended - self.base) as usize;
+        let mask = 1u64 << (index % 64);
+        if self.seen[index / 64] & mask != 0 { return; }
+        self.seen[index / 64] |= mask;
         self.received = self.received.saturating_add(1);
-        self.order.push_back(extended);
-        if self.order.len() > 4096 { self.recent.remove(&self.order.pop_front().unwrap()); }
     }
     fn report(&mut self, connection: &Connection) -> Vec<u8> {
         let mut blocks = Vec::new();
@@ -388,12 +424,19 @@ async fn drain(socket: UdpSocketHandle, feedback: watch::Receiver<Option<Connect
     let mut timer = tokio::time::interval(Duration::from_millis(500));
     timer.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Skip);
     let mut stats = ReceiveStats::default();
+    // The watch only ever carries the negotiated connection for this stream, so
+    // the last observed instance is cached outside the loop and re-read from
+    // the channel only when it actually changed; until then every event reuses
+    // it without touching the watch guard.
+    let mut connection = feedback.borrow_and_update().clone();
     loop {
         tokio::select! {
             packet = socket.recv() => {
                 let Ok(packet) = packet else { return; };
-                let connection = feedback.borrow().clone();
-                if let Some(connection) = connection {
+                if feedback.has_changed().unwrap_or(false) {
+                    connection = feedback.borrow_and_update().clone();
+                }
+                if let Some(connection) = &connection {
                     if packet.source_port != connection.sender_port { continue; }
                     if is_rtcp(&packet.data) {
                         if let Some(report) = SenderReport::parse_first(&packet.data) {
@@ -405,9 +448,11 @@ async fn drain(socket: UdpSocketHandle, feedback: watch::Receiver<Option<Connect
                 }
             }
             _ = timer.tick() => {
-                let connection = feedback.borrow().clone();
-                if let Some(connection) = connection {
-                    if socket.send_to(connection.sender_port, stats.report(&connection)).await.is_err() { return; }
+                if feedback.has_changed().unwrap_or(false) {
+                    connection = feedback.borrow_and_update().clone();
+                }
+                if let Some(connection) = &connection {
+                    if socket.send_to(connection.sender_port, stats.report(connection)).await.is_err() { return; }
                 }
             }
         }
@@ -495,5 +540,41 @@ mod tests {
         assert_eq!(u32::from_be_bytes(report[4..8].try_into().unwrap()), 7);
         assert_eq!(u32::from_be_bytes(report[8..12].try_into().unwrap()), 123);
         assert_eq!(u32::from_be_bytes(report[16..20].try_into().unwrap()), 65538);
+    }
+    #[test]
+    fn duplicate_window_survives_word_drops_and_stays_within_the_numeric_window() {
+        let mut stats = ReceiveStats::default();
+        for sequence in 0..5000u16 { stats.packet(sequence); }
+        assert_eq!(stats.highest, 4999); assert_eq!(stats.received, 5000);
+        stats.packet(0); // slid below the numeric window: rejected before dedup
+        stats.packet(1000); // inside the window, already seen across word drops
+        stats.packet(4999);
+        assert_eq!(stats.received, 5000);
+        stats.packet(5000);
+        assert_eq!(stats.highest, 5000); assert_eq!(stats.received, 5001);
+    }
+    #[test]
+    fn duplicate_window_resets_on_a_jump_and_fills_the_new_span() {
+        let mut stats = ReceiveStats::default();
+        stats.packet(0);
+        // A header 32767 ahead is accepted and drags the whole window along.
+        stats.packet(32767);
+        assert_eq!(stats.highest, 32767); assert_eq!(stats.received, 2);
+        stats.packet(0); // now maps far below the numeric window: rejected
+        stats.packet(30000); // gap fill inside the new window: accepted once
+        assert_eq!(stats.highest, 32767); assert_eq!(stats.received, 3);
+        stats.packet(30000);
+        assert_eq!(stats.received, 3);
+    }
+    #[test]
+    fn duplicate_window_never_recounts_a_value_still_in_the_numeric_window() {
+        let mut stats = ReceiveStats::default();
+        stats.packet(0);
+        for sequence in 1..=4096u16 { stats.packet(sequence); }
+        assert_eq!(stats.received, 4097);
+        // Sequence 0 sits exactly on the numeric window edge and stays
+        // remembered: the presence window is positional, not insertion-counted.
+        stats.packet(0);
+        assert_eq!(stats.received, 4097);
     }
 }
