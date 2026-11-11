@@ -145,10 +145,9 @@ fn read_checked(directory: &File, name: &str, expected_len: usize, hash: &str) -
     if !metadata.is_file() || metadata.len() != expected_len as u64 {
         return Err(INTEGRITY);
     }
-    // Stream fixed chunks through an incremental digest: the retained bytes
-    // get one exact-length allocation instead of read_to_end's doubling
-    // growth, and no second full-size buffer is ever hashed. The take limit
-    // keeps rejecting a file that grew past the pinned length.
+    // Hash fixed chunks as they are read and reserve the pinned file length.
+    // Upload still needs all bytes, so the image remains retained in memory.
+    // The extra-byte probe detects growth after the metadata check.
     let mut file = file.take((expected_len + 1) as u64);
     let mut bytes = Vec::with_capacity(expected_len);
     let mut digest = Sha256::new();
@@ -156,6 +155,7 @@ fn read_checked(directory: &File, name: &str, expected_len: usize, hash: &str) -
     loop {
         let read = file.read(&mut chunk).map_err(|_| INTEGRITY)?;
         if read == 0 { break; }
+        if read > expected_len - bytes.len() { return Err(INTEGRITY); }
         digest.update(&chunk[..read]);
         bytes.extend_from_slice(&chunk[..read]);
     }
@@ -260,10 +260,10 @@ pub(crate) async fn ensure(
     progress(Progress::stage("verifyingAssets", variant));
     // Asset reads with SHA-256 verification plus the personalization image
     // digest are multi-megabyte synchronous work. Run them on tokio's shared
-    // blocking pool so this single-threaded runtime keeps polling the
-    // stop/cancel watch receivers while they execute. A dropped future
-    // (stop/cancel mid-verification) leaves that read-only blocking task to
-    // finish detached; nothing has been submitted yet at this point.
+    // runtime's blocking pool so its event loop can poll stop/cancel watches.
+    // Dropping this future does not stop an already-started task: normal
+    // runtime shutdown still joins it before releasing the worker owner.
+    // Nothing has been submitted to the device at this point.
     let cache = cache.cloned();
     // Explicit two-layer match instead of `let (a, b) = ... ?;`: the JoinError
     // maps to the existing MOUNT failure, inner asset failures propagate as-is.

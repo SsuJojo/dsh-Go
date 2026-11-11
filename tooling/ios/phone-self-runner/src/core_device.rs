@@ -376,10 +376,10 @@ unsafe fn start_core(config: Config, callback: EventCallback, handle_out: *mut u
             if !worker_admitted(handle) { return; }
             let mut outcome = ffi::catch(|| {
                 emit_event(callback, handle, &run_id, 0, json!({"stage":"tunnel"}));
-                // Blocking work (ddi asset reads and hashing via
-                // spawn_blocking) runs on tokio's shared blocking pool, never
-                // on this thread: the single runtime thread must stay
-                // pollable for the stop/cancel watch receivers.
+                // Asset reads and hashing use this runtime's blocking pool,
+                // leaving its event loop free to poll stop/cancel watches.
+                // Runtime shutdown joins started blocking work before finish()
+                // releases ownership and emits the terminal event.
                 let runtime = match tokio::runtime::Builder::new_current_thread().enable_all().build() {
                     Ok(runtime) => runtime,
                     Err(_) => return Completion::failed(INTERNAL_FAILURE, true),
