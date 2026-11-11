@@ -420,7 +420,7 @@ impl ReceiveStats {
         report
     }
 }
-async fn drain(socket: UdpSocketHandle, feedback: watch::Receiver<Option<Connection>>) {
+async fn drain(socket: UdpSocketHandle, mut feedback: watch::Receiver<Option<Connection>>) {
     let mut timer = tokio::time::interval(Duration::from_millis(500));
     timer.set_missed_tick_behavior(tokio::time::MissedTickBehavior::Skip);
     let mut stats = ReceiveStats::default();

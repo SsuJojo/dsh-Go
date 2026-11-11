@@ -265,13 +265,19 @@ pub(crate) async fn ensure(
     // (stop/cancel mid-verification) leaves that read-only blocking task to
     // finish detached; nothing has been submitted yet at this point.
     let cache = cache.cloned();
-    let (assets, image_digest) = tokio::task::spawn_blocking(move || {
+    // Explicit two-layer match instead of `let (a, b) = ... ?;`: the JoinError
+    // maps to the existing MOUNT failure, inner asset failures propagate as-is.
+    let (assets, image_digest) = match tokio::task::spawn_blocking(move || {
         let assets = load(cache.as_ref(), variant)?;
         let image_digest = if variant == Variant::Personalized {
             Some(Sha384::digest(&assets.image).to_vec())
         } else { None };
         Ok::<_, Failure>((assets, image_digest))
-    }).await.map_err(|_| MOUNT)?;
+    }).await {
+        Ok(Ok(value)) => value,
+        Ok(Err(failure)) => return Err(failure),
+        Err(_) => return Err(MOUNT),
+    };
     progress(Progress::stage("personalizing", variant));
     match variant {
         Variant::Personalized => {
