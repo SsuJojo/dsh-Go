@@ -13,7 +13,9 @@ import Foundation
 final class IOSCompanionVoice {
   private let channel: FlutterMethodChannel
   private let engine: IOSCompanionVoiceEngine
+  // One-shot wake-up at the engine's earliest deadline; never repeating.
   private var timer: Timer?
+  private let clock: () -> TimeInterval?
   private var disposed = false
 
   init(messenger: any FlutterBinaryMessenger,
@@ -22,13 +24,15 @@ final class IOSCompanionVoice {
     // Keep the old initializer label for AppDelegate source compatibility.
     // A snapshot predicate no longer grants or revokes a shared audio lease.
     let lease = IOSCompanionAudioLease(coordinator: .shared)
+    let clock = IOSCompanionVoiceClock.now
+    self.clock = clock
     engine = IOSCompanionVoiceEngine(speech: IOSCompanionSystemSpeech(),
-      loader: IOSCompanionFileLoader(), audio: lease, now: IOSCompanionVoiceClock.now)
+      loader: IOSCompanionFileLoader(), audio: lease, now: clock)
     engine.emit = { [weak self] event in
       guard let self, !self.disposed else { return }
       self.channel.invokeMethod("event", arguments: event.arguments)
     }
-    engine.activityChanged = { [weak self] in self?.updateTimer() }
+    engine.activityChanged = { [weak self] in self?.updateWake() }
     channel.setMethodCallHandler { [weak self] call, result in
       guard let self, !self.disposed else { result(false); return }
       let args = call.arguments as? [String: Any] ?? [:]
@@ -53,18 +57,28 @@ final class IOSCompanionVoice {
     timer = nil
   }
 
-  private func updateTimer() {
-    if !disposed && engine.hasWork {
-      guard timer == nil else { return }
-      let next = Timer(timeInterval: 0.25, repeats: true) { [weak self] _ in
-        DispatchQueue.main.async { self?.engine.poll() }
-      }
-      timer = next
-      RunLoop.main.add(next, forMode: .common)
-    } else {
-      timer?.invalidate()
-      timer = nil
+  /// Event-driven scheduling replaces the former repeating 0.25 s poll timer.
+  /// One one-shot wake-up is scheduled at the engine's earliest accepted
+  /// deadline (load timeout, speech stall, clip end) and rearmed at every
+  /// activity boundary: `activityChanged` fires on each state change, including
+  /// deadline extensions from speech progress, so no work is ever missed.
+  /// While speaking or playing, this removes the four wake-ups per second the
+  /// repeating timer produced; normal termination remains event-driven via the
+  /// synthesizer/player delegates and needs no timer at all.
+  private func updateWake() {
+    timer?.invalidate()
+    timer = nil
+    guard !disposed, engine.hasWork, let deadline = engine.nextDeadline else { return }
+    // Timer intervals measure run time while deadlines measure continuous time
+    // including sleep. Suspension can only delay the wake-up past the deadline,
+    // never fire it early; poll() then rejects the stale work on wake, exactly
+    // as it did when the repeating timer resumed.
+    guard let now = clock() else { return } // A dead clock is terminal at the next event boundary.
+    let wake = Timer(timeInterval: max(0, deadline - now), repeats: false) { [weak self] _ in
+      DispatchQueue.main.async { self?.engine.poll() }
     }
+    timer = wake
+    RunLoop.main.add(wake, forMode: .common)
   }
 }
 
@@ -186,6 +200,14 @@ final class IOSCompanionVoiceEngine {
   }
 
   var hasWork: Bool { speaking != nil || !queue.isEmpty || playing != nil || pending != nil }
+
+  /// The earliest deadline among accepted work, or nil when nothing is timed.
+  /// Queued speech gains a deadline only when pumped, so it needs none here.
+  /// The channel wrapper schedules its one-shot poll wake-up at this instant
+  /// instead of waking on a repeating interval.
+  var nextDeadline: TimeInterval? {
+    [pending?.deadline, speaking?.deadline, playing?.deadline].compactMap { $0 }.min()
+  }
 
   func ready(language: String) -> Bool {
     guard !disposed, language.utf8.count <= 64,

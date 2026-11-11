@@ -386,6 +386,21 @@ final class IOSCompanionVoiceTests: XCTestCase {
     XCTAssertTrue(f.session.activations.isEmpty)
   }
 
+  func testNextDeadlineIsTheEarliestAcceptedWorkDeadline() {
+    let f = Fixture(); defer { f.engine.dispose() }
+    XCTAssertNil(f.engine.nextDeadline) // Idle: no wake-up is due.
+    f.play("clip")
+    XCTAssertEqual(f.engine.nextDeadline, 105) // Pending load: time + loadSeconds.
+    let clip = Clip(duration: 20); f.loader.finish(0, clip)
+    XCTAssertEqual(f.engine.nextDeadline, 123) // Accepted clip: duration + 3.
+    f.ready(); XCTAssertTrue(f.say("tts"))
+    XCTAssertEqual(f.engine.nextDeadline, 123) // Speech stall is 300: later than the clip.
+    clip.end()
+    XCTAssertEqual(f.engine.nextDeadline, 400) // Only the speech stall remains.
+    f.speech.send(0, .done)
+    XCTAssertNil(f.engine.nextDeadline)
+  }
+
   func testClipDurationLimitsAreCheckedBeforeTheAudioLease() {
     let f = Fixture(); defer { f.engine.dispose() }
     for (index, duration) in [0.0, -1, 55.001, Double.nan, Double.infinity].enumerated() {
