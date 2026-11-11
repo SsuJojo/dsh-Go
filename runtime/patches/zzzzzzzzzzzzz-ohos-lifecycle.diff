@@ -13,7 +13,7 @@
  }
  /** Drives one session through turn and step boundaries. */
  var ReactLoopAgent = class {
-@@ -715,6 +720,10 @@
+@@ -715,7 +720,11 @@
  		/* v8 ignore next -- private callers establish the running phase before proposing a step */
  		if (this.phase.kind !== "running") throw new Error(`agent "${this.id}": pre-step outside running phase`);
  		const signal = this.phase.abort.signal;
@@ -22,12 +22,14 @@
 +			await lifecycle.gate(this.session.id, signal);
 +		}
  		const claimed = this.inbox.claim(target, position.turn);
+ 		const recall = await dshGoRecall.prepare(this.loopCtx, this, position, claimed, signal);
  		const selection = this.model.current();
  		if (selection === void 0) throw new Error(`agent "${this.id}" has no provider/model: set AgentOptions.provider and AgentOptions.model or record a model selection`);
-@@ -1819,8 +1828,14 @@
+@@ -1819,9 +1828,15 @@
  					const coldRead = await handle.read(0, void 0, { signal: fused });
  					fused.throwIfAborted();
  					const persisted = coldRead.events;
+ 					dshGoRecall.guardSession(this.runtime.ctx, { sessionId: id, operation: "resume", recallHistory: dshGoRecall.hasHistory(persisted) });
 -					const closers = interruptedTurnClosers(persisted);
 +					const lifecycle = ohosLifecycle();
 +					const originalClosers = interruptedTurnClosers(persisted);
@@ -147,14 +149,15 @@
  	const slots = group.map(() => void 0);
  	const callSeqs = group.map(() => void 0);
  	let nextToStart = 0;
-@@ -94,22 +102,31 @@
+@@ -94,22 +102,32 @@
  			const slot = slots[committed];
  			if (slot === void 0) break;
  			const call = group[committed];
 -			const result = await pipeline.complete(slot.exec, slot);
 -			settlement.commit(call.block, result, callSeqs[committed]);
 +			const finish = () => pipeline.complete(slot.exec, slot);
-+			const result = await (lifecycle ? lifecycle.withinCall(metaFor(committed), finish) : finish());
++			let result = await (lifecycle ? lifecycle.withinCall(metaFor(committed), finish) : finish());
++			if (lifecycle) result = pipeline.tools.dshGoCompanionResults?.beforeCommit(owner.agent, session, call.block, result) ?? result;
 +			const durableSessionData = lifecycle ? await lifecycle.outcome(metaFor(committed), result) : void 0;
 +			settlement.commit(call.block, result, callSeqs[committed], durableSessionData);
  			concluded ||= result.concludesTurn === true;
@@ -191,7 +194,7 @@
  		throw schedulerFailure.error;
  	}
  	if (aborted) {
-@@ -193,10 +211,10 @@
+@@ -193,12 +211,12 @@
  			arguments: block.arguments
  		}).seq;
  	}
@@ -199,8 +202,10 @@
 +	commit(block, result, callSeq, durableSessionData) {
  		if (this.input.log !== void 0) {
  			const { agent, log: { turn, step } } = this.input;
--			agent.session.append("tool/result", {
-+			agent.session.append("tool/result", durableSessionData ?? {
+ 			const session = agent.session;
+ 			result = this.companionResults?.beforeCommit(agent, session, block, result) ?? result;
+-			const event = session.append("tool/result", {
++			const event = session.append("tool/result", durableSessionData ?? {
  				turn,
  				step,
  				message: createToolResultMessage({
