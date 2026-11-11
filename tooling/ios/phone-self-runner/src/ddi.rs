@@ -145,9 +145,21 @@ fn read_checked(directory: &File, name: &str, expected_len: usize, hash: &str) -
     if !metadata.is_file() || metadata.len() != expected_len as u64 {
         return Err(INTEGRITY);
     }
-    let mut bytes = Vec::new();
-    file.take((expected_len + 1) as u64).read_to_end(&mut bytes).map_err(|_| INTEGRITY)?;
-    if bytes.len() != expected_len || format!("{:x}", Sha256::digest(&bytes)) != hash {
+    // Stream fixed chunks through an incremental digest: the retained bytes
+    // get one exact-length allocation instead of read_to_end's doubling
+    // growth, and no second full-size buffer is ever hashed. The take limit
+    // keeps rejecting a file that grew past the pinned length.
+    let mut file = file.take((expected_len + 1) as u64);
+    let mut bytes = Vec::with_capacity(expected_len);
+    let mut digest = Sha256::new();
+    let mut chunk = [0u8; 64 * 1024];
+    loop {
+        let read = file.read(&mut chunk).map_err(|_| INTEGRITY)?;
+        if read == 0 { break; }
+        digest.update(&chunk[..read]);
+        bytes.extend_from_slice(&chunk[..read]);
+    }
+    if bytes.len() != expected_len || format!("{:x}", digest.finalize()) != hash {
         return Err(INTEGRITY);
     }
     Ok(bytes)
@@ -246,7 +258,20 @@ pub(crate) async fn ensure(
         }
     } else if !has_mounter { return Err(UNSUPPORTED); }
     progress(Progress::stage("verifyingAssets", variant));
-    let assets = load(cache, variant)?;
+    // Asset reads with SHA-256 verification plus the personalization image
+    // digest are multi-megabyte synchronous work. Run them on tokio's shared
+    // blocking pool so this single-threaded runtime keeps polling the
+    // stop/cancel watch receivers while they execute. A dropped future
+    // (stop/cancel mid-verification) leaves that read-only blocking task to
+    // finish detached; nothing has been submitted yet at this point.
+    let cache = cache.cloned();
+    let (assets, image_digest) = tokio::task::spawn_blocking(move || {
+        let assets = load(cache.as_ref(), variant)?;
+        let image_digest = if variant == Variant::Personalized {
+            Some(Sha384::digest(&assets.image).to_vec())
+        } else { None };
+        Ok::<_, Failure>((assets, image_digest))
+    }).await.map_err(|_| MOUNT)?;
     progress(Progress::stage("personalizing", variant));
     match variant {
         Variant::Personalized => {
@@ -256,7 +281,7 @@ pub(crate) async fn ensure(
             let board = identifiers.get("BoardId").and_then(plist::Value::as_unsigned_integer).ok_or(UNSUPPORTED)?;
             let chip = identifiers.get("ChipID").and_then(plist::Value::as_unsigned_integer).ok_or(UNSUPPORTED)?;
             idevice::tss::select_build_identity(&assets.manifest, board, chip, None).map_err(|_| UNSUPPORTED)?;
-            let signature = match client.query_personalization_manifest("DeveloperDiskImage", Sha384::digest(&assets.image).to_vec()).await {
+            let signature = match client.query_personalization_manifest("DeveloperDiskImage", image_digest.ok_or(MOUNT)?).await {
                 Ok(signature) => signature,
                 Err(_) => {
                     // This request closes its service on a miss. Reconnect over
