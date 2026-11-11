@@ -145,9 +145,21 @@ fn read_checked(directory: &File, name: &str, expected_len: usize, hash: &str) -
     if !metadata.is_file() || metadata.len() != expected_len as u64 {
         return Err(INTEGRITY);
     }
-    let mut bytes = Vec::new();
-    file.take((expected_len + 1) as u64).read_to_end(&mut bytes).map_err(|_| INTEGRITY)?;
-    if bytes.len() != expected_len || format!("{:x}", Sha256::digest(&bytes)) != hash {
+    // Hash fixed chunks as they are read and reserve the pinned file length.
+    // Upload still needs all bytes, so the image remains retained in memory.
+    // The extra-byte probe detects growth after the metadata check.
+    let mut file = file.take((expected_len + 1) as u64);
+    let mut bytes = Vec::with_capacity(expected_len);
+    let mut digest = Sha256::new();
+    let mut chunk = [0u8; 64 * 1024];
+    loop {
+        let read = file.read(&mut chunk).map_err(|_| INTEGRITY)?;
+        if read == 0 { break; }
+        if read > expected_len - bytes.len() { return Err(INTEGRITY); }
+        digest.update(&chunk[..read]);
+        bytes.extend_from_slice(&chunk[..read]);
+    }
+    if bytes.len() != expected_len || format!("{:x}", digest.finalize()) != hash {
         return Err(INTEGRITY);
     }
     Ok(bytes)
@@ -246,7 +258,26 @@ pub(crate) async fn ensure(
         }
     } else if !has_mounter { return Err(UNSUPPORTED); }
     progress(Progress::stage("verifyingAssets", variant));
-    let assets = load(cache, variant)?;
+    // Asset reads with SHA-256 verification plus the personalization image
+    // digest are multi-megabyte synchronous work. Run them on tokio's shared
+    // runtime's blocking pool so its event loop can poll stop/cancel watches.
+    // Dropping this future does not stop an already-started task: normal
+    // runtime shutdown still joins it before releasing the worker owner.
+    // Nothing has been submitted to the device at this point.
+    let cache = cache.cloned();
+    // Explicit two-layer match instead of `let (a, b) = ... ?;`: the JoinError
+    // maps to the existing MOUNT failure, inner asset failures propagate as-is.
+    let (assets, image_digest) = match tokio::task::spawn_blocking(move || {
+        let assets = load(cache.as_ref(), variant)?;
+        let image_digest = if variant == Variant::Personalized {
+            Some(Sha384::digest(&assets.image).to_vec())
+        } else { None };
+        Ok::<_, Failure>((assets, image_digest))
+    }).await {
+        Ok(Ok(value)) => value,
+        Ok(Err(failure)) => return Err(failure),
+        Err(_) => return Err(MOUNT),
+    };
     progress(Progress::stage("personalizing", variant));
     match variant {
         Variant::Personalized => {
@@ -256,7 +287,7 @@ pub(crate) async fn ensure(
             let board = identifiers.get("BoardId").and_then(plist::Value::as_unsigned_integer).ok_or(UNSUPPORTED)?;
             let chip = identifiers.get("ChipID").and_then(plist::Value::as_unsigned_integer).ok_or(UNSUPPORTED)?;
             idevice::tss::select_build_identity(&assets.manifest, board, chip, None).map_err(|_| UNSUPPORTED)?;
-            let signature = match client.query_personalization_manifest("DeveloperDiskImage", Sha384::digest(&assets.image).to_vec()).await {
+            let signature = match client.query_personalization_manifest("DeveloperDiskImage", image_digest.ok_or(MOUNT)?).await {
                 Ok(signature) => signature,
                 Err(_) => {
                     // This request closes its service on a miss. Reconnect over
