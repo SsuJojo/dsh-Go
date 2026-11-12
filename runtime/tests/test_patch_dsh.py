@@ -11,6 +11,9 @@ import subprocess
 import sys
 import tempfile
 import unittest
+from pathlib import Path
+from types import SimpleNamespace
+from unittest import mock
 
 sys.dont_write_bytecode = True   # runtime/lib/__pycache__ is tracked; do not rewrite it
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -156,6 +159,39 @@ class PatchDsh(unittest.TestCase):
         self.assertIn("broken patch hash chain", result.stdout)
         self.assertEqual(read(self.target), ORIGINAL)
 
+    def test_three_stage_chain_resumes_after_interrupted_third_replace(self):
+        _, second = self.chain_fixture()
+        final = second.replace("later reviewed patch\n", "final reviewed patch\n", 1)
+        name = "zzz-final.diff"
+        Path(self.patches, name).write_text(
+            "--- a/%s\n+++ b/%s\n@@ -1,1 +1,1 @@\n-later reviewed patch\n+final reviewed patch\n" % (REL, REL))
+        pins = load(os.path.join(self.patches, "pins.json"))
+        pins["patches"][name] = {"1.0.0": {REL: {"before": sha(second), "after": sha(final)}}}
+        pins["targetSets"]["android"].append(name)
+        pins["targetSets"]["ohos"].append(name)
+        self.write_pins(pins)
+        replace = os.replace
+        replacements = 0
+
+        def interrupt_third(source, target):
+            nonlocal replacements
+            replacements += 1
+            if replacements == 3:
+                raise OSError("interrupted third patch replace")
+            replace(source, target)
+
+        # An interrupted third replacement leaves the first two patches applied.
+        args = SimpleNamespace(prefix=self.prefix, patches=self.patches, target="android",
+                               target_report=None, dsh_version="1.0.0", record=False, out=None)
+        with mock.patch.object(rtbuild.os, "replace", side_effect=interrupt_third):
+            with self.assertRaisesRegex(OSError, "interrupted third patch replace"):
+                rtbuild.cmd_patch_dsh(args)
+        self.assertEqual(replacements, 3)
+        self.assertEqual(read(self.target), second)
+        result = self.run_cli("--target", "android", "--dsh-version", "1.0.0")
+        self.assertEqual(result.returncode, 0, result.stdout)
+        self.assertEqual(read(self.target), final)
+
     def test_unknown_hash_is_not_accepted_by_chain_idempotency(self):
         _, final = self.chain_fixture()
         with open(self.target, "w") as out:
@@ -163,6 +199,23 @@ class PatchDsh(unittest.TestCase):
         result = self.run_cli("--target", "android", "--dsh-version", "1.0.0")
         self.assertNotEqual(result.returncode, 0)
         self.assertIn("differs from the vetted", result.stdout)
+
+    def test_declared_order_controls_application_even_when_filenames_disagree(self):
+        # Upstream orders its patches explicitly (a series); filenames do not sort
+        # into application order. Each target's declared list is that order.
+        _, final = self.chain_fixture()
+        os.rename(os.path.join(self.patches, "zz-later.diff"),
+                  os.path.join(self.patches, "aa-later.diff"))
+        pins = load(os.path.join(self.patches, "pins.json"))
+        pins["patches"]["aa-later.diff"] = pins["patches"].pop("zz-later.diff")
+        pins["targetSets"] = {"android": ["guard.diff", "aa-later.diff"],
+                              "ohos": ["guard.diff", "aa-later.diff"]}
+        self.write_pins(pins)
+        applied = os.path.join(self.tmp.name, "applied.json")
+        result = self.run_cli("--target", "android", "--dsh-version", "1.0.0", "--out", applied)
+        self.assertEqual(result.returncode, 0, result.stdout)
+        self.assertEqual(read(self.target), final)
+        self.assertEqual(load(applied), ["guard.diff", "aa-later.diff"])
 
     def test_record_refuses_ambiguous_or_missing_context(self):
         with open(self.target, "w") as f:
@@ -176,6 +229,33 @@ class PatchDsh(unittest.TestCase):
         self.assertNotEqual(r.returncode, 0)
         self.assertIn("matches 0 places", r.stdout)
         self.assertEqual(load(os.path.join(self.patches, "pins.json"))["patches"], {})
+
+    def test_deletion_generator_replays_only_the_explicit_prefix(self):
+        path = os.path.join(HERE, "..", "session-deletion", "generate.py")
+        spec = importlib.util.spec_from_file_location("deletion_generate", path)
+        generator = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(generator)
+        with open(self.target, "w") as f:
+            f.write("original\n")
+        package = os.path.join(self.prefix, "node_modules/@x/web/package.json")
+        with open(package, "w") as f:
+            json.dump({"version": "0.2.2-rc.1"}, f)
+        os.remove(os.path.join(self.patches, "guard.diff"))
+        for name, before, after in [("zzzzzzz-prior.diff", "original", "preceding"),
+                                   (generator.PATCH_NAME, "preceding", "generated"),
+                                   ("aa-after.diff", "generated", "later")]:
+            with open(os.path.join(self.patches, name), "w") as f:
+                f.write("--- a/%s\n+++ b/%s\n@@ -1 +1 @@\n-%s\n+%s\n"
+                        % (REL, REL, before, after))
+        order = ["zzzzzzz-prior.diff", generator.PATCH_NAME, "aa-after.diff"]
+        self.write_pins({"schema": 2, "targetSets": {"android": order, "ohos": order}, "patches": {}})
+        # The generator replays the declared common chain up to its own patch only;
+        # patches after it must not leak into the generated before/after pair.
+        with mock.patch.object(generator, "RUNTIME", Path(self.tmp.name)), \
+                mock.patch.object(generator, "transforms", return_value={REL: [("preceding", "generated")]}):
+            self.assertEqual(generator.build(Path(self.prefix)),
+                             {REL: ("preceding\n", "generated\n")})
+        self.assertEqual(read(self.target), "original\n")
 
     def test_shipped_patch_parses_against_pins(self):
         shipped = os.path.join(HERE, "..", "patches")

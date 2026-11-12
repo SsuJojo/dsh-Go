@@ -168,6 +168,8 @@ class ChatTranscript {
   final Map<String, UserQuestionRequest> _questions = {};
   Map<String, List<Message>> _inbox = const {'next-turn': [], 'next-step': []};
   List<ChatItem>? _durable;
+  // The live projection also stays stable until its durable base or drafts change.
+  List<ChatItem>? _items;
   _DurableFold? _durableFold;
   final List<SessionLogEvent> _durableTail = [];
   bool? _derivedRunning;
@@ -276,7 +278,12 @@ class ChatTranscript {
         if (appended is TurnEndedEvent) _derivedRunning = false;
       }
     }
-    _durable = null;
+    // An appended event the fold ignores (turn start, usage, model, title…)
+    // keeps the built items, and the list: nothing shown changed.
+    if (appended == null || _DurableFold.folds(appended, showSyntheticUserMessages)) {
+      _durable = null;
+      _items = null;
+    }
     if (_traces case final traces?) _previousTraces = traces;
     _traces = null;
     // Only these appended events change the two projections. Snapshots,
@@ -288,11 +295,12 @@ class ChatTranscript {
   List<ChatItem> get items {
     final durable = _durable ??= _build();
     if (_drafts.isEmpty) return durable;
+    if (_items case final cached?) return cached;
     // A draft shares its step's row key with the message it commits to; keys stay unique when a step
     // is already committed or has more than one live attempt (the latest keeps the key).
     final used = {for (final item in durable) item.key};
     final latest = {for (final draft in _drafts.values) draft.rowKey: draft};
-    return [
+    return _items = [
       ...durable,
       for (final draft in _drafts.values)
         ...draft.items(useRowKey: !used.contains(draft.rowKey) && identical(latest[draft.rowKey], draft)),
@@ -344,6 +352,7 @@ class ChatTranscript {
             _runningOverride = false;
           case AssistantMessageEvent(:final turn, :final step) || AssistantAttemptEvent(:final turn, :final step):
             _drafts.removeWhere((_, d) => d.turn == turn && d.step == step && d.startedAfterSeq < event.seq);
+            _items = null;
           default:
             break;
         }
@@ -351,12 +360,14 @@ class ChatTranscript {
         return true;
       case AssistantStreamStarted():
         _drafts[event.attemptId] = _Draft(event.attemptId, event.turn, event.step, event.startedAfterSeq);
+        _items = null;
         return true;
       case AssistantChunkEvent():
         final draft = _drafts[event.attemptId];
         if (draft == null || event.index < draft.nextIndex) return false;
         draft.apply(event.chunk);
         draft.nextIndex = event.index + 1;
+        _items = null;
         return true;
       case AssistantStreamEnded():
         final draft = _drafts[event.attemptId];
@@ -367,17 +378,22 @@ class ChatTranscript {
         } else {
           draft.streaming = false;
         }
+        _items = null;
         return true;
       case ApprovalRequestedEvent(:final request):
         _approvals[request.eventId] = request;
         _durable = null;
+        _items = null;
         return true;
       case UserQuestionRequestedEvent(:final request):
         _questions[request.eventId] = request;
         return true;
       case HostRequestCancelledEvent(:final eventId):
         final removed = _approvals.remove(eventId) != null || _questions.remove(eventId) != null;
-        if (removed) _durable = null;
+        if (removed) {
+          _durable = null;
+          _items = null;
+        }
         return removed;
       case SessionStatusEvent(:final running):
         _runningOverride = running;
@@ -460,6 +476,19 @@ class _DurableFold {
   final approvalCalls = <String, String>{};
   final messageKeys = <String>{};
   final unresolved = <_ToolBuilder>{};
+
+  /// Whether [apply] can change what [build] gives for [event].
+  static bool folds(SessionLogEvent event, bool showSyntheticUserMessages) => switch (event) {
+    UserMessageEvent() => event.isHumanPrompt || showSyntheticUserMessages,
+    AssistantMessageEvent() ||
+    ToolCallEvent() ||
+    ToolResultEvent() ||
+    ApprovalAskedEvent(callId: _?) ||
+    ApprovalDecidedEvent() ||
+    TurnEndedEvent() ||
+    LlmRetryEvent() => true,
+    _ => false,
+  };
 
   _ToolBuilder tool(String callId, String name, String arguments, int seq) {
     return tools.putIfAbsent(callId, () {
@@ -573,33 +602,20 @@ class _ToolBuilder {
   ApprovalOutcome? approvalOutcome;
   ToolResultEvent? result;
 
-  ToolChatItem? _built;
-  ToolResultEvent? _builtResult;
-  Object? _builtMeta;
-  ApprovalOutcome? _builtOutcome;
-  bool _builtApprovalAsked = false;
-  bool _builtTurnEnded = false;
-  ApprovalRequest? _builtPending;
-
+  /// The last item built, and the result it was built from: a call nothing
+  /// happened to since keeps its item.
+  ///
   /// The fold re-runs [build] for every tool after each appended event (a
-  /// working turn appends in bursts). Rebuilding a [ToolChatItem] when none of
-  /// its inputs changed would hand fresh instances to the UI on every burst:
-  /// row caches and `select`s downstream key on item identity, so unchanged
-  /// inputs must return the previous instance. Every field the output depends
-  /// on is in the guard — [ToolResultEvent.meta] is a view over `data`, hence
-  /// its own identity check.
+  /// working turn appends in bursts). Handing out a fresh [ToolChatItem] when
+  /// none of its inputs changed would reach the UI on every burst: row caches
+  /// and `select`s downstream key on item identity. Every input the output
+  /// depends on is in the guard; [ToolResultEvent.meta] is a view over `data`,
+  /// hence its own identity check.
+  ToolChatItem? _item;
+  ToolResultEvent? _itemResult;
+
   ToolChatItem build(ApprovalRequest? pending) {
     final result = this.result;
-    final built = _built;
-    if (built != null &&
-        identical(result, _builtResult) &&
-        identical(result?.meta, _builtMeta) &&
-        approvalOutcome == _builtOutcome &&
-        approvalAsked == _builtApprovalAsked &&
-        turnEnded == _builtTurnEnded &&
-        identical(pending, _builtPending)) {
-      return built;
-    }
     final ToolStatus status;
     if (result != null) {
       final denied = approvalOutcome != null && approvalOutcome != ApprovalOutcome.allowedOnce;
@@ -611,13 +627,20 @@ class _ToolBuilder {
     } else {
       status = ToolStatus.running;
     }
-    _builtResult = result;
-    _builtMeta = result?.meta;
-    _builtOutcome = approvalOutcome;
-    _builtApprovalAsked = approvalAsked;
-    _builtTurnEnded = turnEnded;
-    _builtPending = pending;
-    return _built = ToolChatItem(
+    // status covers approvalAsked / turnEnded (awaitingApproval, cancelled and
+    // running all follow from them), the rest each have their own check.
+    final built = _item;
+    if (built != null &&
+        built.status == status &&
+        identical(_itemResult, result) &&
+        // Read from the event's data each time, not kept with it.
+        identical(built.meta, result?.meta) &&
+        identical(built.pendingApproval, pending) &&
+        built.approvalOutcome == approvalOutcome) {
+      return built;
+    }
+    _itemResult = result;
+    return _item = ToolChatItem(
       callId: callId,
       name: name,
       arguments: arguments,
