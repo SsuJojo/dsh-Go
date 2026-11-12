@@ -9,7 +9,9 @@ import '../theme/theme.dart';
 
 /// Asks for one line of text; resolves to it trimmed, or null when
 /// cancelled. [validate] returns why the text can't be used (shown under
-/// the field), or null.
+/// the field), or null. [disposeAfterExit] keeps the controller until the
+/// dialog's route has left the overlay (iOS, where its field outlives the
+/// pop during the exit animation).
 Future<String?> showTextPrompt(
   BuildContext context, {
   required String title,
@@ -19,6 +21,7 @@ Future<String?> showTextPrompt(
   String? confirm,
   int? maxLength,
   bool mono = false,
+  bool disposeAfterExit = false,
   TextInputType? keyboardType,
   String? Function(String text)? validate,
 }) {
@@ -33,6 +36,7 @@ Future<String?> showTextPrompt(
       confirm: confirm ?? l10n.commonSave,
       maxLength: maxLength,
       mono: mono,
+      disposeAfterExit: disposeAfterExit,
       keyboardType: keyboardType,
       validate: validate,
     ),
@@ -45,6 +49,7 @@ class _TextPrompt extends StatefulWidget {
     required this.initial,
     required this.confirm,
     required this.mono,
+    required this.disposeAfterExit,
     this.hint,
     this.caption,
     this.maxLength,
@@ -59,6 +64,7 @@ class _TextPrompt extends StatefulWidget {
   final String confirm;
   final int? maxLength;
   final bool mono;
+  final bool disposeAfterExit;
   final TextInputType? keyboardType;
   final String? Function(String text)? validate;
 
@@ -71,8 +77,28 @@ class _TextPromptState extends State<_TextPrompt> {
   String? _problem;
 
   @override
+  void initState() {
+    super.initState();
+    if (!widget.disposeAfterExit) return;
+    // The result arrives before the closing dialog leaves the overlay; until
+    // then its field still reads the controller.
+    var left = false;
+    void disposeWhenLeft() {
+      if (left) return;
+      left = true;
+      _controller.dispose();
+    }
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      ModalRoute.of(context)?.completed.then<void>((_) => disposeWhenLeft());
+    });
+  }
+
+  @override
   void dispose() {
-    _controller.dispose();
+    // With [disposeAfterExit] the route completion owns the disposal above.
+    if (!widget.disposeAfterExit) _controller.dispose();
     super.dispose();
   }
 

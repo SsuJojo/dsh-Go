@@ -651,9 +651,8 @@ class _SessionList extends ConsumerWidget {
   }
 
   Future<String?> _askTitle(BuildContext context, String initial) {
-  Future<String?> _askTitle(BuildContext context, String initial) {
-    // iOS: the dialog may keep its controller while it leaves the overlay, so
-    // the field is not rebuilt torn down mid-exit (drawer_rename_dialog_lifecycle_test).
+    // iOS: the field outlives the pop during the exit animation, so its
+    // controller is released only once the route has left the overlay.
     final leaving = !kIsWeb && defaultTargetPlatform == TargetPlatform.iOS;
     return showTextPrompt(
       context,
