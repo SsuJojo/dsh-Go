@@ -79,7 +79,7 @@
  const LEASE_FILENAME = "session.lock";
  /** Whether a flock failure means another descriptor holds the lock. */
  function isLockContention(error) {
-@@ -694,7 +754,8 @@
+@@ -754,7 +754,8 @@
  			const handle = await open(path, "w");
  			try {
  				try {
@@ -89,7 +89,7 @@
  				} catch (error) {
  					if (isLockContention(error)) throw new SessionAlreadyOwnedError(id);
  					throw error;
-@@ -2037,7 +2098,8 @@
+@@ -2099,6 +2099,7 @@
  		throw error;
  	}
  	try {
@@ -97,15 +97,13 @@
 +		if (internals.platform === "openharmony") await publishOhosExclusive(staged, currentPath, internals.fs);
 +		else await internals.fs.link(staged, currentPath);
  	} catch (error) {
- 		/* v8 ignore else -- a non-collision filesystem error propagates unchanged. */
  		if (isEEXIST(error)) return false;
-@@ -3238,7 +3300,8 @@
+@@ -3345,6 +3345,7 @@
  		const tmp = await this.writeSyncedTempFile(finalPath, content);
  		let linked = false;
  		try {
--			await link(tmp, finalPath);
-+			if (process.platform === "openharmony") await publishOhosExclusive(tmp, finalPath);
-+			else await link(tmp, finalPath);
- 			linked = true;
- 		} finally {
- 			/* v8 ignore next -- link failure is the TOCTOU/IO race guarded above; not reachable in test */
+ 			try {
+-				await link(tmp, finalPath);
++				if (process.platform === "openharmony") await publishOhosExclusive(tmp, finalPath);
++				else await link(tmp, finalPath);
+ 			} catch (error) {

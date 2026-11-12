@@ -100,12 +100,6 @@ class L10nZh extends L10n {
   String get accessFeatureVoiceNeeds => '需要麦克风权限';
 
   @override
-  String get accessFeatureAlerts => '回复提醒';
-
-  @override
-  String get accessFeatureAlertsNeeds => '需要通知权限';
-
-  @override
   String accessVoiceModel(int size) {
     return '离线识别，需下载约 $size MB 语音模型';
   }
@@ -1102,6 +1096,15 @@ class L10nZh extends L10n {
   String get activitySlashEnterArgs => '输入参数后发送';
 
   @override
+  String get activitySlashRunIntent => '命令 · 执行';
+
+  @override
+  String get activitySlashInsertIntent => '命令 · 填入';
+
+  @override
+  String get activitySlashSkillIntent => '技能 · 填入';
+
+  @override
   String get activityStepTitle => '步骤详情';
 
   @override
@@ -1390,11 +1393,7 @@ class L10nZh extends L10n {
   }
 
   @override
-  String activityTraceSpanSemantics(
-    String title,
-    String detail,
-    String duration,
-  ) {
+  String activityTraceSpanSemantics(String title, String detail, String duration) {
     return '$title $detail，用时 $duration';
   }
 
@@ -1629,8 +1628,7 @@ class L10nZh extends L10n {
   String get androidShellEntryHint => '独立的系统命令通道，默认关闭';
 
   @override
-  String get androidShellSubtitle =>
-      '通过 Shizuku 或自连 ADB 在这台手机上执行 Android 系统命令，不是 Ubuntu 里的 bash。';
+  String get androidShellSubtitle => '通过 Shizuku 或自连 ADB 在这台手机上执行 Android 系统命令，不是 Ubuntu 里的 bash。';
 
   @override
   String get androidShellEnable => '允许 Android Shell';
@@ -1639,19 +1637,16 @@ class L10nZh extends L10n {
   String get androidShellEnableHint => '独立开关，不随不打扰模式或屏幕免确认设置开启。';
 
   @override
-  String get androidShellConfirmationNote =>
-      '每条命令都要经过手机上的原生确认；屏幕操控的「免确认」不适用于这里。Shell 权限范围与屏幕操控不同，不能依靠应用名单拦截所有命令。';
+  String get androidShellConfirmationNote => '每条命令都要经过手机上的原生确认；屏幕操控的「免确认」不适用于这里。Shell 权限范围与屏幕操控不同，不能依靠应用名单拦截所有命令。';
 
   @override
-  String get androidShellMasterOff =>
-      '先在上一页打开「手机操控」，才能启用 Android Shell。你仍可在这里查看授权和配对引导。';
+  String get androidShellMasterOff => '先在上一页打开「手机操控」，才能启用 Android Shell。你仍可在这里查看授权和配对引导。';
 
   @override
   String get androidShellRiskTitle => '允许执行 Android 系统命令？';
 
   @override
-  String get androidShellRiskBody =>
-      '命令使用所选通道的实际 UID，可能修改应用、系统设置和共享文件。它不受屏幕应用名单完整保护；每条命令仍会单独请求原生确认。只允许你理解并信任的命令。';
+  String get androidShellRiskBody => '命令使用所选通道的实际 UID，可能修改应用、系统设置和共享文件。它不受屏幕应用名单完整保护；每条命令仍会单独请求原生确认。只允许你理解并信任的命令。';
 
   @override
   String get androidShellRiskAction => '允许 Android Shell';
@@ -1660,8 +1655,7 @@ class L10nZh extends L10n {
   String get androidShellBackend => '执行通道';
 
   @override
-  String get androidShellShizukuHint =>
-      '使用已安装并启动的 Shizuku，需单独授权；不需要 Android 14、无障碍或不打扰模式。';
+  String get androidShellShizukuHint => '使用已安装并启动的 Shizuku，需单独授权；不需要 Android 14、无障碍或不打扰模式。';
 
   @override
   String get androidShellAdb => '自连 ADB';
@@ -1688,8 +1682,7 @@ class L10nZh extends L10n {
   String get androidShellAuthorize => '申请 Shizuku 授权';
 
   @override
-  String get androidShellAuthorizeHint =>
-      '先安装并启动 Shizuku，再点此按钮允许 dsh-Go。打开本页或刷新不会申请授权。';
+  String get androidShellAuthorizeHint => '先安装并启动 Shizuku，再点此按钮允许 dsh-Go。打开本页或刷新不会申请授权。';
 
   @override
   String get androidShellStatus => '执行状态';
@@ -1710,8 +1703,7 @@ class L10nZh extends L10n {
   String get androidShellStopHint => '取消当前命令并停止独立 Shell 执行，不关闭屏幕操控。';
 
   @override
-  String get androidShellPairingGuide =>
-      '在开发者选项中打开「无线调试」，选择「使用配对码配对设备」。配对码只在本次配对中使用，不保存、不写入日志。';
+  String get androidShellPairingGuide => '在开发者选项中打开「无线调试」，选择「使用配对码配对设备」。配对码只在本次配对中使用，不保存、不写入日志。';
 
   @override
   String get androidShellStartPairing => '打开配对引导';
@@ -1741,8 +1733,7 @@ class L10nZh extends L10n {
   String get androidShellConnectPort => '连接端口（可选）';
 
   @override
-  String get androidShellConnectPortHint =>
-      '填无线调试主页「IP 地址和端口」中的端口，不是配对端口。只连接本机；留空时尝试自动发现。';
+  String get androidShellConnectPortHint => '填无线调试主页「IP 地址和端口」中的端口，不是配对端口。只连接本机；留空时尝试自动发现。';
 
   @override
   String androidShellErrorCode(String code) {
@@ -1782,8 +1773,7 @@ class L10nZh extends L10n {
   String get androidShellErrorBusy => '另一项操作尚未结束，请稍后重试，或先停止 Android Shell。';
 
   @override
-  String get androidShellErrorInvalidArguments =>
-      '输入无效。配对码须为六位数字，端口须在 1–65535 之间。';
+  String get androidShellErrorInvalidArguments => '输入无效。配对码须为六位数字，端口须在 1–65535 之间。';
 
   @override
   String get androidShellErrorCancelled => '操作已取消。';
@@ -1801,20 +1791,16 @@ class L10nZh extends L10n {
   String get androidShellErrorLocked => '手机已锁定，请解锁后重试。';
 
   @override
-  String get androidShellErrorConfirmationUnavailable =>
-      '当前无法显示原生确认，请回到 App 并检查通知权限。';
+  String get androidShellErrorConfirmationUnavailable => '当前无法显示原生确认，请回到 App 并检查通知权限。';
 
   @override
-  String get androidShellErrorTransportLost =>
-      '通道已断开。先核实结果；已派发的命令不要自动重试，需要时重新连接。';
+  String get androidShellErrorTransportLost => '通道已断开。先核实结果；已派发的命令不要自动重试，需要时重新连接。';
 
   @override
-  String get androidShellErrorProtocolMismatch =>
-      '当前原生模块不支持此 Shell 协议，请更新 App。';
+  String get androidShellErrorProtocolMismatch => '当前原生模块不支持此 Shell 协议，请更新 App。';
 
   @override
-  String get androidShellErrorNativeUnavailable =>
-      '此构建的 Android Shell 原生模块不可用。';
+  String get androidShellErrorNativeUnavailable => '此构建的 Android Shell 原生模块不可用。';
 
   @override
   String get androidShellErrorInvalidResponse => '没有收到有效的原生状态，请刷新或更新 App。';
@@ -2379,8 +2365,7 @@ class L10nZh extends L10n {
   }
 
   @override
-  String get botsDuplicateBody =>
-      '新 Bot 沿用职责、指令和模型设置，对话与个人记忆从头开始，名称由主机分配。模型可用时，它会先发送一句问候。';
+  String get botsDuplicateBody => '新 Bot 沿用职责、指令和模型设置，对话与个人记忆从头开始，名称由主机分配。模型可用时，它会先发送一句问候。';
 
   @override
   String get botsChooseModelStart => '选一个模型开始';
@@ -2810,6 +2795,50 @@ class L10nZh extends L10n {
   String get botsPetAlways => '一直显示';
 
   @override
+  String get botsPetOverlayShows => '悬浮窗里显示';
+
+  @override
+  String get botsPetOverlayPixel => '像素宠物';
+
+  @override
+  String get botsPetOverlayCompanion => '小屋里的她';
+
+  @override
+  String botsPetOverlayCompanionNamed(String name) {
+    return '小屋里的$name';
+  }
+
+  @override
+  String get botsPetOverlayNoPack => '先去伙伴小屋里请一位角色';
+
+  @override
+  String get botsPetOverlayPackBroken => '角色包不完整，去伙伴小屋里重新导入';
+
+  @override
+  String get botsPetOverlayUnavailable => '这台手机暂时请不出她';
+
+  @override
+  String get botsPetOverlayCompanionHint => '点一下和她互动，连点两下打开对话。比像素宠物更耗电，熄屏和隐藏时会停下来';
+
+  @override
+  String get botsPetOverlayLoading => '正在请她出来…';
+
+  @override
+  String get botsPetOverlayFallback => '她没能出来，先由像素宠物顶班';
+
+  @override
+  String get botsPetOverlayFraming => '取景';
+
+  @override
+  String get botsPetOverlayFramingFull => '全身';
+
+  @override
+  String get botsPetOverlayFramingHalf => '半身';
+
+  @override
+  String get botsPetOverlayFramingHint => '换取景会重新加载她';
+
+  @override
   String get botsPetSwitchDisabled => '开关点不动';
 
   @override
@@ -2849,8 +2878,7 @@ class L10nZh extends L10n {
   String get botsPetImport => '导入';
 
   @override
-  String get botsPetImportHint =>
-      '导入你自己的像素宠物：一个 zip，里面是 pack.json 和序列帧 PNG，格式见仓库里的 docs/design/pets.md。长按导入的宠物可以删除。';
+  String get botsPetImportHint => '导入你自己的像素宠物：一个 zip，里面是 pack.json 和序列帧 PNG，格式见仓库里的 docs/design/pets.md。长按导入的宠物可以删除。';
 
   @override
   String botsPetImportDone(String name) {
@@ -3214,8 +3242,7 @@ class L10nZh extends L10n {
   String get botsRelayLimit => 'Bot 互叫上限';
 
   @override
-  String get botsRelayLimitHint =>
-      '从你最近一次发言起，Bot 之间互叫达到此次数后暂停。填写 1–200 的整数，留空使用默认值。';
+  String get botsRelayLimitHint => '从你最近一次发言起，Bot 之间互叫达到此次数后暂停。填写 1–200 的整数，留空使用默认值。';
 
   @override
   String botsRelayLimitDefault(int count) {
@@ -3757,6 +3784,15 @@ class L10nZh extends L10n {
 
   @override
   String get chatAnswerHint => '输入回答…';
+
+  @override
+  String get chatAnswerMode => '发送文字将回答待答问题';
+
+  @override
+  String get chatMessageMode => '发送新消息';
+
+  @override
+  String get chatQuestionAnswered => '已回答';
 
   @override
   String get chatStarting => '正在启动';
@@ -4343,13 +4379,7 @@ class L10nZh extends L10n {
   String get chatCommandGoalBlocked => '等待处理';
 
   @override
-  String chatCommandGoalSummary(
-    String title,
-    String objective,
-    String status,
-    int rounds,
-    int max,
-  ) {
+  String chatCommandGoalSummary(String title, String objective, String status, int rounds, int max) {
     return '$title\n$objective\n$status · 第 $rounds/$max 轮';
   }
 
@@ -4536,6 +4566,38 @@ class L10nZh extends L10n {
   String get chatNoDetails => '暂无详情';
 
   @override
+  String chatOutputHiddenLines(int count, String shown) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '中间省略 $shown 行');
+    return '$_temp0';
+  }
+
+  @override
+  String chatOutputHiddenChars(String count) {
+    return '中间省略 $count 字';
+  }
+
+  @override
+  String chatOutputSummary(int count, String lines, String chars) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '共 $lines 行');
+    return '$_temp0 · $chars 字';
+  }
+
+  @override
+  String get chatOutputViewAll => '查看全部';
+
+  @override
+  String get chatOutputCopyAll => '复制全文';
+
+  @override
+  String get chatOutputCopied => '已复制全文';
+
+  @override
+  String get chatOutputToEnd => '跳到末尾';
+
+  @override
+  String get chatOutputToStart => '回到开头';
+
+  @override
   String get chatErrApiKey => 'API Key 无效或已过期';
 
   @override
@@ -4548,7 +4610,7 @@ class L10nZh extends L10n {
   String get chatErrRateLimit => '请求太频繁，稍后再试';
 
   @override
-  String get chatErrContextLength => '对话太长，发送 /compact 压缩后再试';
+  String get chatErrContextLength => '对话太长。若 /compact 也失败，请新建对话或换模型';
 
   @override
   String get chatErrModelUnavailable => '模型服务暂时不可用';
@@ -4895,8 +4957,7 @@ class L10nZh extends L10n {
   String get companionLogTitle => '聊天记录';
 
   @override
-  String get companionContextUnsupported =>
-      '这台主机的伙伴还不支持上下文：她的名字、设定和刚才发生的事传不过去，只发你说的话。升级主机或换成轻量模式就好。';
+  String get companionContextUnsupported => '这台主机的伙伴还不支持上下文：她的名字、设定和刚才发生的事传不过去，只发你说的话。升级主机或换成轻量模式就好。';
 
   @override
   String get companionLogEmpty => '还没有说过话。';
@@ -4926,8 +4987,7 @@ class L10nZh extends L10n {
   String get companionMenuRemovePack => '移除素材';
 
   @override
-  String get companionMenuRemoveConfirm =>
-      '这台手机上的角色素材会被删除，聊天记录不受影响。下次进来时要重新导入。';
+  String get companionMenuRemoveConfirm => '这台手机上的角色素材会被删除，聊天记录不受影响。下次进来时要重新导入。';
 
   @override
   String companionCreditAuthor(String name) {
@@ -4952,6 +5012,9 @@ class L10nZh extends L10n {
   }
 
   @override
+  String get companionFailedBodyPlain => '她刚才没加载出来。先重试，还不行再重新导入素材包。';
+
+  @override
   String get companionPackBroken => '这个文件打不开，可能不是素材包或已经损坏。';
 
   @override
@@ -4961,8 +5024,7 @@ class L10nZh extends L10n {
   String get companionPackNoRuntime => '这个包只有角色，手机上还没有运行库。先导入完整的素材包。';
 
   @override
-  String get companionPackNoModel =>
-      '包里没有找到 Live2D 模型（.model3.json）。把模型的整个文件夹打成 zip 再试。';
+  String get companionPackNoModel => '包里没有找到 Live2D 模型（.model3.json）。把模型的整个文件夹打成 zip 再试。';
 
   @override
   String get companionPackUnsafe => '包里有不允许的文件或路径，没有导入。';
@@ -5060,6 +5122,15 @@ class L10nZh extends L10n {
   String get companionTease3 => '你是不是很闲？';
 
   @override
+  String get companionShake1 => '哇啊，别摇啦！';
+
+  @override
+  String get companionShake2 => '头好晕……水都晃起来了。';
+
+  @override
+  String get companionShake3 => '再摇我要吐泡泡了！';
+
+  @override
   String get companionStatusIdle => '在发呆';
 
   @override
@@ -5125,8 +5196,7 @@ class L10nZh extends L10n {
   String get companionMemoryUnsupported => '这台主机还不能保存她的记忆';
 
   @override
-  String get companionMemoryUnsupportedHint =>
-      '经 DSH Remote 中继连接时用不了，或者这台主机的 dsh-go 桥接比较旧。';
+  String get companionMemoryUnsupportedHint => '经 DSH Remote 中继连接时用不了，或者这台主机的 dsh-go 桥接比较旧。';
 
   @override
   String get companionMemoryLoadFailed => '没读到';
@@ -5231,8 +5301,7 @@ class L10nZh extends L10n {
   String get companionMenuPace => '她多主动';
 
   @override
-  String get companionPaceHint =>
-      '她只在你安静陪着她时开口：邀你歇一会儿，或提一句别的对话。深夜不说，每次进门最多邀一次。';
+  String get companionPaceHint => '她只在你安静陪着她时开口：邀你歇一会儿，或提一句别的对话。深夜不说，每次进门最多邀一次。';
 
   @override
   String get companionPaceQuiet => '安静';
@@ -5262,15 +5331,13 @@ class L10nZh extends L10n {
   String get companionSetupBundled => '接她回家';
 
   @override
-  String get companionSetupBodyBundled =>
-      '她就在 App 里，点一下就到，素材只解压到这台手机上。也可以导入别的素材包，或者把 Live2D 模型的文件夹打成 zip 直接导入。';
+  String get companionSetupBodyBundled => '她就在 App 里，点一下就到，素材只解压到这台手机上。也可以导入别的素材包，或者把 Live2D 模型的文件夹打成 zip 直接导入。';
 
   @override
   String get companionSetupImportOther => '导入别的素材包';
 
   @override
-  String get companionMenuRemoveConfirmBundled =>
-      '这台手机上解压出来的角色素材会被删除，聊天记录不受影响。之后随时可以再接她回来。';
+  String get companionMenuRemoveConfirmBundled => '这台手机上解压出来的角色素材会被删除，聊天记录不受影响。之后随时可以再接她回来。';
 
   @override
   String get companionHug1 => '唔……抱抱。';
@@ -5324,8 +5391,7 @@ class L10nZh extends L10n {
   String get companionMenuSignals => '她会提起什么';
 
   @override
-  String get companionSignalsHint =>
-      '这些只在小屋里说给你听，不会发给模型。说多说少跟着「她多主动」，和邀请共用次数，深夜不说；选「安静」她也不说。';
+  String get companionSignalsHint => '这些只在小屋里说给你听，不会发给模型。说多说少跟着「她多主动」，和邀请共用次数，深夜不说；选「安静」她也不说。';
 
   @override
   String get companionSignalState => '留意别的对话';
@@ -5386,8 +5452,7 @@ class L10nZh extends L10n {
   String get companionRecallOffFailed => '自动想起记忆没关掉，再试一次吧';
 
   @override
-  String get companionRecallStopped =>
-      '自动想起记忆停了（她记得的事有改动），换成了一段新对话。想要的话可以在菜单里再打开。';
+  String get companionRecallStopped => '自动想起记忆停了（她记得的事有改动），换成了一段新对话。想要的话可以在菜单里再打开。';
 
   @override
   String get companionMenuVoice => '她的声音';
@@ -5426,8 +5491,7 @@ class L10nZh extends L10n {
   String get companionVoiceOpenai => 'OpenAI 兼容接口';
 
   @override
-  String get companionVoiceOpenaiHint =>
-      'OpenAI、硅基流动，以及大多数自建的 GPT-SoVITS、CosyVoice、edge-tts 服务';
+  String get companionVoiceOpenaiHint => 'OpenAI、硅基流动，以及大多数自建的 GPT-SoVITS、CosyVoice、edge-tts 服务';
 
   @override
   String get companionVoiceCustom => '自定义 HTTP';
@@ -5484,8 +5548,7 @@ class L10nZh extends L10n {
   String get companionVoiceField => '音频字段';
 
   @override
-  String get companionVoiceFieldHelper =>
-      '返回 JSON 时，音频在哪个字段（base64 或链接），比如 data.audio；直接返回音频就留空';
+  String get companionVoiceFieldHelper => '返回 JSON 时，音频在哪个字段（base64 或链接），比如 data.audio；直接返回音频就留空';
 
   @override
   String get companionVoicePrivacy => '她要说的话会发给你填的这个服务。';
@@ -5560,8 +5623,7 @@ class L10nZh extends L10n {
   String get companionCloneRecording => '录音';
 
   @override
-  String get companionCloneHelper =>
-      '5–30 秒、只有一个人在说话、没有背景音的 mp3 或 wav，最大 7 MB。请只用你自己的声音，或本人同意过的声音。她说的每句话都会带上这段录音发给小米。';
+  String get companionCloneHelper => '5–30 秒、只有一个人在说话、没有背景音的 mp3 或 wav，最大 7 MB。请只用你自己的声音，或本人同意过的声音。她说的每句话都会带上这段录音发给小米。';
 
   @override
   String get companionCloneNone => '还没有录音';
@@ -5616,8 +5678,7 @@ class L10nZh extends L10n {
   String get companionPersonaTextLabel => '她是谁、怎么说话';
 
   @override
-  String get companionPersonaTextHelper =>
-      '性格、身份、说话方式、哪些话不说，都写在这里，删改随你。只有表情动作的标记格式由 App 自动加上。';
+  String get companionPersonaTextHelper => '性格、身份、说话方式、哪些话不说，都写在这里，删改随你。只有表情动作的标记格式由 App 自动加上。';
 
   @override
   String get companionPersonaReset => '恢复默认';
@@ -5629,8 +5690,7 @@ class L10nZh extends L10n {
   String get companionMenuMoves => '动作和表情';
 
   @override
-  String get companionMovesHint =>
-      '这些是模型自带的。开着的会交给 AI（表情、动作各最多 24 个，按列表顺序），她回复时会自己用；点名字改个好懂的叫法，点 ▶ 先在她身上试试。';
+  String get companionMovesHint => '这些是模型自带的。开着的会交给 AI（表情、动作各最多 24 个，按列表顺序），她回复时会自己用；点名字改个好懂的叫法，点 ▶ 先在她身上试试。';
 
   @override
   String get companionMovesNone => '这个模型没有自带的表情和动作，她用的是内置的那些。';
@@ -5658,8 +5718,7 @@ class L10nZh extends L10n {
       '用你配好的模型（你的 Key，按次计费）看一遍这个角色，把转头、眨眼、表情和摸哪里对上。会发出去的：模型名、参数名单、表情动作和部件的名字、你下面写的话和现在的适配表；模型文件和贴图不发。';
 
   @override
-  String get companionAdaptOffer =>
-      '这个模型要适配一下：用你配好的模型看一遍它的参数名单和表情动作的名字（不发模型文件），会用你的 Key 调用一次。以后的新模型就自动来，菜单里能关。';
+  String get companionAdaptOffer => '这个模型要适配一下：用你配好的模型看一遍它的参数名单和表情动作的名字（不发模型文件），会用你的 Key 调用一次。以后的新模型就自动来，菜单里能关。';
 
   @override
   String get companionAdaptOfferYes => '适配';
@@ -5720,8 +5779,7 @@ class L10nZh extends L10n {
   String get systemImeCollect => '采集本次日志';
 
   @override
-  String get systemImePrivacy =>
-      '复现后再采集。每次须在原生弹窗确认，仅读取最近 120 秒的固定事件（最多 64 条），不含输入内容或原始日志；不会自动申请权限。';
+  String get systemImePrivacy => '复现后再采集。每次须在原生弹窗确认，仅读取最近 120 秒的固定事件（最多 64 条），不含输入内容或原始日志；不会自动申请权限。';
 
   @override
   String get systemImeEvidenceLimits => '请求显示/隐藏不等于键盘实际可见；空结果或采集失败不代表系统正常。';
@@ -5778,8 +5836,7 @@ class L10nZh extends L10n {
   String get systemImeClear => '清除证据并取消采集';
 
   @override
-  String get systemImeMemory =>
-      '证据仅存内存，重启清除；新采集会替换旧证据。仅手动“让 AI 看诊断”或导出 ZIP 时包含。清除不会撤回已写入的快照或导出文件。';
+  String get systemImeMemory => '证据仅存内存，重启清除；新采集会替换旧证据。仅手动“让 AI 看诊断”或导出 ZIP 时包含。清除不会撤回已写入的快照或导出文件。';
 
   @override
   String get engineNewChatDefaultsLast => '新对话默认（上次选择）';
@@ -5794,12 +5851,10 @@ class L10nZh extends L10n {
   String get engineNewChatUseFixed => '固定默认';
 
   @override
-  String get engineNewChatDefaultsHint =>
-      '保存在当前主机，只影响新对话的模型和思考深度。权限仍用独立默认，不继承临时会话授权。';
+  String get engineNewChatDefaultsHint => '保存在当前主机，只影响新对话的模型和思考深度。权限仍用独立默认，不继承临时会话授权。';
 
   @override
-  String get engineNewChatDefaultsLegacy =>
-      '此引擎仅支持沿用上次选择；不支持固定默认，也无法确认切换时默认值是否保存成功。';
+  String get engineNewChatDefaultsLegacy => '此引擎仅支持沿用上次选择；不支持固定默认，也无法确认切换时默认值是否保存成功。';
 
   @override
   String get engineNewChatDefaultsUnsupported => '此主机没有可编辑的默认模型设置';
@@ -5808,19 +5863,16 @@ class L10nZh extends L10n {
   String get engineNewChatDefaultsSelectionUnavailable => '此模型或思考深度已不可用，请重新选择。';
 
   @override
-  String get engineNewChatDefaultsInheritedEffort =>
-      '主机基础配置指定了思考深度，不能在这里为无思考模型清除。请先调整主机配置。';
+  String get engineNewChatDefaultsInheritedEffort => '主机基础配置指定了思考深度，不能在这里为无思考模型清除。请先调整主机配置。';
 
   @override
   String get engineNewChatDefaultsSaving => '正在保存并确认默认值…';
 
   @override
-  String get engineNewChatDefaultsUnconfirmed =>
-      '没能确认完整默认值，请刷新后检查模型和思考深度。主机基础配置或其他客户端可能已改变它们。';
+  String get engineNewChatDefaultsUnconfirmed => '没能确认完整默认值，请刷新后检查模型和思考深度。主机基础配置或其他客户端可能已改变它们。';
 
   @override
-  String get engineModelDefaultSaveFailed =>
-      '当前对话的模型已切换，但新对话默认未保存。请到设置 › 模型检查并重试。';
+  String get engineModelDefaultSaveFailed => '当前对话的模型已切换，但新对话默认未保存。请到设置 › 模型检查并重试。';
 
   @override
   String get engineAccountSignedIn => '已登录 DeepSeek 账号';
@@ -5832,8 +5884,7 @@ class L10nZh extends L10n {
   String get engineAccountSignOutBusy => '有任务正在使用账号模型，退出会立即中断它们。对话和文件都会保留。';
 
   @override
-  String get engineAccountSignOutBody =>
-      '账号模型将不可用。对话、文件和 API Key 都会保留，随时可以重新登录。';
+  String get engineAccountSignOutBody => '账号模型将不可用。对话、文件和 API Key 都会保留，随时可以重新登录。';
 
   @override
   String get engineAccountSignOutUnknown => '无法确认是否有任务在使用账号模型；如果有，退出会中断它们。';
@@ -5896,8 +5947,7 @@ class L10nZh extends L10n {
   String get engineAccountClearKeyTitle => '清除 API Key？';
 
   @override
-  String get engineAccountClearKeyBody =>
-      '删除 App 里保存的 Key。本机引擎运行时，引擎里的 Key 也会一并删除。';
+  String get engineAccountClearKeyBody => '删除 App 里保存的 Key。本机引擎运行时，引擎里的 Key 也会一并删除。';
 
   @override
   String get engineAccountBrowserFailed => '没能打开浏览器';
@@ -6054,6 +6104,9 @@ class L10nZh extends L10n {
 
   @override
   String get engineGeneralWebSending => '网页版发送';
+
+  @override
+  String get engineGeneralWebOnlyHint => '这组设置仅影响当前主机的网页版，不改变原生聊天。';
 
   @override
   String get engineGeneralData => '数据';
@@ -6462,6 +6515,36 @@ class L10nZh extends L10n {
 
   @override
   String get engineProviderConnection => '连接';
+
+  @override
+  String get engineProviderHeaders => '请求头（可选）';
+
+  @override
+  String get engineProviderHeadersWarning => '请求头以明文保存，不参与日志脱敏。敏感凭据请使用 API Key 或凭据引用。';
+
+  @override
+  String get engineProviderHeaderName => '名称';
+
+  @override
+  String get engineProviderHeaderValue => '值';
+
+  @override
+  String get engineProviderHeaderAdd => '添加请求头';
+
+  @override
+  String get engineProviderHeaderInvalidName => '请求头名称只能包含英文字母、数字或 HTTP 标记符号，不能包含空格或冒号';
+
+  @override
+  String get engineProviderHeaderReserved => 'User-Agent 由引擎设置，请移除此请求头';
+
+  @override
+  String get engineProviderHeaderLocked => '由引擎管理，保留现有配置';
+
+  @override
+  String get engineProviderHeaderDuplicate => '请求头名称重复（不区分大小写）';
+
+  @override
+  String get engineProviderHeaderInvalidValue => '请求头值只能包含单行 Latin-1 文本，不支持换行或控制字符（制表符除外）';
 
   @override
   String get engineProviderDefaultUrl => '默认地址';
@@ -6897,8 +6980,7 @@ class L10nZh extends L10n {
   String get engineModelContextLength => '上下文长度';
 
   @override
-  String get engineModelContextOverrideHint =>
-      '留空使用渠道目录里的值；改大后引擎按新值计算上下文占用与压缩。';
+  String get engineModelContextOverrideHint => '留空使用渠道目录里的值；改大后引擎按新值计算上下文占用与压缩。';
 
   @override
   String get engineModelMaxOutput => '最大输出';
@@ -7491,20 +7573,12 @@ class L10nZh extends L10n {
   }
 
   @override
-  String featuresCronMonthDaysAndWeekdays(
-    String days,
-    String weekdays,
-    String months,
-  ) {
+  String featuresCronMonthDaysAndWeekdays(String days, String weekdays, String months) {
     return '每月 $days 日且$weekdays$months';
   }
 
   @override
-  String featuresCronMonthDaysOrWeekdays(
-    String days,
-    String weekdays,
-    String months,
-  ) {
+  String featuresCronMonthDaysOrWeekdays(String days, String weekdays, String months) {
     return '每月 $days 日或$weekdays$months';
   }
 
@@ -8195,12 +8269,7 @@ class L10nZh extends L10n {
   }
 
   @override
-  String featuresPresetUpdateRequest(
-    String name,
-    String id,
-    String replacing,
-    String directory,
-  ) {
+  String featuresPresetUpdateRequest(String name, String id, String replacing, String directory) {
     return '更新 Agent 预设「$name」（$id）：在工作区写下这两个文件（内容原样），用 plugin_manager 先移除组合包 `$replacing`，再用 install_bundle 安装 `$directory` 目录。只做这些。\n\n';
   }
 
@@ -8244,128 +8313,10 @@ class L10nZh extends L10n {
   String get fileUploadFailed => '没能传到电脑';
 
   @override
-  String get harmonyUnknownResults =>
-      '有工具调用没等到结果，可能已经执行，也可能没有。处理之前，这个对话不能再调用工具。';
-
-  @override
-  String get harmonyUnknownResultsReview => '处理';
-
-  @override
-  String get harmonyUnknownResultsTitle => '这些工具调用的结果未知';
-
-  @override
-  String harmonyUnknownResultsBody(String tools) {
-    return '$tools\n\n应用在等结果时中断了，它们可能已经执行，也可能没有。可以先看看实际情况，比如文件改了没有。\n\n继续之后，这些调用不会重新运行，记录也不会改成成功。';
-  }
-
-  @override
-  String get harmonyUnknownResultsContinue => '继续这个对话';
-
-  @override
-  String get harmonyUnknownResultsChanged => '情况变了，请再看一遍。';
-
-  @override
-  String get harmonyUnknownResultsFailed => '没有确认成功，请再试一次。';
-
-  @override
-  String get harmonyCallsNotRecorded => '本机引擎记不下工具调用的状态，工具调用已暂停。重启引擎后再试。';
-
-  @override
-  String get harmonyAccessSubtitle => '各项功能用到的系统权限';
-
-  @override
-  String get harmonyNotifyWhy => '应用在运行时，回复跑完、需要确认会提醒你';
-
-  @override
-  String get harmonyKwSystemAccess => '权限一览,授权,麦克风,通知权限,回复提醒,语音输入,补开权限';
-
-  @override
-  String get harmonyBackgroundSubtitle => '应用离开屏幕后，本机的对话会暂停';
-
-  @override
-  String get harmonyBackgroundAway => '离开屏幕后';
-
-  @override
-  String get harmonyBackgroundLocal => '系统几秒内就会挂起应用，正在跑的对话跟着暂停，回到应用后会尽量接着跑';
-
-  @override
-  String get harmonyBackgroundRemoteTitle => '已连接的远程主机';
-
-  @override
-  String get harmonyBackgroundRemote => '上面的回复继续跑，不受影响';
-
-  @override
-  String get harmonyBackgroundLong => '长任务';
-
-  @override
-  String get harmonyBackgroundStay => '把应用留在屏幕上';
-
-  @override
-  String get harmonyBackgroundUseRemote => '或者放到已连接的远程主机上跑';
-
-  @override
-  String get harmonyEngineBackgroundHint => '离开屏幕后本机引擎会暂停';
-
-  @override
-  String get harmonyKwBackground => '后台,保活,挂起,暂停,被杀,杀后台';
-
-  @override
-  String get harmonyPausedInBackground => '对话在后台暂停过';
-
-  @override
-  String get harmonyAlertsRequirement => '提醒要应用在运行才发得出：离开屏幕几秒后系统会挂起应用，挂起期间没有提醒';
-
-  @override
-  String get harmonyLiveUnavailable => '这个版本暂时没有实时活动';
-
-  @override
-  String get harmonySchedulesLocal => '本机的任务只在应用运行时触发：应用被系统挂起时，到点不会运行';
-
-  @override
-  String get harmonyPageUnavailable => '这个版本暂时没有这个页面';
-
-  @override
-  String get harmonyNotificationSettingsFailed =>
-      '没能打开系统设置。到「设置 → 通知和状态栏 → DSH Go」里开启';
-
-  @override
-  String get harmonySearchUnavailable => '这个版本暂时没有这项功能';
-
-  @override
-  String get harmonyCredentialsSection => '密钥';
-
-  @override
-  String get harmonyCredentialsUnreadable => '已保存的密钥无法读取';
-
-  @override
-  String get harmonyCredentialsUnreadableHint =>
-      '已保存的密钥无法读取。到「设置 → 隐私与分享」清除后再试';
-
-  @override
-  String get harmonyCredentialsClear => '清除已保存的密钥';
-
-  @override
-  String get harmonyCredentialsClearBody =>
-      '重试没有用。清除后，App 保存的 API key、DSH Remote 登录、SSH 密码和私钥、论坛登录都会被删除，需要重新填写或登录。已发布的分享链接还在，但这台手机上删不掉了。对话和主机列表会保留。此操作无法撤销。';
-
-  @override
-  String get harmonyCredentialsClearAction => '清除密钥';
-
-  @override
-  String get harmonyCredentialsCleared => '已清除，请重新填写或登录';
-
-  @override
-  String get harmonyCredentialsClearFailed => '没能清除，再试一次';
-
-  @override
-  String get harmonyIconChangeFailed => '没能更换。使用自定义主题或应用分身时不能换桌面图标';
-
-  @override
   String get hostDetailsConnectionType => '连接方式';
 
   @override
-  String get hostDetailsSshNetworkHint =>
-      '通过 SSH 隧道连接。此连接不提供 LAN / P2P 路径检测或延迟测量。';
+  String get hostDetailsSshNetworkHint => '通过 SSH 隧道连接。此连接不提供 LAN / P2P 路径检测或延迟测量。';
 
   @override
   String get hubSessionDetails => '对话详情';
@@ -8479,8 +8430,7 @@ class L10nZh extends L10n {
   String get hubSettingsStorageAllow => '允许读写';
 
   @override
-  String get hubSettingsStorageDenied =>
-      '没有拿到存储权限。到系统设置里给 DSH Go 开启「所有文件访问」后再试';
+  String get hubSettingsStorageDenied => '没有拿到存储权限。到系统设置里给 DSH Go 开启「所有文件访问」后再试';
 
   @override
   String get hubSettingsRestartRequired => '重启引擎后生效';
@@ -8902,8 +8852,7 @@ class L10nZh extends L10n {
   String get hubHardwareEnterSends => '外接键盘按 Enter 发送';
 
   @override
-  String get hubHardwareEnterSendsHint =>
-      '开启后，Shift+Enter 换行。屏幕键盘仍换行；Ctrl/⌘+Enter 始终可发送。';
+  String get hubHardwareEnterSendsHint => '开启后，Shift+Enter 换行。屏幕键盘仍换行；Ctrl/⌘+Enter 始终可发送。';
 
   @override
   String get hubQuickPanel => '左滑快捷入口';
@@ -8919,380 +8868,6 @@ class L10nZh extends L10n {
 
   @override
   String get hubQuickPanelItemsNone => '没有选择，左滑不会打开';
-
-  @override
-  String get iosSaveToFiles => '存到「文件」';
-
-  @override
-  String get iosFilesFolderHint => '文件 App 的 DSH Go 文件夹';
-
-  @override
-  String get iosSavingToFiles => '正在存到「文件」…';
-
-  @override
-  String get iosCommandExportDescription => '把这个对话的完整记录打包成 ZIP，分享或存到「文件」';
-
-  @override
-  String get iosEnableBanners => '横幅不弹时，到系统设置打开「横幅」';
-
-  @override
-  String get iosNotificationSettingsFailed => '没能打开系统设置。到「设置 → DSH Go → 通知」里开启';
-
-  @override
-  String get iosVoiceSystemHint => '使用系统的语音识别';
-
-  @override
-  String get iosVoiceAllowSystem => '请在系统设置里允许语音识别';
-
-  @override
-  String get iosPluginsPermissionLocalThirdParty =>
-      '插件以 DSH 的权限运行：能读写文件、执行命令、读取 API Key，不受工作区沙箱限制。由第三方提供，DSH 官方未审核。';
-
-  @override
-  String get iosPluginsPermissionLocalTrusted =>
-      '插件以 DSH 的权限运行：能读写文件、执行命令、读取 API Key，不受工作区沙箱限制。只装你信任的插件。';
-
-  @override
-  String get iosIconChanged => '桌面图标已更换';
-
-  @override
-  String get iosPhotosDenied => '没有相册权限，未能保存';
-
-  @override
-  String get iosRelocationOriginUnavailable =>
-      '发现旧对话，但找不到它们原来的位置。原数据都还在，这些对话暂时不能继续。';
-
-  @override
-  String get iosRelocationSessionIsolated =>
-      '有些对话没能迁移，已经单独保留。原文件和原因都还在，可以在诊断里导出后反馈。';
-
-  @override
-  String get iosAccessSubtitle => '各项功能用到的系统权限';
-
-  @override
-  String get iosLinuxTitle => 'Linux 环境';
-
-  @override
-  String get iosLinuxIntro =>
-      '装好后，虚拟 shell 跑不了的命令会在 Linux 里运行，比如用 apk 装的 Python。审批照旧，只能碰工作区和临时目录。';
-
-  @override
-  String get iosLinuxInstall => '安装 Linux 环境';
-
-  @override
-  String get iosLinuxDownloadSize => '约 4 MB';
-
-  @override
-  String get iosLinuxDownloading => '正在下载';
-
-  @override
-  String get iosLinuxVerifying => '正在校验';
-
-  @override
-  String get iosLinuxExtracting => '正在解压';
-
-  @override
-  String get iosLinuxFinishing => '即将完成';
-
-  @override
-  String get iosLinuxSystem => '系统';
-
-  @override
-  String get iosLinuxStorage => '占用空间';
-
-  @override
-  String get iosLinuxUninstall => '卸载 Linux 环境';
-
-  @override
-  String get iosLinuxUninstallBody => '会删除 Linux 环境和在里面装的所有软件。工作区里的文件不受影响。';
-
-  @override
-  String get iosLinuxUninstallConfirm => '卸载';
-
-  @override
-  String get iosLinuxUninstalling => '正在卸载…';
-
-  @override
-  String get iosLinuxRestartEngine => '已装好。重启本机引擎后，命令才会用上它。';
-
-  @override
-  String get iosLinuxErrorNetwork => '下载没成功。检查网络后再试一次。';
-
-  @override
-  String get iosLinuxErrorDamaged => '下载的文件不完整，已经丢掉了，再试一次。';
-
-  @override
-  String get iosLinuxErrorNoSpace => '手机存储空间不够了。';
-
-  @override
-  String get iosLinuxErrorInUse => 'Linux 环境正在使用，重新打开 App 后才能卸载。';
-
-  @override
-  String get iosLinuxErrorOther => '没有完成，再试一次。';
-
-  @override
-  String get iosLinuxState => '状态';
-
-  @override
-  String get iosLinuxStatePaused => '已暂停';
-
-  @override
-  String get iosLinuxSuspendedBody =>
-      '上次 App 退出时，Linux 里还有命令没跑完，App 可能就是因为它闪退的。为免再闪退，Linux 环境先暂停，其他功能照常。想再用就重新启用。';
-
-  @override
-  String get iosLinuxResume => '重新启用 Linux 环境';
-
-  @override
-  String get iosLinuxResumed => '已重新启用。重启本机引擎后，命令才会用上它。';
-
-  @override
-  String get iosLinuxErrorBusy => 'Linux 环境还在使用。等命令停下再试，不行就重新打开 App。';
-
-  @override
-  String get iosPhoneLinkTitle => '本机连接';
-
-  @override
-  String get iosPhoneLinkIntro =>
-      '用这台 iPhone 自己的开发者服务读屏、点按和输入，不用一直连着电脑。先在手机上打开开发者模式，并保持 LocalDevVPN 已连接。每次手机动作仍要你点允许。';
-
-  @override
-  String get iosPhoneLinkUnavailable => '需要 iOS 17 或更高版本。';
-
-  @override
-  String get iosPhoneLinkStepPairing => '导入配对凭据';
-
-  @override
-  String get iosPhoneLinkPairingHint => '用 Mac 或 Windows 电脑生成的远程配对文件（.plist）';
-
-  @override
-  String get iosPhoneLinkPairingDevice => '已记住在这台手机上';
-
-  @override
-  String get iosPhoneLinkPairingSession => '只用这一次，退出 App 后清除';
-
-  @override
-  String get iosPhoneLinkPairingLocked => '手机解锁后才能读取保存的凭据';
-
-  @override
-  String get iosPhoneLinkPairingUnreadable => '保存的凭据读不出来，重新导入一次';
-
-  @override
-  String get iosPhoneLinkImport => '导入';
-
-  @override
-  String get iosPhoneLinkReplace => '更换';
-
-  @override
-  String get iosPhoneLinkLegacy => '发现旧版本留下的配对文件';
-
-  @override
-  String get iosPhoneLinkLegacyHint => '迁移时按你选的方式保存，然后删掉旧文件。迁移前不会用它。';
-
-  @override
-  String get iosPhoneLinkMigrate => '迁移';
-
-  @override
-  String get iosPhoneLinkStepEnable => '打开开发者连接';
-
-  @override
-  String get iosPhoneLinkEnableHint => '默认关闭。关掉会立刻停下正在进行的手机任务。';
-
-  @override
-  String get iosPhoneLinkStepCheck => '检查连接';
-
-  @override
-  String get iosPhoneLinkCheckHint => '确认 VPN、配对和开发者服务都通';
-
-  @override
-  String get iosPhoneLinkCheck => '检查';
-
-  @override
-  String get iosPhoneLinkChecked => '连接正常';
-
-  @override
-  String get iosPhoneLinkReadOnly => '连接正常，可读屏和打开应用；点按、滚动和输入需使用 XCTest 增强';
-
-  @override
-  String get iosPhoneLinkErrorServices =>
-      '当前开发者服务不支持这条 CoreDevice 连接。已有镜像时重新下载不一定有用；可启用 XCTest 增强，或交还自己操作。';
-
-  @override
-  String get iosPhoneLinkDdi => '开发者镜像';
-
-  @override
-  String get iosPhoneLinkDdiHint =>
-      '部分功能需要。约 17 MB，来自第三方 DeveloperDiskImage 镜像仓库（不是 Apple 下载站），按固定哈希校验，再由 Apple 为这台手机个性化。';
-
-  @override
-  String get iosPhoneLinkDdiPrepare => '准备';
-
-  @override
-  String get iosPhoneLinkDdiMounted => '已挂载';
-
-  @override
-  String get iosPhoneLinkWorking => '正在处理…';
-
-  @override
-  String iosPhoneLinkDownloading(String done, String total) {
-    return '正在下载 $done / $total';
-  }
-
-  @override
-  String get iosPhoneLinkClear => '清除配对凭据';
-
-  @override
-  String get iosPhoneLinkClearHint => '同时关掉开发者连接。电脑和「文件」里的原文件需要你自己删。';
-
-  @override
-  String get iosPhoneLinkClearConfirm => '清除配对凭据？';
-
-  @override
-  String get iosPhoneLinkEnhanceTitle => '可选增强';
-
-  @override
-  String get iosPhoneLinkXctest => 'XCTest 增强';
-
-  @override
-  String get iosPhoneLinkXctestHint =>
-      '需要另外安装并签名 PhoneRunner，能读取界面元素。部分 App 可能要求重新登录或拒绝使用。不开时用本机连接。';
-
-  @override
-  String get iosPhoneLinkClipboardTitle => '回到 App 恢复原剪贴板';
-
-  @override
-  String get iosPhoneLinkClipboardHint =>
-      '输入时临时借用了剪贴板。先核对目标 App 已经完成或取消粘贴，再恢复。';
-
-  @override
-  String get iosPhoneLinkClipboardRestore => '恢复';
-
-  @override
-  String get iosPhoneLinkClipboardOverwrite => '仍要恢复，覆盖现在的剪贴板';
-
-  @override
-  String get iosPhoneLinkClipboardDiscard => '丢弃保存的旧剪贴板';
-
-  @override
-  String get iosPhoneLinkErrorBusy => '还有一项设置在进行，等它结束再试。';
-
-  @override
-  String get iosPhoneLinkErrorForeground => '要在 App 打开、手机解锁时操作。';
-
-  @override
-  String get iosPhoneLinkErrorPairingInvalid => '这个文件不是可用的远程配对凭据。';
-
-  @override
-  String get iosPhoneLinkErrorStorage => '保存没成功。「记住在这台手机上」需要手机设了解锁密码。';
-
-  @override
-  String get iosPhoneLinkErrorPairingRequired => '先导入配对凭据。';
-
-  @override
-  String get iosPhoneLinkErrorTunnel =>
-      '连不上本机服务。确认 LocalDevVPN 已连接、开发者模式已打开，再试一次。';
-
-  @override
-  String get iosPhoneLinkErrorPairingRejected => '手机不认这份配对凭据。重新生成一份再导入。';
-
-  @override
-  String get iosPhoneLinkErrorDdiNeeded => '需要先准备开发者镜像。';
-
-  @override
-  String get iosPhoneLinkErrorDdiDownload => '镜像下载没成功。检查网络后再试。';
-
-  @override
-  String get iosPhoneLinkErrorDdiIntegrity => '下载的镜像没通过校验，已经丢掉了。';
-
-  @override
-  String get iosPhoneLinkErrorDdiUnsupported => '没有适合这台手机型号或系统版本的镜像。';
-
-  @override
-  String get iosPhoneLinkErrorDdiMount => '挂载没成功。已经在用的其他镜像不会被替换。';
-
-  @override
-  String get iosPhoneLinkErrorClipboardChanged => '之后又复制过别的内容，所以没有恢复。';
-
-  @override
-  String get iosPhoneLinkFaulted => '上一次连接没能确认已经关掉';
-
-  @override
-  String get iosPhoneLinkFaultedHint =>
-      '为了不让两条连接同时操作手机，先不再连接。如果上一次连接稍后确认关掉了，这里会自动恢复；一直没恢复的话，在后台彻底关掉 App 再重新打开。';
-
-  @override
-  String iosPhoneLinkErrorOther(String code) {
-    return '没有完成（$code）。';
-  }
-
-  @override
-  String get iosPetPipTitle => '宠物画中画';
-
-  @override
-  String get iosPetPipHint =>
-      '操控手机时，宠物以画中画留在屏幕上，App 才能在后台接着干活。用的是系统画中画，不录音、不定位。';
-
-  @override
-  String get iosPetPipRequired => '手机操控要先打开它';
-
-  @override
-  String get iosPetPipReady => '已就绪，手机任务开始时出现';
-
-  @override
-  String get iosPetPipKeepingAlive => '正在让 App 在后台继续运行';
-
-  @override
-  String get iosPetPipAlways => '任务结束后也留着';
-
-  @override
-  String get iosPetPipStart => '开始画中画';
-
-  @override
-  String get iosPetPipStartHint => '画中画没有自己出现时，点这里打开';
-
-  @override
-  String get iosPetPipPaused => '手机任务在画中画里暂停了';
-
-  @override
-  String get iosPetPipReview => '继续或停止';
-
-  @override
-  String get iosPetPipResume => '恢复';
-
-  @override
-  String get iosPetPipChoosePet => '选宠物';
-
-  @override
-  String get iosPetPipErrorNoPet => '先选一只宠物';
-
-  @override
-  String get iosPetPipErrorUnsupported => '这台手机不支持画中画';
-
-  @override
-  String get iosPetPipErrorLocked => '锁屏时画中画停了';
-
-  @override
-  String get iosPetPipErrorAudio => '录音、通话或别的声音占用时，画中画停了';
-
-  @override
-  String get iosPetPipErrorPack => '这只宠物的素材有问题，换一只试试';
-
-  @override
-  String get iosPetPipErrorStart => '画中画没能打开';
-
-  @override
-  String get iosPetPipErrorClosed => '画中画被关掉了';
-
-  @override
-  String iosPetPipErrorOther(String code) {
-    return '画中画停了（$code）';
-  }
-
-  @override
-  String get iosPetPipChoosePetHint => '在宠物设置里选一只';
-
-  @override
-  String get iosPetPipReopen => '重新准备画中画';
 
   @override
   String get launchScreenTitle => '启动画面';
@@ -9384,8 +8959,7 @@ class L10nZh extends L10n {
   String get iconShortcutAdd => '添加到桌面';
 
   @override
-  String get iconShortcutNote =>
-      '系统不允许把桌面图标换成任意图片，这里会另放一个打开 DSH Go 的快捷方式；部分桌面会在它的角上加一个小标';
+  String get iconShortcutNote => '系统不允许把桌面图标换成任意图片，这里会另放一个打开 DSH Go 的快捷方式；部分桌面会在它的角上加一个小标';
 
   @override
   String get iconShortcutAdded => '已添加到桌面';
@@ -9523,12 +9097,6 @@ class L10nZh extends L10n {
   String get localEnvRemoteDetail => '连接电脑或服务器上的 DSH';
 
   @override
-  String get localEnvUnavailable => '这台设备暂时不能在本机运行 DSH';
-
-  @override
-  String get localEnvUnsupported => '暂不支持';
-
-  @override
   String get localEnvRecommended => '推荐';
 
   @override
@@ -9581,47 +9149,6 @@ class L10nZh extends L10n {
   String get localEnvSignInInstallFirst => '安装后即可登录';
 
   @override
-  String get engineStartReopensApp => '引擎每次打开 App 只能启动一次，再启动会重新打开 App。';
-
-  @override
-  String get engineReopenFailed => '引擎要重新打开 App 才能再启动，请手动重开一次。';
-
-  @override
-  String get engineCapShell => '命令行';
-
-  @override
-  String engineCapShellBuiltin(int count) {
-    return '内置 $count 个命令';
-  }
-
-  @override
-  String get engineCapShellSystem => '系统';
-
-  @override
-  String get engineCapNodeScripts => 'Node 脚本';
-
-  @override
-  String get engineCapMarket => '安装市场插件';
-
-  @override
-  String get engineCapBackground => '切到后台时';
-
-  @override
-  String get engineCapMayFreeze => '可能被系统暂停';
-
-  @override
-  String get engineCapKeepsRunning => '继续运行';
-
-  @override
-  String get engineCapYes => '可以';
-
-  @override
-  String get engineCapNone => '不可用';
-
-  @override
-  String get marketInstallRefused => '这个引擎不能安装市场插件';
-
-  @override
   String get marketSectionOfficial => '官方';
 
   @override
@@ -9655,15 +9182,13 @@ class L10nZh extends L10n {
   String get marketFlagInstallScripts => '安装时运行脚本';
 
   @override
-  String get marketFlagInstallScriptsBody =>
-      '安装时会自动运行包里的脚本（preinstall、install 或 postinstall）';
+  String get marketFlagInstallScriptsBody => '安装时会自动运行包里的脚本（preinstall、install 或 postinstall）';
 
   @override
   String get marketFlagNativeCode => '含原生程序';
 
   @override
-  String get marketFlagNativeCodeBody =>
-      '包里有编译好的原生程序（.node、binding.gyp 或二进制文件），没法直接阅读';
+  String get marketFlagNativeCodeBody => '包里有编译好的原生程序（.node、binding.gyp 或二进制文件），没法直接阅读';
 
   @override
   String get marketFlagShell => '执行命令';
@@ -9779,8 +9304,7 @@ class L10nZh extends L10n {
   String get marketVerificationUnavailableTitle => '暂时无法核对版本';
 
   @override
-  String get marketVerificationUnavailableBody =>
-      '没能取得 npm 的版本校验信息，尚未开始安装。请检查网络后重试。';
+  String get marketVerificationUnavailableBody => '没能取得 npm 的版本校验信息，尚未开始安装。请检查网络后重试。';
 
   @override
   String marketCombinedCount(int count) {
@@ -10075,8 +9599,7 @@ class L10nZh extends L10n {
   String get mediaSettingsDefaultModel => '默认模型';
 
   @override
-  String get mediaSettingsDefaultFooterLegacy =>
-      '旧版插件只有一个默认模型；更新插件后可以分别设置图片和视频。';
+  String get mediaSettingsDefaultFooterLegacy => '旧版插件只有一个默认模型；更新插件后可以分别设置图片和视频。';
 
   @override
   String get mediaSettingsDefaultsFooter => '图片和视频分别选择默认模型；留空自动使用第一个可用的。';
@@ -10108,16 +9631,13 @@ class L10nZh extends L10n {
   String get mediaSettingsKeyMissing => '未配置 API Key';
 
   @override
-  String get mediaSettingsCatalogMissing =>
-      '这个主机的插件没有提供模型目录；已有服务仍可编辑，但暂时不能新增服务或选择默认模型。';
+  String get mediaSettingsCatalogMissing => '这个主机的插件没有提供模型目录；已有服务仍可编辑，但暂时不能新增服务或选择默认模型。';
 
   @override
-  String get mediaSettingsCatalogBroken =>
-      '模型目录读不了（可能版本不兼容）；已有服务仍可编辑，但暂时不能新增服务或选择默认模型。';
+  String get mediaSettingsCatalogBroken => '模型目录读不了（可能版本不兼容）；已有服务仍可编辑，但暂时不能新增服务或选择默认模型。';
 
   @override
-  String get mediaSettingsCatalogEmpty =>
-      '模型目录里还没有模型；已有服务仍可编辑，但暂时不能新增服务或选择默认模型。';
+  String get mediaSettingsCatalogEmpty => '模型目录里还没有模型；已有服务仍可编辑，但暂时不能新增服务或选择默认模型。';
 
   @override
   String get mediaSettingsNoPresets => '目录里还没有可添加的服务。';
@@ -10227,8 +9747,7 @@ class L10nZh extends L10n {
   }
 
   @override
-  String get mediaSettingsDeleteBody =>
-      '只会从这台主机的设置里删掉这个服务，API Key 会保留；指向它的默认模型会一并清空。';
+  String get mediaSettingsDeleteBody => '只会从这台主机的设置里删掉这个服务，API Key 会保留；指向它的默认模型会一并清空。';
 
   @override
   String get mediaSettingsNoImageModels => '目录里还没有图像模型';
@@ -10266,8 +9785,7 @@ class L10nZh extends L10n {
   String get mediaConfigCheck => '检查已保存配置';
 
   @override
-  String get mediaConfigCheckNote =>
-      '仅检查本地配置快照，不请求供应商，不产生生成费用。不验证密钥、连通性、余额、模型权限或地区；配置是否接受仍以主机为准。';
+  String get mediaConfigCheckNote => '仅检查本地配置快照，不请求供应商，不产生生成费用。不验证密钥、连通性、余额、模型权限或地区；配置是否接受仍以主机为准。';
 
   @override
   String get mediaConfigCheckReady => '未发现本地配置问题';
@@ -10282,8 +9800,7 @@ class L10nZh extends L10n {
   String get mediaConfigCheckDisabled => '此服务已关闭。';
 
   @override
-  String get mediaConfigUrlInvalid =>
-      '请输入含主机名的 HTTPS API 根地址，不得包含凭据、查询参数、片段或空白。';
+  String get mediaConfigUrlInvalid => '请输入含主机名的 HTTPS API 根地址，不得包含凭据、查询参数、片段或空白。';
 
   @override
   String get mediaConfigUrlEndpoint => '这看起来是请求端点。请填写 API 根地址，主机会自动追加请求路径。';
@@ -10292,15 +9809,13 @@ class L10nZh extends L10n {
   String get mediaConfigUrlRoot => '此协议只需来源地址（https://主机名），不要填写 API 路径。';
 
   @override
-  String get mediaConfigUrlHint =>
-      '填写 API 根地址，而非生成端点。OpenAI 兼容服务保留其路径前缀（如 /v1）。';
+  String get mediaConfigUrlHint => '填写 API 根地址，而非生成端点。OpenAI 兼容服务保留其路径前缀（如 /v1）。';
 
   @override
   String get mediaConfigPreview => '创建请求预览';
 
   @override
-  String get mediaConfigPreviewNote =>
-      '仅预览生成/创建请求；编辑和查询状态可能使用不同路径。预览不代表连通或已获主机接受。';
+  String get mediaConfigPreviewNote => '仅预览生成/创建请求；编辑和查询状态可能使用不同路径。预览不代表连通或已获主机接受。';
 
   @override
   String get mediaConfigPreviewUnavailable => '此主机目录未提供请求路径。';
@@ -10347,6 +9862,27 @@ class L10nZh extends L10n {
   String mediaSavedFilesCount(int count) {
     return '已保存 $count 个文件到相册';
   }
+
+  @override
+  String get modeSheetTitle => '模式';
+
+  @override
+  String get modeKeyTooltip => '切换模式';
+
+  @override
+  String get modeWork => '工作';
+
+  @override
+  String get modeWorkSubtitle => '和 DSH 一起干活';
+
+  @override
+  String get modeCompanionShort => '伙伴';
+
+  @override
+  String get modeTavernSubtitle => '导入角色卡，开始一段故事';
+
+  @override
+  String get modeStartup => '启动时进入';
 
   @override
   String get nearbyThisChat => '本对话';
@@ -10584,8 +10120,7 @@ class L10nZh extends L10n {
   String get phoneEngineResetTitle => '重置运行环境？';
 
   @override
-  String get phoneResetAlsoDeletes =>
-      '家目录（/root）里没有保留的内容也会一起删除，包括工作区里的文件、AGENTS.md，以及插件自己存的数据（比如记忆）。';
+  String get phoneResetAlsoDeletes => '家目录（/root）里没有保留的内容也会一起删除，包括工作区里的文件、AGENTS.md，以及插件自己存的数据（比如记忆）。';
 
   @override
   String get phoneEngineKeepUiSkills => '保留界面配置和技能';
@@ -10813,8 +10348,7 @@ class L10nZh extends L10n {
   String get phoneDndEnabled => '不打扰模式已启用';
 
   @override
-  String get phoneDndShizukuPermissionFailed =>
-      '没有拿到授权。可以在 Shizuku 的「应用管理」里给 DSH Go 授权';
+  String get phoneDndShizukuPermissionFailed => '没有拿到授权。可以在 Shizuku 的「应用管理」里给 DSH Go 授权';
 
   @override
   String get phoneDndPairedConnect => '配对成功，点「连接」';
@@ -10898,8 +10432,7 @@ class L10nZh extends L10n {
   String get phoneDndShizukuViaSui => '这台手机的 Shizuku 接口由 Sui 提供，请改用 Sui。';
 
   @override
-  String get phoneDndSuiMissing =>
-      '没有检测到 Sui。在 Magisk 或 KernelSU 里装好 Sui 模块并重启手机，再回到这里。';
+  String get phoneDndSuiMissing => '没有检测到 Sui。在 Magisk 或 KernelSU 里装好 Sui 模块并重启手机，再回到这里。';
 
   @override
   String get phoneDndSuiRunning => 'Sui 接口可用';
@@ -10917,26 +10450,22 @@ class L10nZh extends L10n {
   String get phoneDndRootWaiting => '正在等待 root 授权，请在 root 管理器的弹窗里选择。';
 
   @override
-  String get phoneDndRootConnected =>
-      'root 已连接。断开后要回到这里再选一次；打开上面的「保持 root 通道」，DSH Go 才会自己再去申请。';
+  String get phoneDndRootConnected => 'root 已连接。断开后要回到这里再选一次；打开上面的「保持 root 通道」，DSH Go 才会自己再去申请。';
 
   @override
-  String get phoneDndRootConnectedKept =>
-      'root 已连接。断开后 DSH Go 会自己向 root 管理器再次申请。';
+  String get phoneDndRootConnectedKept => 'root 已连接。断开后 DSH Go 会自己向 root 管理器再次申请。';
 
   @override
   String get phoneDndRootRetry => '重新申请 root 授权';
 
   @override
-  String get phoneDndInstallShizuku =>
-      '先装 Shizuku（免费、开源）。已经在用冰箱、黑阈这类工具的话，多半已经装了。';
+  String get phoneDndInstallShizuku => '先装 Shizuku（免费、开源）。已经在用冰箱、黑阈这类工具的话，多半已经装了。';
 
   @override
   String get phoneDndOpenShizukuSite => '打开 Shizuku 官网';
 
   @override
-  String get phoneDndStartShizuku =>
-      '打开 Shizuku，按里面「通过无线调试启动」的说明做一遍（要连 Wi‑Fi）。回到这里会自动刷新。';
+  String get phoneDndStartShizuku => '打开 Shizuku，按里面「通过无线调试启动」的说明做一遍（要连 Wi‑Fi）。回到这里会自动刷新。';
 
   @override
   String get phoneDndGrantShizukuHint => 'Shizuku 已在运行，还要给 DSH Go 授权。';
@@ -10969,19 +10498,16 @@ class L10nZh extends L10n {
   String get phoneDndConnected => '已连接';
 
   @override
-  String get phoneDndDeveloperOptionsStep =>
-      '打开开发者选项：在「关于手机」里连点「版本号」7 次。小米在「我的设备 → 全部参数与信息」里点「OS 版本」，vivo 点「软件版本号」。';
+  String get phoneDndDeveloperOptionsStep => '打开开发者选项：在「关于手机」里连点「版本号」7 次。小米在「我的设备 → 全部参数与信息」里点「OS 版本」，vivo 点「软件版本号」。';
 
   @override
-  String get phoneDndWirelessDebuggingStep =>
-      '在开发者选项里打开「无线调试」，要连着 Wi‑Fi。开发者选项一般在「系统」或「其他设置」里。';
+  String get phoneDndWirelessDebuggingStep => '在开发者选项里打开「无线调试」，要连着 Wi‑Fi。开发者选项一般在「系统」或「其他设置」里。';
 
   @override
   String get phoneDndStartPairingStep => '回到这里点「开始配对」，DSH 会发一条通知。';
 
   @override
-  String get phoneDndGetPairingCodeStep =>
-      '在「无线调试」里点「使用配对码配对设备」，屏幕上会出现 6 位配对码。';
+  String get phoneDndGetPairingCodeStep => '在「无线调试」里点「使用配对码配对设备」，屏幕上会出现 6 位配对码。';
 
   @override
   String get phoneDndEnterPairingCodeStep => '下拉通知栏，把配对码填进 DSH 的通知。配对成功后点「连接」。';
@@ -11140,8 +10666,7 @@ class L10nZh extends L10n {
   String get phoneControlAccessibilityBlocked => '无障碍开关点不动？';
 
   @override
-  String get phoneControlRestrictedAfterAttempt =>
-      '看起来没开成。侧载的 App 要先「允许受限制的设置」';
+  String get phoneControlRestrictedAfterAttempt => '看起来没开成。侧载的 App 要先「允许受限制的设置」';
 
   @override
   String get phoneControlRestrictedHint => '侧载安装的 App 要先「允许受限制的设置」';
@@ -11240,8 +10765,7 @@ class L10nZh extends L10n {
   String get phoneDisclosureNeverTitle => '默认不做';
 
   @override
-  String get phoneDisclosureNeverBody =>
-      '不输密码和验证码，不改系统设置，遇到就交还给你。银行、支付类 App 也不碰。';
+  String get phoneDisclosureNeverBody => '不输密码和验证码，不改系统设置，遇到就交还给你。银行、支付类 App 也不碰。';
 
   @override
   String get phoneDisclosureStopTitle => '你随时能停';
@@ -11289,8 +10813,7 @@ class L10nZh extends L10n {
   String get phoneRestrictedOpenOverlay => '去开悬浮窗';
 
   @override
-  String get phoneRestrictedTryAccessibility =>
-      '先去「无障碍」里点一次 DSH 的开关，看到「受限制的设置」提示后点「确定」。做过这一步，下面的选项才会出现。';
+  String get phoneRestrictedTryAccessibility => '先去「无障碍」里点一次 DSH 的开关，看到「受限制的设置」提示后点「确定」。做过这一步，下面的选项才会出现。';
 
   @override
   String get phoneRestrictedOpenInfoStep => '回到这里，点「打开应用信息」。';
@@ -11302,30 +10825,25 @@ class L10nZh extends L10n {
   String get phoneRestrictedMenuStep => '点右上角的三个点，选「允许受限制的设置」，按提示验证锁屏密码。';
 
   @override
-  String get phoneRestrictedTryOverlay =>
-      '先去「悬浮窗」设置里点一次 DSH Go 的开关，看到「受限制的设置」提示后点「确定」。做过这一步，下面的选项才会出现。';
+  String get phoneRestrictedTryOverlay => '先去「悬浮窗」设置里点一次 DSH Go 的开关，看到「受限制的设置」提示后点「确定」。做过这一步，下面的选项才会出现。';
 
   @override
   String get phoneRestrictedBackOverlay => '回到「悬浮窗」设置，打开 DSH Go。';
 
   @override
-  String get phoneRestrictedHuaweiOverlay =>
-      '华为 HarmonyOS 4 及更早的系统大多没有这一步，直接去「悬浮窗」设置打开 DSH Go。';
+  String get phoneRestrictedHuaweiOverlay => '华为 HarmonyOS 4 及更早的系统大多没有这一步，直接去「悬浮窗」设置打开 DSH Go。';
 
   @override
-  String get phoneRestrictedHuaweiAccessibility =>
-      '华为 HarmonyOS 4 及更早的系统大多没有这一步，直接去「无障碍」打开 DSH。';
+  String get phoneRestrictedHuaweiAccessibility => '华为 HarmonyOS 4 及更早的系统大多没有这一步，直接去「无障碍」打开 DSH。';
 
   @override
-  String get phoneRestrictedVivoNote =>
-      '不同 OriginOS 版本位置可能不同。右上角没有三个点时，把应用信息页往下翻到底找一找。';
+  String get phoneRestrictedVivoNote => '不同 OriginOS 版本位置可能不同。右上角没有三个点时，把应用信息页往下翻到底找一找。';
 
   @override
   String get phoneRestrictedAdvancedStep => '在「高级设置」里找到「允许受限制的设置」，打开它。';
 
   @override
-  String get phoneRestrictedOppoNote =>
-      'ColorOS 有时找不到这个选项。这时用系统自带的「文件管理」找到 DSH 的安装包，点它覆盖安装一次（不用卸载，对话和设置都在），再去开无障碍。';
+  String get phoneRestrictedOppoNote => 'ColorOS 有时找不到这个选项。这时用系统自带的「文件管理」找到 DSH 的安装包，点它覆盖安装一次（不用卸载，对话和设置都在），再去开无障碍。';
 
   @override
   String get phoneRestrictedHuaweiNote => '如果在无障碍里看到「受限制的设置」提示，按「原生 / 其他」的步骤做。';
@@ -11346,8 +10864,7 @@ class L10nZh extends L10n {
   String get phoneRestrictedOpenOverlayFailed => '打不开悬浮窗设置，请到「设置」里搜索「悬浮窗」';
 
   @override
-  String get phoneRestrictedOpenAccessibilityFailed =>
-      '打不开无障碍设置，请到「设置」里搜索「无障碍」';
+  String get phoneRestrictedOpenAccessibilityFailed => '打不开无障碍设置，请到「设置」里搜索「无障碍」';
 
   @override
   String get phoneRestrictedFootnote => '名称因系统而异，找不到就在设置里搜「受限制」；仍打不开时重启手机再试';
@@ -11750,12 +11267,10 @@ class L10nZh extends L10n {
   }
 
   @override
-  String get phoneAppRulesLoosenBody =>
-      '银行、支付类 App 会检测自动操作，可能限制登录甚至冻结账号；DSH 默认不输密码、不付款。';
+  String get phoneAppRulesLoosenBody => '银行、支付类 App 会检测自动操作，可能限制登录甚至冻结账号；DSH 默认不输密码、不付款。';
 
   @override
-  String get phoneAppRulesSkipStepsBody =>
-      '微信这类 App 有风控，曾有手机助手操作后账号被强制下线。改成照常后，只有发消息这类操作还会先问你。';
+  String get phoneAppRulesSkipStepsBody => '微信这类 App 有风控，曾有手机助手操作后账号被强制下线。改成照常后，只有发消息这类操作还会先问你。';
 
   @override
   String get phoneResetDeletesChatsWorkspaces => '对话和工作区';
@@ -11820,8 +11335,7 @@ class L10nZh extends L10n {
   String get phoneDirectEngine => '直接启动本机引擎';
 
   @override
-  String get phoneDirectHint =>
-      '实验功能，默认关闭，下次启动生效。部分手机（例如 Android 16）会拦截直接启动，届时自动改用兼容启动，数据不受影响。';
+  String get phoneDirectHint => '实验功能，默认关闭，下次启动生效。部分手机（例如 Android 16）会拦截直接启动，届时自动改用兼容启动，数据不受影响。';
 
   @override
   String get phoneDirectFailedHint => '这台手机上直接启动没有成功，已改用兼容启动。停止引擎后打开可再试一次。';
@@ -11840,6 +11354,28 @@ class L10nZh extends L10n {
 
   @override
   String get phoneDirectChangeFailed => '未能切换启动方式，请停止本机引擎后重试。';
+
+  @override
+  String get phoneTawcEngine => 'tawcroot 加速启动';
+
+  @override
+  String get phoneTawcHint =>
+      '实验功能，默认关闭，下次启动生效，和「直接启动」二选一。用 tawcroot 代替兼容启动运行本机引擎：启动快约三倍，装包、apt 也更快。启动不成功会自动改回兼容启动。关掉后的第一次启动会先把它留下的硬链接整理成普通文件，可能要多等一会。';
+
+  @override
+  String get phoneTawcFailedHint => '这台手机上 tawcroot 没有启动成功，已改用兼容启动。停止引擎后打开可再试一次。';
+
+  @override
+  String get phoneTawcUnavailable => '这个安装包不含 tawcroot，或系统低于 Android 10。';
+
+  @override
+  String get phoneLaunchTawcroot => 'tawcroot';
+
+  @override
+  String get phoneTawcLaunchFailed => 'tawcroot 未启动成功';
+
+  @override
+  String get phoneTawcUnsupported => '这次的启动参数 tawcroot 还不支持，暂用兼容启动';
 
   @override
   String get phoneActualLaunchMode => '当前运行方式';
@@ -11892,24 +11428,7 @@ class L10nZh extends L10n {
   String get phoneDndConnectPortLabel => '连接端口';
 
   @override
-  String get phoneDndConnectPortHint =>
-      '在系统「无线调试」首页查看「IP 地址和端口」，填写冒号后的端口。请不要使用配对码页面的端口。';
-
-  @override
-  String get phoneIosServiceTitle => 'iOS 自动化服务';
-
-  @override
-  String get phoneIosServiceHint =>
-      '授权后按需启动。任务结束会停止服务，系统的“Automation Running”提示也会结束。';
-
-  @override
-  String get phoneIosSetupHint => '保持 LocalDevVPN 已连接，首次使用时允许 30 分钟操控。';
-
-  @override
-  String get phoneIosReturnHint => '任务完成后回到当前对话，并停止手机操控服务。';
-
-  @override
-  String get phoneIosNeedsSetup => '运行器尚未就绪，请确认本机引擎和开发者环境已配置。';
+  String get phoneDndConnectPortHint => '在系统「无线调试」首页查看「IP 地址和端口」，填写冒号后的端口。请不要使用配对码页面的端口。';
 
   @override
   String get phonePreviewTitle => '实时查看后台屏';
@@ -11941,8 +11460,7 @@ class L10nZh extends L10n {
   String get phoneViewportTitle => '后台视口';
 
   @override
-  String get phoneViewportDescription =>
-      '下次新建后台屏时生效；当前后台屏不变，交还后重建会采用新设置。视口方向不会强制应用旋转。';
+  String get phoneViewportDescription => '下次新建后台屏时生效；当前后台屏不变，交还后重建会采用新设置。视口方向不会强制应用旋转。';
 
   @override
   String get phoneViewportPortrait => '竖屏';
@@ -11988,8 +11506,7 @@ class L10nZh extends L10n {
   String get phoneSelfCheckPartial => '部分自检：仅已观察的项目有结果';
 
   @override
-  String get phoneSelfCheckScope =>
-      '使用已选择并连接的通道和临时展示屏。应用启动、文字输入、截图、OCR及主屏受扰情况均未测试。清理通过不代表展示屏创建成功。';
+  String get phoneSelfCheckScope => '使用已选择并连接的通道和临时展示屏。应用启动、文字输入、截图、OCR及主屏受扰情况均未测试。清理通过不代表展示屏创建成功。';
 
   @override
   String get phoneSelfCheckStart => '开始部分自检';
@@ -12016,8 +11533,7 @@ class L10nZh extends L10n {
   String get phoneSelfCheckSaveFailed => '报告保存失败。';
 
   @override
-  String get phoneSelfCheckReportHint =>
-      '仅在你点击保存时导出。本机报告只含固定结果，不含截图、识别文字、日志、账户数据或运行标识。';
+  String get phoneSelfCheckReportHint => '仅在你点击保存时导出。本机报告只含固定结果，不含截图、识别文字、日志、账户数据或运行标识。';
 
   @override
   String phoneSelfCheckRunState(String state) {
@@ -12196,8 +11712,7 @@ class L10nZh extends L10n {
   String get phoneLocalOcrUnknown => '暂时无法读取本机文字识别设置，请刷新后再试。';
 
   @override
-  String get phoneLocalOcrDisclosure =>
-      '识别在本机进行，截图和文字不会发给 Google；Google 的 SDK 会收集机型、应用版本、耗时等使用统计。';
+  String get phoneLocalOcrDisclosure => '识别在本机进行，截图和文字不会发给 Google；Google 的 SDK 会收集机型、应用版本、耗时等使用统计。';
 
   @override
   String get phoneLocalOcrDetails =>
@@ -12207,17 +11722,12 @@ class L10nZh extends L10n {
   String get phoneBackgroundParallelTitle => '后台任务上限';
 
   @override
-  String phoneBackgroundParallelStatus(
-    int configured,
-    int effective,
-    int held,
-  ) {
+  String phoneBackgroundParallelStatus(int configured, int effective, int held) {
     return '设置上限：$configured · 当前可用上限：$effective · 已占用：$held';
   }
 
   @override
-  String get phoneBackgroundParallelDescription =>
-      '调低上限会保留已有任务。新任务仍需等待应用和主屏资源可用。';
+  String get phoneBackgroundParallelDescription => '调低上限会保留已有任务。新任务仍需等待应用和主屏资源可用。';
 
   @override
   String phoneBackgroundParallelChoice(int limit) {
@@ -12283,8 +11793,7 @@ class L10nZh extends L10n {
   String get phoneSkillReplayQueued => '路线消息已被接收或排队，尚不代表路线执行成功。';
 
   @override
-  String get phoneSkillReplaySendUncertain =>
-      '路线消息未确认发送成功；没有自动重新准备或重放。请核对原对话结果。';
+  String get phoneSkillReplaySendUncertain => '路线消息未确认发送成功；没有自动重新准备或重放。请核对原对话结果。';
 
   @override
   String get phoneTaskResultReady => '任务完成 · 查看结果';
@@ -12299,16 +11808,13 @@ class L10nZh extends L10n {
   String get phoneBackgroundGuideSubtitle => '让确认卡和任务结果及时出现';
 
   @override
-  String get phoneBackgroundGuideBody =>
-      '需要你确认时，会显示 DSH Go 卡片。卡片不可用时会尝试通知或回到 App。请在系统设置中允许手机操控通知和弹出提醒。';
+  String get phoneBackgroundGuideBody => '需要你确认时，会显示 DSH Go 卡片。卡片不可用时会尝试通知或回到 App。请在系统设置中允许手机操控通知和弹出提醒。';
 
   @override
-  String get phoneBackgroundOemHint =>
-      '在 DSH Go 的系统权限页检查「后台弹出界面」（若提供）。允许后可改善自动返回；菜单名称随系统版本变化。';
+  String get phoneBackgroundOemHint => '在 DSH Go 的系统权限页检查「后台弹出界面」（若提供）。允许后可改善自动返回；菜单名称随系统版本变化。';
 
   @override
-  String get phoneBackgroundReturnHint =>
-      '如果任务完成后没有自动返回，可点通知「任务完成 · 查看结果」。系统关闭通知或限制后台弹出时，可能需要手动打开 DSH Go。';
+  String get phoneBackgroundReturnHint => '如果任务完成后没有自动返回，可点通知「任务完成 · 查看结果」。系统关闭通知或限制后台弹出时，可能需要手动打开 DSH Go。';
 
   @override
   String get phoneBackgroundGotIt => '知道了';
@@ -12332,8 +11838,7 @@ class L10nZh extends L10n {
   String get phonePrivilegedSuiDescription => '使用 Sui 模块提供的接口，仅在主动点击时申请授权。';
 
   @override
-  String get phonePrivilegedRootDescription =>
-      '适用于 Magisk、KernelSU 或 APatch；只有主动选择后才首次执行 root 命令。';
+  String get phonePrivilegedRootDescription => '适用于 Magisk、KernelSU 或 APatch；只有主动选择后才首次执行 root 命令。';
 
   @override
   String get phonePrivilegedRootPrepare => '申请 root 授权';
@@ -12391,16 +11896,13 @@ class L10nZh extends L10n {
   }
 
   @override
-  String get phoneKeepRootDescription =>
-      '断开、重开 App 或重启手机后，DSH Go 会自己再向 root 管理器申请；给不给仍由管理器决定。';
+  String get phoneKeepRootDescription => '断开、重开 App 或重启手机后，DSH Go 会自己再向 root 管理器申请；给不给仍由管理器决定。';
 
   @override
-  String get phoneKeepSharedDescription =>
-      '断开、重开 App 或重启手机后，DSH Go 用已有的授权自己连回去，不会替你申请授权。';
+  String get phoneKeepSharedDescription => '断开、重开 App 或重启手机后，DSH Go 用已有的授权自己连回去，不会替你申请授权。';
 
   @override
-  String get phoneKeepAdbDescription =>
-      '断开、重开 App 或重启手机后，DSH Go 用已有的配对在 Wi‑Fi 下自己连回去；有「自动恢复无障碍」的权限时，还会试着打开一次无线调试。';
+  String get phoneKeepAdbDescription => '断开、重开 App 或重启手机后，DSH Go 用已有的配对在 Wi‑Fi 下自己连回去；有「自动恢复无障碍」的权限时，还会试着打开一次无线调试。';
 
   @override
   String get phoneKeepRestoring => '正在重新连接';
@@ -12430,8 +11932,7 @@ class L10nZh extends L10n {
   String get phoneResourceRecoveryRunning => '正在核对原资源记录，完成前不能开始新的手机任务。';
 
   @override
-  String get phoneResourceRecoveryStorage =>
-      '无法读取或保存资源记录。可重试保存或读取；已确认的释放不会重复执行，也不会重放旧操作。';
+  String get phoneResourceRecoveryStorage => '无法读取或保存资源记录。可重试保存或读取；已确认的释放不会重复执行，也不会重放旧操作。';
 
   @override
   String get phoneResourceRecoveryPending =>
@@ -12447,8 +11948,7 @@ class L10nZh extends L10n {
   String get phoneSkillAskAfterSuccess => '任务成功后询问是否存成技能';
 
   @override
-  String get phoneSkillAskAfterSuccessHint =>
-      '默认关闭。此页可见时，新完成的任务会询问一次；也可随时手动选择。';
+  String get phoneSkillAskAfterSuccessHint => '默认关闭。此页可见时，新完成的任务会询问一次；也可随时手动选择。';
 
   @override
   String phoneSkillTask(int taskId, int steps) {
@@ -12471,8 +11971,7 @@ class L10nZh extends L10n {
   String get phoneSkillGoalDone => '目标已完成，查看草稿';
 
   @override
-  String get phoneSkillPrivacyHint =>
-      '草稿只在本机处理。不要填写密码、密钥或验证码。本阶段自由文字会替换成参数，删除和重排步骤会保留；以最终预览为准。';
+  String get phoneSkillPrivacyHint => '草稿只在本机处理。不要填写密码、密钥或验证码。本阶段自由文字会替换成参数，删除和重排步骤会保留；以最终预览为准。';
 
   @override
   String get phoneSkillGoal => '目标';
@@ -12513,8 +12012,7 @@ class L10nZh extends L10n {
   String get phoneSkillWriting => '正在写入技能';
 
   @override
-  String get phoneSkillCannotCancel =>
-      '写入可能已进入提交阶段，无法保证撤回。关闭只关闭此页；已经提交的文件仍会保存。';
+  String get phoneSkillCannotCancel => '写入可能已进入提交阶段，无法保证撤回。关闭只关闭此页；已经提交的文件仍会保存。';
 
   @override
   String get phoneSkillKeepWaiting => '继续查看';
@@ -12559,12 +12057,10 @@ class L10nZh extends L10n {
   String get phoneModeAutoNoteTitle => '这些仍由你来操作';
 
   @override
-  String get phoneModeAutoNote =>
-      '系统设置和权限页面、密码和验证码、DSH Go 自身仍由你来操作；银行、支付类 App 默认不碰，可在设置里调整。';
+  String get phoneModeAutoNote => '系统设置和权限页面、密码和验证码、DSH Go 自身仍由你来操作；银行、支付类 App 默认不碰，可在设置里调整。';
 
   @override
-  String get phoneModeAutoUnlockNote =>
-      '如需让 AI 操作系统设置、密码等，可在 设置 › 手机操控 › 解除限制 中开启。';
+  String get phoneModeAutoUnlockNote => '如需让 AI 操作系统设置、密码等，可在 设置 › 手机操控 › 解除限制 中开启。';
 
   @override
   String get phoneModeConfirmAuto => '开启全程自动';
@@ -12625,11 +12121,7 @@ class L10nZh extends L10n {
 
   @override
   String phoneUnlockCount(int count) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '已开启 $count 项',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '已开启 $count 项');
     return '$_temp0';
   }
 
@@ -12664,8 +12156,7 @@ class L10nZh extends L10n {
   String get phoneUnlockSystemCan3 => '在安全中心和通知栏里点按，包括通知上的按钮';
 
   @override
-  String get phoneUnlockSystemRisk1 =>
-      '网页、消息或文件里的恶意指令可能诱导 AI 关掉保护、给其他应用授权或安装应用';
+  String get phoneUnlockSystemRisk1 => '网页、消息或文件里的恶意指令可能诱导 AI 关掉保护、给其他应用授权或安装应用';
 
   @override
   String get phoneUnlockSystemRisk2 => '改错的网络、账号或安全设置，需要你自己改回来';
@@ -12704,8 +12195,7 @@ class L10nZh extends L10n {
   String get phoneUnlockDisclaimer2 => 'AI 可能被网页、消息或文件中的内容误导。';
 
   @override
-  String get phoneUnlockDisclaimer3 =>
-      '由此造成的账号、资金、数据或设备损失由你自行承担，DSH Go 及其开发者不承担责任。';
+  String get phoneUnlockDisclaimer3 => '由此造成的账号、资金、数据或设备损失由你自行承担，DSH Go 及其开发者不承担责任。';
 
   @override
   String get phoneUnlockDisclaimer4 => '建议只在需要时临时开启，用完关闭。';
@@ -12976,6 +12466,24 @@ class L10nZh extends L10n {
 
   @override
   String get plugInputGestureRequired => '该效果需要用户点按';
+
+  @override
+  String get seamsTitle => 'App 内界面';
+
+  @override
+  String get seamsOverlay => '聊天页浮层';
+
+  @override
+  String get seamsOverlayNote => '常驻聊天区域，内存紧张时自动让位';
+
+  @override
+  String get seamsSidebarPage => '侧栏入口';
+
+  @override
+  String get seamsSettingsPage => '插件设置页';
+
+  @override
+  String get seamsDetailPage => '插件详情扩展';
 
   @override
   String get pluginsOperationHostChanged => '主机已切换，未执行';
@@ -13492,10 +13000,7 @@ class L10nZh extends L10n {
   String get pluginsIncompatible => '与当前 DSH 版本不兼容，未加载';
 
   @override
-  String pluginsRequiresDshVersion(
-    String requiredVersion,
-    String currentVersion,
-  ) {
+  String pluginsRequiresDshVersion(String requiredVersion, String currentVersion) {
     return '需要 DSH $requiredVersion，当前 $currentVersion，未加载';
   }
 
@@ -13773,8 +13278,7 @@ class L10nZh extends L10n {
   String get pluginsNotifications => '通知';
 
   @override
-  String get pluginsNotificationSettingsFailed =>
-      '没能打开系统设置。到「设置 → 应用 → DSH Go → 通知」里开启';
+  String get pluginsNotificationSettingsFailed => '没能打开系统设置。到「设置 → 应用 → DSH Go → 通知」里开启';
 
   @override
   String get pluginsSystemNotificationsOff => '系统通知已关闭';
@@ -14115,16 +13619,13 @@ class L10nZh extends L10n {
       '插件以 DSH 的权限运行：能读写文件、执行命令、读取 API Key 和已授权的手机存储，不受工作区沙箱限制。由第三方提供，DSH 官方未审核。';
 
   @override
-  String get pluginsPermissionLocalTrusted =>
-      '插件以 DSH 的权限运行：能读写文件、执行命令、读取 API Key 和已授权的手机存储，不受工作区沙箱限制。只装你信任的插件。';
+  String get pluginsPermissionLocalTrusted => '插件以 DSH 的权限运行：能读写文件、执行命令、读取 API Key 和已授权的手机存储，不受工作区沙箱限制。只装你信任的插件。';
 
   @override
-  String get pluginsPermissionRemoteThirdParty =>
-      '插件以 DSH 的权限运行：能读写文件、执行命令、读取 API Key，不受工作区沙箱限制。由第三方提供，DSH 官方未审核。';
+  String get pluginsPermissionRemoteThirdParty => '插件以 DSH 的权限运行：能读写文件、执行命令、读取 API Key，不受工作区沙箱限制。由第三方提供，DSH 官方未审核。';
 
   @override
-  String get pluginsPermissionRemoteTrusted =>
-      '插件以 DSH 的权限运行：能读写文件、执行命令、读取 API Key，不受工作区沙箱限制。只装你信任的插件。';
+  String get pluginsPermissionRemoteTrusted => '插件以 DSH 的权限运行：能读写文件、执行命令、读取 API Key，不受工作区沙箱限制。只装你信任的插件。';
 
   @override
   String pluginsSelectedQrCount(int count) {
@@ -14581,8 +14082,7 @@ class L10nZh extends L10n {
   String get plugViewOnePrimary => '一张视图只能有一个主按钮，这个按普通按钮画';
 
   @override
-  String get plugViewBadImageSource =>
-      '图片只收插件资源 asset:<路径>（png、jpg、webp、gif）或 data:image/…';
+  String get plugViewBadImageSource => '图片只收插件资源 asset:<路径>（png、jpg、webp、gif）或 data:image/…';
 
   @override
   String get plugViewBadAspect => 'aspect 应该是 0.25 到 4 之间的数，已忽略';
@@ -14626,12 +14126,7 @@ class L10nZh extends L10n {
   String get plugViewStyleTextOnly => '此样式仅用于 text、metric 和 callout';
 
   @override
-  String plugViewContrastAdjusted(
-    String mode,
-    String before,
-    String after,
-    String minimum,
-  ) {
+  String plugViewContrastAdjusted(String mode, String before, String after, String minimum) {
     return '$mode：$before 已校正为 $after，对比度至少 $minimum:1';
   }
 
@@ -14656,6 +14151,55 @@ class L10nZh extends L10n {
 
   @override
   String get readListFailed => '未更新 · 上次结果';
+
+  @override
+  String get remoteDshMode => '实例管理';
+
+  @override
+  String get remoteManaged => '托管启动';
+
+  @override
+  String get remoteAttachOnly => '只连接';
+
+  @override
+  String get remoteManagedHelp => '自动启动或复用 App 托管的 DSH；不会自动替换存活但无法复用的实例。';
+
+  @override
+  String get remoteAttachOnlyHelp => '只转发到远端 127.0.0.1 的固定端口；不启动、停止或重启 DSH。';
+
+  @override
+  String get remoteDshPort => '远端 DSH 端口';
+
+  @override
+  String get remoteDshToken => 'DSH 登录令牌';
+
+  @override
+  String get remoteDshTokenHelp => '填写既有实例启动链接中的 token，仅保存在这台手机的安全存储中。';
+
+  @override
+  String get remoteAttachWorkingDirectoryHelp => '既有实例不执行目录探测；请填写远端绝对路径，留空使用 DSH 默认目录。';
+
+  @override
+  String get remoteSshCompression => 'SSH 压缩';
+
+  @override
+  String get remoteSshCompressionHelp => '默认开启；与服务器协商认证后压缩，不支持时使用未压缩传输。';
+
+  @override
+  String get remoteRestartManaged => '重启托管 DSH';
+
+  @override
+  String get remoteRestartManagedWarning => '这会停止 App 记录的远端 DSH 并重新启动，可能中断其他客户端和进行中的对话。确认没有其他人在使用后再继续。普通测试连接不会执行此操作。';
+
+  @override
+  String get remoteErrSharedInstance =>
+      '远端托管 DSH 仍在运行，但启动命令不同或缺少有效启动日志。为保护共享实例，未自动重启；请检查配置，改用“只连接”，或在编辑主机中明确选择“重启托管 DSH”。';
+
+  @override
+  String get remoteErrAttachSettings => '请填写有效的远端 DSH 端口和登录令牌';
+
+  @override
+  String get remoteDshAttached => '已连接既有 DSH';
 
   @override
   String get remoteStartupSection => '启动';
@@ -14786,8 +14330,7 @@ class L10nZh extends L10n {
   String get remoteErrDshMissing => '主机上没有 dsh，装好后重试，或在启动命令里填完整路径';
 
   @override
-  String get remoteStartCommandExample =>
-      '启动命令示例：~/.nvm/versions/node/v22.0.0/bin/dsh web';
+  String get remoteStartCommandExample => '启动命令示例：~/.nvm/versions/node/v22.0.0/bin/dsh web';
 
   @override
   String get remoteErrDshStartTimeout => '远端 DSH 启动超时';
@@ -14828,7 +14371,7 @@ class L10nZh extends L10n {
   String get remoteDshStarted => '已在远端启动 DSH';
 
   @override
-  String get remoteErrDshTokenRejected => '远端 DSH 拒绝了登录令牌';
+  String get remoteErrDshTokenRejected => '远端 DSH 拒绝了登录令牌，未自动重启；请检查令牌，或在编辑主机中明确重启托管实例';
 
   @override
   String get remoteErrDshSignIn => '没能登录远端 DSH';
@@ -15429,8 +14972,10 @@ class L10nZh extends L10n {
   String get remoteSelfHostedServer => '自建服务器';
 
   @override
-  String get remoteSelfHostedSignInHelp =>
-      '用邮箱和密码登录自己部署的 liguobao/ds-harness-remote';
+  String get remoteSelfHostedSignInHelp => '填写服务器地址，可用邮箱密码登录，也可先使用此服务器再选择其他登录方式。';
+
+  @override
+  String get remoteUseServer => '使用此服务器';
 
   @override
   String get remoteServerAddress => '服务器地址';
@@ -15598,8 +15143,7 @@ class L10nZh extends L10n {
   }
 
   @override
-  String get remoteDeleteHostBody =>
-      '这台主机的设置和保存在手机上的密码、私钥都会删除。主机上的 DSH 和对话不受影响。';
+  String get remoteDeleteHostBody => '这台主机的设置和保存在手机上的密码、私钥都会删除。主机上的 DSH 和对话不受影响。';
 
   @override
   String remoteErrReadKey(String error) {
@@ -15643,15 +15187,7 @@ class L10nZh extends L10n {
   String get remotePasswordStorageHelp => '只保存在这台手机上，由 Android Keystore 加密';
 
   @override
-  String get remoteKeyStorageHelp =>
-      '只保存在这台手机上，由 Android Keystore 加密。支持 Ed25519、RSA、ECDSA';
-
-  @override
-  String get remotePasswordStorageHelpIos => '只保存在这台手机上，由系统钥匙串加密';
-
-  @override
-  String get remoteKeyStorageHelpIos =>
-      '只保存在这台手机上，由系统钥匙串加密。支持 Ed25519、RSA、ECDSA';
+  String get remoteKeyStorageHelp => '只保存在这台手机上，由 Android Keystore 加密。支持 Ed25519、RSA、ECDSA';
 
   @override
   String get remotePrivateKey => '私钥';
@@ -15954,31 +15490,19 @@ class L10nZh extends L10n {
   }
 
   @override
-  String remoteHostKeyMismatchDetail(
-    String saved,
-    String received,
-    String type,
-  ) {
+  String remoteHostKeyMismatchDetail(String saved, String received, String type) {
     return '确认主机重装或更换后，可在主机设置中重置指纹。\n已记住：$saved\n这次收到：$received（$type）';
   }
 
   @override
   String remoteForumCompactReplies(int count, String label) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$label 回复',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$label 回复');
     return '$_temp0';
   }
 
   @override
   String remoteForumCompactViews(int count, String label) {
-    String _temp0 = intl.Intl.pluralLogic(
-      count,
-      locale: localeName,
-      other: '$label 浏览',
-    );
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '$label 浏览');
     return '$_temp0';
   }
 
@@ -16045,8 +15569,7 @@ class L10nZh extends L10n {
   String get remoteNetworkDetails => '网络详情';
 
   @override
-  String get remoteNetworkAutomatic =>
-      '自动依次尝试 LAN → P2P → TURN → Relay，连接全程端到端加密。';
+  String get remoteNetworkAutomatic => '自动依次尝试 LAN → P2P → TURN → Relay，连接全程端到端加密。';
 
   @override
   String get remoteNetworkCurrentPath => '当前路径';
@@ -16087,8 +15610,7 @@ class L10nZh extends L10n {
   String get remoteNetworkFallbackUnknown => '直连未能建立，已自动使用可用路径';
 
   @override
-  String get remoteNetworkFallbackWebrtcUnavailable =>
-      '设备暂不支持 WebRTC，已使用 Relay 中继';
+  String get remoteNetworkFallbackWebrtcUnavailable => '设备暂不支持 WebRTC，已使用 Relay 中继';
 
   @override
   String get remoteNetworkFallbackDirectFailed => 'LAN / P2P 直连未成功，已自动尝试后续路径';
@@ -16133,23 +15655,19 @@ class L10nZh extends L10n {
   String get remoteCompactHistory => '精简历史';
 
   @override
-  String get remoteErrHistoryModeChanged =>
-      '主机已不支持精简历史，请切换到其他主机后再连回来，或重启 App，重新加载历史';
+  String get remoteErrHistoryModeChanged => '主机已不支持精简历史，请切换到其他主机后再连回来，或重启 App，重新加载历史';
 
   @override
-  String get remoteCompactHistoryHint =>
-      '支持的 DSH Remote 主机会精简历史工具详情，实时回复和审批不变。切换主机或重启 App 后生效；旧主机仍传输完整历史。';
+  String get remoteCompactHistoryHint => '支持的 DSH Remote 主机会精简历史工具详情，实时回复和审批不变。切换主机或重启 App 后生效；旧主机仍传输完整历史。';
 
   @override
-  String get searchKwRemoteCompactHistory =>
-      '精简 简洁 历史 工具 传输 流量 远程 compact slim lite';
+  String get searchKwRemoteCompactHistory => '精简 简洁 历史 工具 传输 流量 远程 compact slim lite';
 
   @override
   String get remotePairEntry => '扫码配对电脑';
 
   @override
-  String get remotePairEntryHint =>
-      '扫电脑上 Remote 插件显示的二维码，不用注册 Remote 账号（需要先登录 DeepSeek）';
+  String get remotePairEntryHint => '扫电脑上 Remote 插件显示的二维码，不用注册 Remote 账号（需要先登录 DeepSeek）';
 
   @override
   String get remotePairAddComputer => '扫码添加电脑';
@@ -16164,8 +15682,7 @@ class L10nZh extends L10n {
   String get remotePairNeedsDeepSeek => '先登录 DeepSeek 账号';
 
   @override
-  String get remotePairNeedsDeepSeekBody =>
-      '扫码配对要先在 DSH Go 里登录 DeepSeek 账号。配对时只附带账号 ID 用来标记这台手机，不传密码、Cookie 或 Token。';
+  String get remotePairNeedsDeepSeekBody => '扫码配对要先在 DSH Go 里登录 DeepSeek 账号。配对时只附带账号 ID 用来标记这台手机，不传密码、Cookie 或 Token。';
 
   @override
   String get remotePairScanHint => '对准电脑上 Remote 插件显示的配对二维码';
@@ -16281,8 +15798,7 @@ class L10nZh extends L10n {
   String get remotePairErrCancelled => '配对已取消';
 
   @override
-  String get remotePairErrAccountConflict =>
-      '这台手机已经登录了另一个 Remote 账号，和这台电脑的账号不一致。原来的登录保持不变；要换绑请先在 Remote 里退出登录';
+  String get remotePairErrAccountConflict => '这台手机已经登录了另一个 Remote 账号，和这台电脑的账号不一致。原来的登录保持不变；要换绑请先在 Remote 里退出登录';
 
   @override
   String get remotePairErrIdentity => '配对信息和这台电脑或这台手机对不上，已经停止。请在电脑上重新生成二维码';
@@ -16359,8 +15875,7 @@ class L10nZh extends L10n {
   String get riskPetOverlayTitle => '显示在其他应用上层？';
 
   @override
-  String get riskPetOverlayBody =>
-      '要在系统设置里为 DSH Go 打开「显示在其他应用上层」，宠物才能出现在别的 App 上。';
+  String get riskPetOverlayBody => '要在系统设置里为 DSH Go 打开「显示在其他应用上层」，宠物才能出现在别的 App 上。';
 
   @override
   String get riskPetOverlayAction => '去设置';
@@ -16415,24 +15930,19 @@ class L10nZh extends L10n {
   String get askAiQuestionRemote => '怎么连接自己的电脑或服务器？和用本机有什么不同？';
 
   @override
-  String get phoneRuntimeUpgradeBase =>
-      '新引擎与现有 Linux 环境不能确认兼容，更新已停止。原环境和已装工具没有删除。请先完整备份，再联系维护者迁移；不要直接重置或卸载 App。';
+  String get phoneRuntimeUpgradeBase => '新引擎与现有 Linux 环境不能确认兼容，更新已停止。原环境和已装工具没有删除。请先完整备份，再联系维护者迁移；不要直接重置或卸载 App。';
 
   @override
-  String get phoneRuntimeUpgradeManifest =>
-      '无法安全识别运行时更新清单，更新已停止，原环境保留。请核对安装包并联系维护者，不要直接重置。';
+  String get phoneRuntimeUpgradeManifest => '无法安全识别运行时更新清单，更新已停止，原环境保留。请核对安装包并联系维护者，不要直接重置。';
 
   @override
-  String get phoneRuntimeUpgradeInterrupted =>
-      '运行时升级尚未完成，数据与恢复现场已保留。请重试安装；仍失败时导出诊断并联系维护者，不要重置或删除恢复目录。';
+  String get phoneRuntimeUpgradeInterrupted => '运行时升级尚未完成，数据与恢复现场已保留。请重试安装；仍失败时导出诊断并联系维护者，不要重置或删除恢复目录。';
 
   @override
-  String get phoneRuntimeUpgradeSymlink =>
-      '现有环境的系统路径已被自定义链接替换，无法安全更新。原环境保留，请先备份并联系维护者处理。';
+  String get phoneRuntimeUpgradeSymlink => '现有环境的系统路径已被自定义链接替换，无法安全更新。原环境保留，请先备份并联系维护者处理。';
 
   @override
-  String get phoneRuntimeUpgradeRunning =>
-      '引擎或遗留进程尚未确认停止，更新未开始。请先停止本机引擎，等待清理完成后重试；不要重置环境。';
+  String get phoneRuntimeUpgradeRunning => '引擎或遗留进程尚未确认停止，更新未开始。请先停止本机引擎，等待清理完成后重试；不要重置环境。';
 
   @override
   String get schemaDocumentationTitle => '字段说明';
@@ -16511,8 +16021,7 @@ class L10nZh extends L10n {
   String get searchKwBackground => '后台保活,保活,后台,电池优化,自启动,被杀,杀后台,省电';
 
   @override
-  String get searchKwSystemAccess =>
-      '权限一览,授权,悬浮窗,无障碍,后台弹出界面,麦克风,文件访问,通知权限,受限制的设置,补开权限';
+  String get searchKwSystemAccess => '权限一览,授权,悬浮窗,无障碍,后台弹出界面,麦克风,文件访问,通知权限,受限制的设置,补开权限';
 
   @override
   String get searchKwDiagnostics => '日志,排障,诊断包,问题反馈,报错';
@@ -16639,6 +16148,12 @@ class L10nZh extends L10n {
 
   @override
   String get searchKwPetDisplayWhen => '宠物显示,显示时机';
+
+  @override
+  String get searchKwPetOverlayShows => '悬浮伙伴,小屋里的她,像素宠物,Live2D';
+
+  @override
+  String get searchKwPetOverlayFraming => '取景,全身,半身';
 
   @override
   String get searchKwBlur => '模糊,毛玻璃,玻璃';
@@ -16805,12 +16320,10 @@ class L10nZh extends L10n {
   String get selfUpdateAdb => '本机 ADB';
 
   @override
-  String get selfUpdateSecurityNote =>
-      '各路线仍受 APK 签名、Android 与厂商安全策略约束，不保证跳过扫描。不支持 root，也不会在失败后自动切换路线。';
+  String get selfUpdateSecurityNote => '各路线仍受 APK 签名、Android 与厂商安全策略约束，不保证跳过扫描。不支持 root，也不会在失败后自动切换路线。';
 
   @override
-  String get selfUpdateNativeConfirm =>
-      '只安装已校验的本应用更新；稍后仍需原生安装确认。授权 Shizuku 不等于同意安装，不需要开启手机操控或 AI Shell。';
+  String get selfUpdateNativeConfirm => '只安装已校验的本应用更新；稍后仍需原生安装确认。授权 Shizuku 不等于同意安装，不需要开启手机操控或 AI Shell。';
 
   @override
   String get selfUpdateAuthorize => '申请更新用 Shizuku 授权';
@@ -16830,8 +16343,7 @@ class L10nZh extends L10n {
   String get selfUpdatePermissionRequired => '请先安装、启动并授权 Shizuku';
 
   @override
-  String get selfUpdateUnsupportedIdentity =>
-      '仅支持 shell UID 2000；root 与其他身份不受支持';
+  String get selfUpdateUnsupportedIdentity => '仅支持 shell UID 2000；root 与其他身份不受支持';
 
   @override
   String get selfUpdateAdbHint =>
@@ -16850,15 +16362,13 @@ class L10nZh extends L10n {
   String get selfUpdatePendingTitle => '正在核实安装结果';
 
   @override
-  String get selfUpdatePendingMessage =>
-      '安装请求可能仍在处理。不会自动重试或切换路线；请查看系统提示，再读取实际安装状态。';
+  String get selfUpdatePendingMessage => '安装请求可能仍在处理。不会自动重试或切换路线；请查看系统提示，再读取实际安装状态。';
 
   @override
   String get selfUpdateUnknownTitle => '安装结果未知';
 
   @override
-  String get selfUpdateUnknownMessage =>
-      '超时、失联或进程退出不能证明失败。不会自动重试或切换路线；请先读取实际安装状态。';
+  String get selfUpdateUnknownMessage => '超时、失联或进程退出不能证明失败。不会自动重试或切换路线；请先读取实际安装状态。';
 
   @override
   String get selfUpdateReadResult => '读取实际安装状态';
@@ -16886,8 +16396,7 @@ class L10nZh extends L10n {
   String get selfUpdateEndWaiting => '结束本次等待';
 
   @override
-  String get selfUpdateEndWaitingNote =>
-      '只有确认系统已不在安装时才结束等待。清除本次记录不等于取消系统安装；不会自动重试或切换路线，仍需再次原生确认。';
+  String get selfUpdateEndWaitingNote => '只有确认系统已不在安装时才结束等待。清除本次记录不等于取消系统安装；不会自动重试或切换路线，仍需再次原生确认。';
 
   @override
   String get shellDeletePermanently => '永久删除';
@@ -16916,7 +16425,7 @@ class L10nZh extends L10n {
 
   @override
   String get shellDeleteWarning =>
-      '将从此主机永久删除所选对话记录，无法撤销，与归档不同。\n\n工作目录、生成的文件、分叉对话、共享附件和已发布的云端分享都会保留。云端分享需另行删除。主机会拒绝删除仍有任务或关联工作的对话。';
+      '将从此主机永久删除所选对话记录，无法撤销，与归档不同。\n\n工作目录、生成的文件、分叉对话、共享附件和已发布的云端分享都会保留。云端分享需另行删除。子代理对话会随所选对话一起删除。运行中或有定时任务的对话会被主机拒绝。';
 
   @override
   String get shellDeleteOwnerChanged => '主机或连接已变化。请取消后重新发起删除，原确认不再有效。';
@@ -16938,7 +16447,7 @@ class L10nZh extends L10n {
   String get shellDeleteRunning => '请先停止运行中的工作；主机还会检查活动任务和定时任务。';
 
   @override
-  String get shellDeleteRelated => '此对话有关联的子代理工作，主机为保护它们拒绝删除。';
+  String get shellDeleteRelated => '此对话仍有关联的定时任务，主机为保护它们拒绝删除。';
 
   @override
   String get shellDeleteWriterHeld => '其他进程正在使用此对话，请先在该进程中关闭后重试。';
@@ -17906,8 +17415,7 @@ class L10nZh extends L10n {
   }
 
   @override
-  String get starPromptBody =>
-      '这是一个免费开源的项目，如果它让你的移动端体验更好了一点，拜托点个 Star 支持一下，这对本鱼是很大的鼓励！';
+  String get starPromptBody => '这是一个免费开源的项目，如果它让你的移动端体验更好了一点，拜托点个 Star 支持一下，这对本鱼是很大的鼓励！';
 
   @override
   String get starPromptPlea => '拜托你啦~ 这真的很重要！！';
@@ -17923,6 +17431,18 @@ class L10nZh extends L10n {
 
   @override
   String get starSettingsTitle => '给 DSH Go 点个 star';
+
+  @override
+  String get hubStartPage => '起始页';
+
+  @override
+  String get hubChatSuggestions => '聊天建议';
+
+  @override
+  String get hubChatSuggestionsHint => '显示起始页的聊天建议';
+
+  @override
+  String get searchKwChatSuggestions => '起始页,空白页,新对话,聊天建议,建议卡片';
 
   @override
   String get phoneStartupFailureStopping => '启动失败，正在停止';
@@ -18281,15 +17801,13 @@ class L10nZh extends L10n {
   String get stateChatStopSteered => '没能停下本轮，已作为插话发送';
 
   @override
-  String get stateChatTextOnlyModel =>
-      '当前模型未声明支持图片，已按文件发送。可换模型，或把自定义模型的输入类型设为「文本和图片」';
+  String get stateChatTextOnlyModel => '当前模型未声明支持图片，已按文件发送。可换模型，或把自定义模型的输入类型设为「文本和图片」';
 
   @override
   String get stateAttachmentUploadFailed => '附件上传失败';
 
   @override
-  String get stateChatImageModelRequired =>
-      '当前模型未声明支持图片。请换模型，或把自定义模型的输入类型设为「文本和图片」再发';
+  String get stateChatImageModelRequired => '当前模型未声明支持图片。请换模型，或把自定义模型的输入类型设为「文本和图片」再发';
 
   @override
   String get stateSendFailed => '发送失败';
@@ -18446,6 +17964,9 @@ class L10nZh extends L10n {
 
   @override
   String get stateChatMissing => '这个对话已经不在了';
+
+  @override
+  String get stateChatFormatUnsupported => '当前引擎无法读取此对话的日志格式，请导出诊断包排查';
 
   @override
   String get stateEngineUnsupported => '当前引擎版本不支持';
@@ -18862,8 +18383,7 @@ class L10nZh extends L10n {
   String get stateTerminalStartFailed => '没能启动终端';
 
   @override
-  String get stateTerminalDisabledOnHost =>
-      '这台电脑关掉了远程终端。在电脑上打开 Remote 设置里的「终端」，再回来重试';
+  String get stateTerminalDisabledOnHost => '这台电脑关掉了远程终端。在电脑上打开 Remote 设置里的「终端」，再回来重试';
 
   @override
   String get stateTileDuotone => '扁平双色';
@@ -19086,11 +18606,7 @@ class L10nZh extends L10n {
   }
 
   @override
-  String statePluginRegistryProgress(
-    String registry,
-    int attempt,
-    int attempts,
-  ) {
+  String statePluginRegistryProgress(String registry, int attempt, int attempts) {
     return '换用$registry下载（第 $attempt/$attempts 个源）';
   }
 
@@ -19175,6 +18691,2401 @@ class L10nZh extends L10n {
 
   @override
   String get appSlogan => '随时随刻，想go就Go！';
+
+  @override
+  String get tavernTitle => '酒馆';
+
+  @override
+  String get tavernImport => '导入';
+
+  @override
+  String get tavernEmptyTitle => '还没有角色';
+
+  @override
+  String get tavernEmptyMessage => '导入一张角色卡：PNG、JSON 或 CHARX';
+
+  @override
+  String get tavernContinue => '继续';
+
+  @override
+  String get tavernCharacters => '角色';
+
+  @override
+  String tavernImported(String name) {
+    return '已导入「$name」';
+  }
+
+  @override
+  String get tavernImportLorebook => '这是一本世界书，不是角色卡';
+
+  @override
+  String get tavernImportFailed => '这张卡读不出来';
+
+  @override
+  String get tavernCharacterGone => '这个角色已经不在了';
+
+  @override
+  String get tavernDeleteCharacter => '删除角色';
+
+  @override
+  String tavernDeleteCharacterTitle(String name) {
+    return '删除「$name」？';
+  }
+
+  @override
+  String get tavernDeleteCharacterMessage => '它的对话也会一起删掉。';
+
+  @override
+  String get tavernGreeting => '开场白';
+
+  @override
+  String tavernGreetingOf(int index, int count) {
+    return '开场白 $index/$count';
+  }
+
+  @override
+  String get tavernStart => '开始';
+
+  @override
+  String get tavernContinueLast => '继续上次';
+
+  @override
+  String get tavernStartNew => '用这个开场白开始新对话';
+
+  @override
+  String get tavernChats => '对话';
+
+  @override
+  String tavernMessageCount(int count) {
+    return '$count 条消息';
+  }
+
+  @override
+  String get tavernCreatorNotes => '作者说明';
+
+  @override
+  String get tavernDefinition => '设定';
+
+  @override
+  String tavernComposerHint(String name) {
+    return '对$name说…';
+  }
+
+  @override
+  String get tavernReplying => '正在回复…';
+
+  @override
+  String get tavernReady => '就绪';
+
+  @override
+  String get tavernPreviewStatus => '预览 · 回复是示例，还没接上模型';
+
+  @override
+  String get tavernRegenerate => '重新生成';
+
+  @override
+  String get tavernContinueReply => '接着写';
+
+  @override
+  String get tavernDeleteFrom => '删除这条及以后';
+
+  @override
+  String get tavernPrevious => '上一个回答';
+
+  @override
+  String get tavernNext => '下一个回答';
+
+  @override
+  String get tavernErrorNoKey => '先在设置里填 DeepSeek API Key';
+
+  @override
+  String get tavernKeyMissing => '还没填 DeepSeek API Key，填好就能开始。';
+
+  @override
+  String get tavernKeyMissingAction => '去填写';
+
+  @override
+  String get tavernErrorBadKey => 'API Key 不对，去设置里检查一下';
+
+  @override
+  String get tavernErrorBusy => '模型现在有点忙，稍后再试';
+
+  @override
+  String get tavernErrorNetwork => '连不上，检查网络后重试';
+
+  @override
+  String get tavernErrorTooLong => '对话太长了，超出了模型的上下文';
+
+  @override
+  String get tavernCutShort => '回复写到回复上限，在这里断开了。可以接着写，或在酒馆设置 › 生成里把回复上限调高。';
+
+  @override
+  String get tavernFiltered => '这条回复被模型的内容过滤拦下了一部分。';
+
+  @override
+  String get tavernErrorBalance => 'DeepSeek 账户余额不足，充值后再试';
+
+  @override
+  String get tavernErrorParameters => '模型不接受这次请求的参数';
+
+  @override
+  String tavernErrorParametersDetail(String detail) {
+    return '模型不接受这次请求的参数：$detail';
+  }
+
+  @override
+  String tavernErrorDetail(String detail) {
+    return '出错了：$detail';
+  }
+
+  @override
+  String get tavernSettings => '酒馆设置';
+
+  @override
+  String get tavernSettingsModel => '模型';
+
+  @override
+  String get tavernModelFlash => 'Flash';
+
+  @override
+  String get tavernModelPro => 'V4 Pro';
+
+  @override
+  String get tavernThinking => '思考';
+
+  @override
+  String get tavernThinkingSubtitle => '回复前先想一想';
+
+  @override
+  String get tavernApiKey => 'DeepSeek API Key';
+
+  @override
+  String get tavernApiKeySet => '已填';
+
+  @override
+  String get tavernApiKeyMissing => '未填';
+
+  @override
+  String get tavernDeleteChat => '删除对话';
+
+  @override
+  String get tavernDeleteChatTitle => '删除这段对话？';
+
+  @override
+  String get tavernDeleteChatMessage => '删除后就找不回来了。';
+
+  @override
+  String tavernDeleteFromTitle(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '删除这 $count 条消息？', one: '删除这条消息？');
+    return '$_temp0';
+  }
+
+  @override
+  String get tavernDeleteFromMessage => '从这条到最新一条，连同它们的备选回复和分支。删除后就找不回来了。';
+
+  @override
+  String get tavernSwitchedBranch => '切到了另一条分支';
+
+  @override
+  String get tavernUndo => '撤销';
+
+  @override
+  String get tavernSettingsDisplay => '显示';
+
+  @override
+  String get tavernPresets => '预设';
+
+  @override
+  String get tavernPresetImport => '导入预设';
+
+  @override
+  String get tavernPresetStDefault => 'SillyTavern 默认预设';
+
+  @override
+  String get tavernPresetStDefaultNote => '没选预设时用它';
+
+  @override
+  String get tavernPresetDefault => '默认';
+
+  @override
+  String get tavernPresetSetDefault => '设为默认';
+
+  @override
+  String get tavernPresetUnsetDefault => '不再作为默认';
+
+  @override
+  String get tavernPresetExport => '导出预设';
+
+  @override
+  String get tavernPresetDelete => '删除预设';
+
+  @override
+  String tavernPresetDeleteTitle(String name) {
+    return '删除预设「$name」？';
+  }
+
+  @override
+  String get tavernPresetDeleteMessage => '用它的对话会改用默认预设。删除后就找不回来了。';
+
+  @override
+  String tavernPresetImported(String name) {
+    return '已导入「$name」';
+  }
+
+  @override
+  String tavernPresetImportedWithIssues(String name, int count) {
+    return '已导入「$name」，有 $count 处提示';
+  }
+
+  @override
+  String tavernPresetImportFailed(String reason) {
+    return '没能导入：$reason';
+  }
+
+  @override
+  String get tavernPresetNotText => '这个文件不是文本';
+
+  @override
+  String get tavernPresetsEmpty => '还没有预设';
+
+  @override
+  String get tavernPresetsEmptyMessage => 'SillyTavern 导出的预设 JSON 和 dsh-preset-enhance 的分享包都能导入。';
+
+  @override
+  String get tavernPresetEnvelope => '分享包';
+
+  @override
+  String tavernPresetCount(int count) {
+    return '$count 个';
+  }
+
+  @override
+  String get tavernRegex => '正则';
+
+  @override
+  String get tavernRegexImport => '导入正则';
+
+  @override
+  String get tavernRegexOn => '开';
+
+  @override
+  String get tavernRegexOff => '关';
+
+  @override
+  String get tavernRegexEnable => '启用';
+
+  @override
+  String get tavernRegexDisable => '停用';
+
+  @override
+  String get tavernRegexExport => '导出正则';
+
+  @override
+  String get tavernRegexDelete => '删除正则';
+
+  @override
+  String tavernRegexDeleteTitle(String name) {
+    return '删除正则「$name」？';
+  }
+
+  @override
+  String tavernRegexImported(int count) {
+    return '导入了 $count 条正则';
+  }
+
+  @override
+  String get tavernRegexIncompatible => '这里运行不了，已跳过';
+
+  @override
+  String get tavernRegexEmpty => '还没有全局正则';
+
+  @override
+  String get tavernRegexEmptyMessage => 'SillyTavern 导出的正则 JSON（一条或一组）都能导入。全局正则对所有对话生效；卡和预设自带的正则跟着它们走。';
+
+  @override
+  String get tavernRegexUnnamed => '未命名';
+
+  @override
+  String tavernRegexCount(int count) {
+    return '$count 条';
+  }
+
+  @override
+  String get tavernLorebooks => '世界书';
+
+  @override
+  String get tavernLorebookImport => '导入世界书';
+
+  @override
+  String get tavernLorebookGlobal => '全局';
+
+  @override
+  String get tavernLorebookBindGlobal => '对所有对话生效';
+
+  @override
+  String get tavernLorebookUnbindGlobal => '不再对所有对话生效';
+
+  @override
+  String get tavernLorebookExport => '导出世界书';
+
+  @override
+  String get tavernLorebookDelete => '删除世界书';
+
+  @override
+  String tavernLorebookDeleteTitle(String name) {
+    return '删除世界书「$name」？';
+  }
+
+  @override
+  String get tavernLorebookDeleteMessage => '绑定它的地方会跳过它。删除后就找不回来了。';
+
+  @override
+  String tavernLorebookImported(String name, int count) {
+    return '已导入「$name」，$count 条';
+  }
+
+  @override
+  String get tavernLorebooksEmpty => '还没有独立世界书';
+
+  @override
+  String get tavernLorebooksEmptyMessage => 'SillyTavern 导出的世界书 JSON 都能导入。设为全局后对所有对话生效；卡自带的世界书跟着卡走。';
+
+  @override
+  String tavernLorebookCount(int count) {
+    return '$count 本';
+  }
+
+  @override
+  String get tavernPresetEdit => '编辑预设';
+
+  @override
+  String get tavernPresetParams => '参数';
+
+  @override
+  String get tavernPresetPrompts => '提示词（按发送顺序）';
+
+  @override
+  String get tavernPresetMarker => '占位';
+
+  @override
+  String get tavernPresetPromptsEmpty => '这个预设没写提示词顺序，发送时用 SillyTavern 的默认顺序。';
+
+  @override
+  String get tavernReport => '导入体检';
+
+  @override
+  String get tavernVerdictUsable => '能用';
+
+  @override
+  String get tavernVerdictPartial => '部分能用';
+
+  @override
+  String get tavernVerdictPreserve => '只保留，不执行';
+
+  @override
+  String tavernReportChecked(String time) {
+    return '检查于 $time';
+  }
+
+  @override
+  String get tavernReportStale => '资料改过了，这份体检是旧的';
+
+  @override
+  String get tavernReportRecheck => '重新检查';
+
+  @override
+  String get tavernReportNone => '还没有体检';
+
+  @override
+  String get tavernReportNoneMessage => '这份资料是加体检之前导入的，检查一下就有了。';
+
+  @override
+  String get tavernReportCheckNow => '检查一下';
+
+  @override
+  String get tavernReportRender0 => '建议显示方式：原生';
+
+  @override
+  String get tavernReportRender1 => '建议显示方式：单条消息里的网页';
+
+  @override
+  String get tavernReportRender2 => '建议显示方式：整页画布';
+
+  @override
+  String get tavernReportCounts => '里面有';
+
+  @override
+  String get tavernReportFindings => '没执行或要留意的';
+
+  @override
+  String get tavernReportNoFindings => '没有要留意的';
+
+  @override
+  String get tavernPresetForChat => '这段对话用的预设';
+
+  @override
+  String get tavernPresetFollow => '跟随默认';
+
+  @override
+  String tavernPresetFollowDefault(String name) {
+    return '跟随默认（$name）';
+  }
+
+  @override
+  String get tavernPresetPickerEmpty => '在 资源库 › 预设 里导入以后，就能给这段对话换别的。';
+
+  @override
+  String get tavernSectionShelf => '书架';
+
+  @override
+  String get tavernSectionChats => '对话';
+
+  @override
+  String get tavernSectionLibrary => '资源库';
+
+  @override
+  String get tavernSectionMe => '我的';
+
+  @override
+  String get tavernNoChats => '还没有对话';
+
+  @override
+  String get tavernNoChatsMessage => '在书架里点开一个角色，开始第一段对话。';
+
+  @override
+  String get tavernSettingsGeneration => '生成';
+
+  @override
+  String get tavernMaxContext => '上下文上限';
+
+  @override
+  String get tavernMaxReply => '回复上限';
+
+  @override
+  String get tavernTemperature => '温度';
+
+  @override
+  String get tavernGenerationNote => '上下文越长，角色记得越多，每回合也越贵；数字是 token。这里改的是默认预设，自带预设的对话以它自己的为准。';
+
+  @override
+  String get tavernLayout => '排版';
+
+  @override
+  String get tavernLayoutBubble => '气泡';
+
+  @override
+  String get tavernLayoutNovel => '小说';
+
+  @override
+  String get tavernYou => '你';
+
+  @override
+  String get tavernSearchHint => '搜索角色、作者、标签';
+
+  @override
+  String get tavernAllTags => '全部';
+
+  @override
+  String get tavernNoMatch => '没有符合的角色';
+
+  @override
+  String get tavernLayoutVisualNovel => '视觉小说';
+
+  @override
+  String get tavernCharacterDetails => '角色详情';
+
+  @override
+  String get tavernChatLayout => '这段对话的排版';
+
+  @override
+  String get tavernFollowSettings => '跟随酒馆设置';
+
+  @override
+  String get tavernLog => '记录';
+
+  @override
+  String get tavernEditCharacter => '编辑角色';
+
+  @override
+  String get tavernNameNeeded => '名字不能空着';
+
+  @override
+  String get tavernFieldsBasics => '基本';
+
+  @override
+  String get tavernFieldNickname => '昵称';
+
+  @override
+  String get tavernFieldNicknameHelp => '填了的话，对话里用它称呼角色';
+
+  @override
+  String get tavernFieldTags => '标签';
+
+  @override
+  String get tavernFieldTagsHelp => '用逗号隔开';
+
+  @override
+  String get tavernFieldCreator => '作者';
+
+  @override
+  String get tavernFieldVersion => '版本';
+
+  @override
+  String get tavernFieldDescription => '描述';
+
+  @override
+  String get tavernFieldPersonality => '性格';
+
+  @override
+  String get tavernFieldScenario => '场景';
+
+  @override
+  String tavernGreetingNumber(int n) {
+    return '开场白 $n';
+  }
+
+  @override
+  String get tavernFieldGreetingsNote => '新对话可以从任意一条开场白开始。';
+
+  @override
+  String get tavernAddGreeting => '加一条开场白';
+
+  @override
+  String get tavernMoreFields => '更多字段';
+
+  @override
+  String get tavernMoreFieldsSubtitle => '示例对话、系统提示、历史后指令';
+
+  @override
+  String get tavernFieldExamples => '示例对话';
+
+  @override
+  String get tavernFieldExamplesHelp => '每段示例用一行 <START> 开头';
+
+  @override
+  String get tavernFieldPrompts => '提示词';
+
+  @override
+  String get tavernFieldPromptsNote => '填了就替换预设里对应的那一段；留空用预设的。';
+
+  @override
+  String get tavernFieldSystemPrompt => '系统提示';
+
+  @override
+  String get tavernFieldPostHistory => '历史后指令';
+
+  @override
+  String get tavernFieldNotesNote => '写给看卡的人，不发给模型。';
+
+  @override
+  String tavernEditKeeps(int count) {
+    return '卡里还有 $count 项这里改不了的内容（世界书、扩展等），保存时原样保留；已有的对话也不会变。';
+  }
+
+  @override
+  String get tavernEditKeepsChats => '保存后，已有的对话不会变。';
+
+  @override
+  String get tavernPersonas => '人设';
+
+  @override
+  String get tavernPersona => '人设';
+
+  @override
+  String get tavernPersonaNew => '新建人设';
+
+  @override
+  String get tavernPersonasEmpty => '还没有人设';
+
+  @override
+  String get tavernPersonasEmptyMessage => '人设是你在对话里扮演的人：一个名字和一段介绍，角色就知道你是谁。';
+
+  @override
+  String get tavernPersonasNote => '长按设为默认或删除。没有单独选人设的对话用默认的。';
+
+  @override
+  String get tavernPersonaUnsetDefault => '不再作为默认';
+
+  @override
+  String get tavernPersonaSetDefault => '设为默认人设';
+
+  @override
+  String tavernPersonaDeleteTitle(String name) {
+    return '删除「$name」？';
+  }
+
+  @override
+  String get tavernPersonaDeleteMessage => '用它的对话会改用默认人设，已经写下的内容不变。';
+
+  @override
+  String get tavernPersonaEdit => '编辑人设';
+
+  @override
+  String get tavernPersonaPickAvatar => '换头像';
+
+  @override
+  String get tavernPersonaRemoveAvatar => '去掉头像';
+
+  @override
+  String get tavernPersonaAvatarFailed => '没能用上这张图片';
+
+  @override
+  String get tavernPersonaNameHint => '角色怎么称呼你';
+
+  @override
+  String get tavernPersonaDescriptionHelp => '模型会读到这段：你是谁、什么样子、和角色是什么关系。';
+
+  @override
+  String get tavernPersonaDescriptionHint => '比如：镇上新来的医生，话不多，总拎着一个旧皮箱。';
+
+  @override
+  String get tavernPersonaDefaultSubtitle => '新对话和没有单独选人设的对话都用它';
+
+  @override
+  String get tavernPersonaDelete => '删除人设';
+
+  @override
+  String get tavernPersonaNone => '没有人设';
+
+  @override
+  String tavernPersonaAs(String name) {
+    return '以「$name」的身份';
+  }
+
+  @override
+  String get tavernPersonaForChat => '这段对话里你是';
+
+  @override
+  String get tavernPersonaFollowDefault => '跟随默认';
+
+  @override
+  String get tavernPersonasManage => '管理人设';
+
+  @override
+  String get tavernSettingsYou => '你';
+
+  @override
+  String get tavernDefaultPersona => '默认人设';
+
+  @override
+  String get tavernPersonaNotSet => '未设置';
+
+  @override
+  String get tavernFieldName => '名字';
+
+  @override
+  String get tavernOpenFailed => '酒馆没能打开';
+
+  @override
+  String get tavernOpenFailedMessage => '存角色和对话的数据没能打开。重试一下；还不行的话，重启 App 再试。';
+
+  @override
+  String get tavernExportPng => '导出角色卡（PNG）';
+
+  @override
+  String get tavernExportPngSubtitle => '设定藏在图片里，SillyTavern 等酒馆都能导入';
+
+  @override
+  String get tavernExportJson => '导出为 JSON';
+
+  @override
+  String get tavernExportFailed => '没能导出这张卡';
+
+  @override
+  String get tavernInspectTitle => '这一回合发了什么';
+
+  @override
+  String get tavernInspectMenu => '看看发了什么';
+
+  @override
+  String get tavernInspectLatest => '上一回合发了什么';
+
+  @override
+  String get tavernInspectNone => '这条没有记录';
+
+  @override
+  String get tavernInspectNoneMessage => '开场白、接上引擎之前的消息和示例回复没有检视记录。';
+
+  @override
+  String get tavernInspectSummary => '概况';
+
+  @override
+  String get tavernInspectKind => '类型';
+
+  @override
+  String get tavernTurnSend => '发送';
+
+  @override
+  String get tavernTurnImpersonate => '代写';
+
+  @override
+  String get tavernInspectStatus => '结果';
+
+  @override
+  String get tavernInspectPreparing => '准备中';
+
+  @override
+  String get tavernInspectReady => '已发出';
+
+  @override
+  String get tavernInspectCompleted => '完成';
+
+  @override
+  String get tavernInspectFailed => '失败';
+
+  @override
+  String get tavernInspectPrompt => '提示词';
+
+  @override
+  String tavernTokens(int count) {
+    return '$count tokens';
+  }
+
+  @override
+  String tavernTokensAbout(int count) {
+    return '约 $count tokens';
+  }
+
+  @override
+  String get tavernInspectBudget => '上下文预算剩余';
+
+  @override
+  String get tavernInspectUsage => '模型报告的用量';
+
+  @override
+  String get tavernInspectNoUsage => '没报告';
+
+  @override
+  String tavernInspectUsageValue(int prompt, int hit, int completion) {
+    return '输入 $prompt（缓存 $hit）· 输出 $completion';
+  }
+
+  @override
+  String tavernInspectSegments(int count) {
+    return '发出去的 $count 段';
+  }
+
+  @override
+  String get tavernInspectSegmentsNote => '按发送顺序。点开看全文，长按复制。';
+
+  @override
+  String tavernInspectWorld(int count) {
+    return '世界书命中 $count 条';
+  }
+
+  @override
+  String tavernInspectWorldKey(String key) {
+    return '关键词「$key」';
+  }
+
+  @override
+  String tavernInspectExcluded(int count) {
+    return '没发出去的 $count 段';
+  }
+
+  @override
+  String get tavernExcludeDisabled => '关着';
+
+  @override
+  String get tavernExcludeTrigger => '不在这种生成里';
+
+  @override
+  String get tavernExcludeHidden => '对模型隐藏';
+
+  @override
+  String get tavernExcludeSystem => '系统消息';
+
+  @override
+  String get tavernExcludeHistoryBudget => '超出上下文预算';
+
+  @override
+  String get tavernExcludeExampleBudget => '示例超出预算';
+
+  @override
+  String get tavernRoleSystem => '系统';
+
+  @override
+  String get tavernRoleUser => '你';
+
+  @override
+  String get tavernRoleCharacter => '角色';
+
+  @override
+  String get tavernSourcePreset => '预设';
+
+  @override
+  String get tavernSourceCard => '角色卡';
+
+  @override
+  String get tavernSourceWorld => '世界书';
+
+  @override
+  String get tavernSourcePersona => '人设';
+
+  @override
+  String get tavernSourceHistory => '对话';
+
+  @override
+  String get tavernSourceControl => '控制';
+
+  @override
+  String get tavernWriteForMe => '帮我写';
+
+  @override
+  String get tavernHide => '对模型隐藏';
+
+  @override
+  String get tavernUnhide => '让模型看到';
+
+  @override
+  String get tavernHiddenFromModel => '模型看不到这条';
+
+  @override
+  String get tavernTrySample => '试试示范卡';
+
+  @override
+  String get tavernImportChats => '导入聊天记录';
+
+  @override
+  String get tavernImportChatsSubtitle => 'SillyTavern 的 .jsonl，可以一次选几个';
+
+  @override
+  String get tavernOnlyJsonl => '只能导入 .jsonl 聊天记录';
+
+  @override
+  String tavernImportChatsFailed(String detail) {
+    return '没能导入：$detail';
+  }
+
+  @override
+  String tavernImportedChats(int count) {
+    return '导入了 $count 段对话';
+  }
+
+  @override
+  String get tavernImportNoticesTitle => '导入时注意到';
+
+  @override
+  String get tavernExportChat => '导出聊天记录';
+
+  @override
+  String get tavernExportChatFailed => '没能导出这段对话';
+
+  @override
+  String get tavernLorebook => '世界书';
+
+  @override
+  String get tavernLorebookSubtitle => '这张卡自带的设定条目';
+
+  @override
+  String tavernLorebookEntries(int count) {
+    return '$count 条';
+  }
+
+  @override
+  String get tavernLorebookNote => '对话里提到关键词时，对应条目会带进提示词；「常驻」的每次都带。';
+
+  @override
+  String tavernLorebookKeys(String keys) {
+    return '关键词：$keys';
+  }
+
+  @override
+  String get tavernLorebookConstant => '常驻';
+
+  @override
+  String get tavernLorebookOff => '已关';
+
+  @override
+  String get tavernLorebookEmpty => '这张卡没有世界书';
+
+  @override
+  String get tavernImportFromFile => '从文件导入';
+
+  @override
+  String get tavernImportFromFileSubtitle => '角色卡、预设、世界书、正则、快速回复或聊天记录，会自己认出来';
+
+  @override
+  String get tavernImportFromLink => '从链接导入';
+
+  @override
+  String get tavernImportFromLinkSubtitle => 'Chub、RisuRealm 的角色页，或卡文件的直链';
+
+  @override
+  String get tavernLinkInvalid => '这不是一个网址';
+
+  @override
+  String get tavernLinkFailed => '下载失败，检查网络或链接';
+
+  @override
+  String tavernLinkStatus(int status) {
+    return '下载失败（HTTP $status）';
+  }
+
+  @override
+  String get tavernLinkIsPage => '这是网页，不是卡文件。Chub 和 RisuRealm 的角色页可以直接贴；别的站打开网页找「下载」，拿到 .png 或 .json 的链接再试。';
+
+  @override
+  String get tavernLinkSiteMissing => '站上没有这个角色，可能删了或没公开';
+
+  @override
+  String get tavernQuickReplies => '快速回复';
+
+  @override
+  String get tavernQuickRepliesEmpty => '还没有快速回复';
+
+  @override
+  String get tavernQuickRepliesNote => '对话里输入框上方会出现这些：点一下直接发出去，长按放进输入框再改。';
+
+  @override
+  String get tavernQuickReplyAdd => '加一条';
+
+  @override
+  String get tavernQuickReplyHint => '比如：*环顾四周，看有没有别人*';
+
+  @override
+  String tavernQuickReplyCount(int count) {
+    return '$count 条';
+  }
+
+  @override
+  String get tavernEditMessage => '编辑消息';
+
+  @override
+  String get tavernBackground => '背景图';
+
+  @override
+  String get tavernBackgroundNone => '无';
+
+  @override
+  String get tavernBackgroundChange => '换一张';
+
+  @override
+  String get tavernBackgroundRemove => '去掉背景图';
+
+  @override
+  String get tavernDice => '掷骰';
+
+  @override
+  String get tavernDiceCount => '个数';
+
+  @override
+  String get tavernDiceModifier => '加值';
+
+  @override
+  String get tavernDiceFewer => '少一个骰子';
+
+  @override
+  String get tavernDiceMore => '多一个骰子';
+
+  @override
+  String get tavernDiceModifierDown => '加值减 1';
+
+  @override
+  String get tavernDiceModifierUp => '加值加 1';
+
+  @override
+  String get tavernDiceRoll => '掷';
+
+  @override
+  String get tavernDiceAgain => '再掷一次';
+
+  @override
+  String get tavernDiceUse => '放进输入框';
+
+  @override
+  String tavernDiceLine(String notation, int total, String working) {
+    return '🎲 $notation 掷出 $total$working';
+  }
+
+  @override
+  String tavernDiceWorking(String working) {
+    return '（$working）';
+  }
+
+  @override
+  String get tavernStorybook => '故事书';
+
+  @override
+  String get tavernStorybookMenu => '导出成故事书';
+
+  @override
+  String get tavernStorybookTitle => '书名';
+
+  @override
+  String tavernStorybookDefaultTitle(String name) {
+    return '$name的故事';
+  }
+
+  @override
+  String tavernStorybookByline(String character, String you) {
+    return '$character 和 $you';
+  }
+
+  @override
+  String get tavernStorybookWhole => '整本';
+
+  @override
+  String tavernStorybookWholeNote(int count) {
+    return '一共 $count 句，隐藏的消息不放进去。EPUB 能用微信读书、Apple 图书等打开。';
+  }
+
+  @override
+  String get tavernStorybookEpub => '电子书（EPUB）';
+
+  @override
+  String get tavernStorybookText => '纯文本（TXT）';
+
+  @override
+  String get tavernStorybookImage => '长图';
+
+  @override
+  String get tavernStorybookLatest => '放最近';
+
+  @override
+  String tavernStorybookLines(int count) {
+    return '$count 句';
+  }
+
+  @override
+  String get tavernStorybookSave => '存到相册';
+
+  @override
+  String get tavernStorybookShare => '分享长图';
+
+  @override
+  String tavernStorybookEarlier(int count) {
+    return '前面还有 $count 句没放进图里，整段请导出电子书。';
+  }
+
+  @override
+  String tavernStorybookEarlierShort(int count) {
+    return '…… 前面还有 $count 句 ……';
+  }
+
+  @override
+  String get tavernStorybookMadeWith => '用 DSH Go 酒馆写成';
+
+  @override
+  String get tavernStorybookContents => '目录';
+
+  @override
+  String tavernStorybookChapter(int n) {
+    return '第 $n 章';
+  }
+
+  @override
+  String get tavernStorybookSaved => '已存到相册';
+
+  @override
+  String get tavernStorybookFailed => '没能导出，再试一次';
+
+  @override
+  String get tavernLive2d => 'Live2D 形象';
+
+  @override
+  String get tavernLive2dSubtitle => '视觉小说排版里用它代替卡面，会动、说话时会张嘴';
+
+  @override
+  String get tavernLive2dNone => '未导入';
+
+  @override
+  String get tavernLive2dSet => '已导入';
+
+  @override
+  String get tavernLive2dImported => '导入好了，切到视觉小说排版就能看到她。';
+
+  @override
+  String get tavernLive2dReplace => '换一个';
+
+  @override
+  String get tavernLive2dRemove => '去掉 Live2D 形象';
+
+  @override
+  String get tavernLive2dNoRuntime => '手机上还没有 Live2D 运行库：先在伙伴小屋装一个形象，或者导入完整的素材包。';
+
+  @override
+  String get tavernTextSize => '正文字号';
+
+  @override
+  String get tavernTextSmall => '小';
+
+  @override
+  String get tavernTextMedium => '中';
+
+  @override
+  String get tavernTextLarge => '大';
+
+  @override
+  String get tavernTextHuge => '特大';
+
+  @override
+  String get tavernLineHeight => '行距';
+
+  @override
+  String get tavernLineTight => '紧凑';
+
+  @override
+  String get tavernLineNormal => '适中';
+
+  @override
+  String get tavernLineLoose => '宽松';
+
+  @override
+  String get tavernReadingSample => '*她把陶杯推到你面前，炉火在她眼里跳了一下。*\n\n「这么晚了还在赶路？外头的雪今晚停不了，你要是赶路，最好等天亮。」';
+
+  @override
+  String get tavernPalette => '配色';
+
+  @override
+  String get tavernPalettePlain => '素';
+
+  @override
+  String get tavernPaletteEmber => '暖';
+
+  @override
+  String get tavernPaletteOcean => '冷';
+
+  @override
+  String get tavernPaletteRose => '粉';
+
+  @override
+  String get tavernTextSpeed => '逐字速度';
+
+  @override
+  String get tavernTextSlow => '慢';
+
+  @override
+  String get tavernTextNormal => '中';
+
+  @override
+  String get tavernTextFast => '快';
+
+  @override
+  String get tavernTextInstant => '立即';
+
+  @override
+  String get tavernVnAuto => '自动';
+
+  @override
+  String get tavernVnSkip => '跳过';
+
+  @override
+  String get tavernStage => '舞台';
+
+  @override
+  String get tavernStageSession => '本局';
+
+  @override
+  String get tavernSessionUsing => '正在用';
+
+  @override
+  String get tavernSessionLook => '外观';
+
+  @override
+  String get tavernSessionMore => '更多';
+
+  @override
+  String get tavernStageState => '状态';
+
+  @override
+  String get tavernStageDirector => '导演';
+
+  @override
+  String get tavernStageTurn => '本回合';
+
+  @override
+  String get tavernStageStateEmpty => '这张卡还没有状态';
+
+  @override
+  String get tavernStageStateNote => '卡里定义了状态以后，好感、属性、背包、时间地点都会在这里，每回合变了什么会标出来（「+5」），你也能直接改。没定义的老卡会在这里列出它的变量。';
+
+  @override
+  String get tavernStageDirectorEmpty => '导演还没上场';
+
+  @override
+  String get tavernStageDirectorNote =>
+      '打开导演后，它会在每回合之后在后台读剧情：给下一回合留一条看不见的提示，记下自己的笔记（默认藏着，怕剧透），再在输入框上方给你三个建议回复。它不替你说话，也不写正文。';
+
+  @override
+  String get tavernStageTurnNone => '还没有可看的回合';
+
+  @override
+  String get tavernStageTokensIn => '提示词';
+
+  @override
+  String get tavernStageCache => '缓存命中';
+
+  @override
+  String get tavernStageTokensOut => '回复';
+
+  @override
+  String get tavernStageWorld => '这回合用上的世界书';
+
+  @override
+  String get tavernStageWorldNone => '这回合没有条目被触发';
+
+  @override
+  String get tavernStageInspect => '看完整的检视';
+
+  @override
+  String get tavernLorebookNone => '无';
+
+  @override
+  String get tavernLorebooksBound => '绑定的世界书';
+
+  @override
+  String get tavernLorebooksBoundCharacter => '这个角色的每段对话都会用';
+
+  @override
+  String get tavernLorebooksBoundPersona => '用这个人设的对话都会用';
+
+  @override
+  String get tavernLorebookForChat => '这段对话的世界书';
+
+  @override
+  String tavernLorebookForCharacter(String name) {
+    return '「$name」的世界书';
+  }
+
+  @override
+  String tavernLorebookForPersona(String name) {
+    return '用「$name」时的世界书';
+  }
+
+  @override
+  String get tavernLorebookChatNote => '只在这段对话里用。标着「全局」的本来就对所有对话生效。';
+
+  @override
+  String get tavernLorebookCharacterNote => '这个角色的每段对话都会用，卡自带的世界书照常一起用。';
+
+  @override
+  String get tavernLorebookPersonaNote => '你用这个人设时，每段对话都会用。';
+
+  @override
+  String get tavernLorebookPickEmpty => '资源库里还没有世界书';
+
+  @override
+  String get tavernLorebookOpenLibrary => '去资源库导入';
+
+  @override
+  String get tavernLorebookMissing => '已删除的世界书';
+
+  @override
+  String get tavernLorebookMissingSubtitle => '还绑着，生成时会跳过；关掉就解除';
+
+  @override
+  String get tavernPresetOrder => '调整顺序';
+
+  @override
+  String get tavernPresetOrderNote => '按住右边的把手拖动。提示词按这个顺序发给模型，关着的也留在原位。';
+
+  @override
+  String get tavernPresetPromptOff => '已关';
+
+  @override
+  String get tavernPrefill => '预填充';
+
+  @override
+  String get tavernPrefillOn => '回复从这段开头';
+
+  @override
+  String get tavernPrefillOnSubtitle => '模型接着这段往下写';
+
+  @override
+  String get tavernPrefillText => '开头的文字';
+
+  @override
+  String get tavernPrefillTextEmpty => '还没写';
+
+  @override
+  String get tavernPrefillTarget => '放在';
+
+  @override
+  String get tavernPrefillContent => '正文';
+
+  @override
+  String get tavernPrefillReasoning => '思考';
+
+  @override
+  String get tavernPrefillNote => '开着时，这段文字作为回复的开头发给模型，模型从这里接着写。放在「思考」只在开了思考时生效，没开就放进正文。「接着写」的回合不用它。';
+
+  @override
+  String get tavernPresetPromptEmpty => '空着';
+
+  @override
+  String tavernThinkingSeconds(int seconds) {
+    return '$seconds 秒';
+  }
+
+  @override
+  String tavernDeletedCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '删掉了 $count 条', one: '删掉了 1 条');
+    return '$_temp0';
+  }
+
+  @override
+  String get tavernDeleteFromUndoable => '从这条到最新一条，连同它们的备选回复和分支。删完几秒内可以撤销。';
+
+  @override
+  String get tavernUndoFailed => '没能撤销';
+
+  @override
+  String get tavernShowUsage => '每条回复下显示用量';
+
+  @override
+  String get tavernShowUsageSubtitle => '模型报告的输入、输出 token 数；不估算费用';
+
+  @override
+  String tavernUsageLine(int input, int output) {
+    final intl.NumberFormat inputNumberFormat = intl.NumberFormat.decimalPattern(localeName);
+    final String inputString = inputNumberFormat.format(input);
+    final intl.NumberFormat outputNumberFormat = intl.NumberFormat.decimalPattern(localeName);
+    final String outputString = outputNumberFormat.format(output);
+
+    return '输入 $inputString · 输出 $outputString';
+  }
+
+  @override
+  String tavernUsageLineCached(int input, int cached, int output) {
+    final intl.NumberFormat inputNumberFormat = intl.NumberFormat.decimalPattern(localeName);
+    final String inputString = inputNumberFormat.format(input);
+    final intl.NumberFormat cachedNumberFormat = intl.NumberFormat.decimalPattern(localeName);
+    final String cachedString = cachedNumberFormat.format(cached);
+    final intl.NumberFormat outputNumberFormat = intl.NumberFormat.decimalPattern(localeName);
+    final String outputString = outputNumberFormat.format(output);
+
+    return '输入 $inputString（命中缓存 $cachedString）· 输出 $outputString';
+  }
+
+  @override
+  String get tavernSearchChat => '在对话里搜索';
+
+  @override
+  String get tavernSearchChatHint => '一句话、一个词';
+
+  @override
+  String get tavernSearchChatIdle => '搜的是这段对话的所有分支，包括隐藏的消息；不搜思考过程。点一条看全文。';
+
+  @override
+  String tavernSearchChatNone(String query) {
+    return '没有找到「$query」';
+  }
+
+  @override
+  String tavernSearchChatFound(int count) {
+    String _temp0 = intl.Intl.pluralLogic(count, locale: localeName, other: '找到 $count 条，新的在前', one: '找到 1 条');
+    return '$_temp0';
+  }
+
+  @override
+  String get tavernDeleteOne => '只删这一条';
+
+  @override
+  String get tavernDeleteOneTitle => '只删除这一条消息？';
+
+  @override
+  String get tavernDeleteOneMessage => '后面的消息都留着，接到它前面那条上。这样删除不能撤销。';
+
+  @override
+  String get tavernLorebookAdd => '加一条';
+
+  @override
+  String get tavernLorebookStart => '这张卡还没有自己的世界书。加一条，对话里提到它的关键词时，内容就会带进提示词。';
+
+  @override
+  String get tavernLorebookEntryNew => '新条目';
+
+  @override
+  String get tavernLorebookEntryEdit => '编辑条目';
+
+  @override
+  String get tavernLorebookFieldName => '条目名';
+
+  @override
+  String get tavernLorebookFieldNameHelp => '只给你看，方便找；不发给模型。';
+
+  @override
+  String get tavernLorebookFieldKeys => '关键词';
+
+  @override
+  String get tavernLorebookFieldKeysHelp => '对话里出现其中任何一个，就把内容带进提示词。用逗号隔开。';
+
+  @override
+  String get tavernLorebookFieldSecondary => '次关键词';
+
+  @override
+  String get tavernLorebookFieldSecondaryHelp => '填了的话，再按下面「次关键词怎么算」筛一遍才带进去。';
+
+  @override
+  String get tavernLorebookFieldContent => '内容';
+
+  @override
+  String get tavernLorebookFieldConstantSubtitle => '不管有没有提到关键词，每次都带上';
+
+  @override
+  String get tavernLorebookFieldEnabled => '启用';
+
+  @override
+  String get tavernLorebookFieldPosition => '放在';
+
+  @override
+  String get tavernLorebookBeforeChar => '角色设定前';
+
+  @override
+  String get tavernLorebookAfterChar => '角色设定后';
+
+  @override
+  String get tavernLorebookFieldOrder => '顺序';
+
+  @override
+  String get tavernLorebookFieldOrderHelp => '数字大的排在前面，也先带进去。';
+
+  @override
+  String get tavernLorebookEntryDelete => '删除这一条';
+
+  @override
+  String tavernLorebookEntryDeleteTitle(String name) {
+    return '删除条目「$name」？';
+  }
+
+  @override
+  String get tavernLorebookEntryDeleteMessage => '这一条会从卡里删掉，删除后就找不回来了。';
+
+  @override
+  String get tavernNarrator => '旁白';
+
+  @override
+  String get tavernSendOptions => '换种方式发';
+
+  @override
+  String get tavernSendOnly => '只发，不回复';
+
+  @override
+  String get tavernSendOnlySubtitle => '这句放进故事，她先不接话';
+
+  @override
+  String get tavernNarrate => '以旁白身份发';
+
+  @override
+  String get tavernNarrateSubtitle => '作为叙述插进故事，不算你说的话';
+
+  @override
+  String get tavernSendFailed => '没能发出去';
+
+  @override
+  String get tavernStateVariables => '变量';
+
+  @override
+  String get tavernStateVariablesNote => '卡和对话里 {{setvar}} 这类宏记下的变量，到当前这条为止。点一项看全部，也能直接改。';
+
+  @override
+  String get tavernData => '数据';
+
+  @override
+  String get tavernBackup => '备份整个酒馆';
+
+  @override
+  String get tavernBackupSubtitle => '角色卡、对话、预设、世界书、人设和设置，打成一个 zip';
+
+  @override
+  String get tavernBackingUp => '正在备份…';
+
+  @override
+  String tavernBackedUp(int count, String size) {
+    return '备份好了：$count 个文件，$size';
+  }
+
+  @override
+  String tavernBackupFailed(String error) {
+    return '没能备份：$error';
+  }
+
+  @override
+  String get tavernRestore => '从备份恢复';
+
+  @override
+  String get tavernRestoreSubtitle => '用一份备份替换现在的酒馆';
+
+  @override
+  String get tavernRestoreTitle => '用这份备份替换现在的酒馆？';
+
+  @override
+  String get tavernRestoreMessage => '现在的角色、对话、预设和设置都会换成备份里的。想留着现在的，先备份一份。备份不对或者坏了的话，现在的数据不会动。';
+
+  @override
+  String get tavernRestoreAction => '恢复';
+
+  @override
+  String get tavernRestoring => '正在恢复…';
+
+  @override
+  String tavernRestored(int count) {
+    return '恢复好了：$count 个文件';
+  }
+
+  @override
+  String tavernRestoreFailed(String error) {
+    return '没能恢复，现在的数据没动：$error';
+  }
+
+  @override
+  String get tavernLoreTest => '测一下';
+
+  @override
+  String get tavernLoreTestTitle => '测一下世界书';
+
+  @override
+  String get tavernLoreTestInput => '说一句话';
+
+  @override
+  String get tavernLoreTestHint => '比如你希望它带出某一条时会说的话';
+
+  @override
+  String get tavernLoreTestNote => '只看这一句，加上常驻的条目；对话里前面说过的、粘性和冷却都不算。不会调用模型。';
+
+  @override
+  String tavernLoreTestHits(int count) {
+    return '会带进提示词的（$count）';
+  }
+
+  @override
+  String get tavernLoreTestNone => '这句话不会带出任何条目。';
+
+  @override
+  String get tavernLoreTestOverflow => '超出了世界书的预算，排在后面的条目没放进去。';
+
+  @override
+  String tavernLoreTestFailed(String error) {
+    return '没能测：$error';
+  }
+
+  @override
+  String tavernLoreReasonKeys(String keys) {
+    return '关键词$keys';
+  }
+
+  @override
+  String get tavernLoreReasonSticky => '粘性，还在生效';
+
+  @override
+  String get tavernLoreReasonDecorator => '装饰器';
+
+  @override
+  String tavernLoreAtDepth(int depth) {
+    return '倒数第 $depth 条消息处';
+  }
+
+  @override
+  String get tavernLoreNearNote => '作者注释旁';
+
+  @override
+  String get tavernLoreNearExamples => '示例对话旁';
+
+  @override
+  String get tavernLoreOutlet => '出口';
+
+  @override
+  String tavernLoreOrder(String order) {
+    return '顺序 $order';
+  }
+
+  @override
+  String get tavernBranches => '分支';
+
+  @override
+  String get tavernBranchesNote => '每行是一段没有分叉的对话。缩进的那行，是从上面那行的末尾岔出去的另一条路。点一行可以切过去、给它起名；没在走的那条也能删掉。';
+
+  @override
+  String get tavernBranchesEmpty => '这段对话还没有消息。';
+
+  @override
+  String tavernBranchCount(int count) {
+    return '$count 条';
+  }
+
+  @override
+  String tavernBranchUntil(String text) {
+    return '到「$text」';
+  }
+
+  @override
+  String get tavernBranchCurrent => '正在看';
+
+  @override
+  String get tavernBranchSwitch => '切到这条分支';
+
+  @override
+  String get tavernBranchSwitchSubtitle => '后面接着它上次走到的地方';
+
+  @override
+  String get tavernBranchName => '给这条分支起名';
+
+  @override
+  String get tavernBranchRename => '改名';
+
+  @override
+  String get tavernBranchNameHint => '比如：地下室那条线';
+
+  @override
+  String get tavernBranchNameCaption => '只给你看，方便找；留空就去掉名字。';
+
+  @override
+  String get tavernBranchSwitched => '切到了这条分支';
+
+  @override
+  String tavernBranchFailed(String error) {
+    return '没能完成：$error';
+  }
+
+  @override
+  String get tavernCardTheme => '用卡自带的样式';
+
+  @override
+  String get tavernCardThemeSubtitle => '卡里写的强调色、名字颜色、默认排版和背景；关掉就都按这里的设置';
+
+  @override
+  String get tavernShelfSort => '排序';
+
+  @override
+  String get tavernShelfOrderRecent => '最近聊过';
+
+  @override
+  String get tavernShelfOrderName => '名字';
+
+  @override
+  String get tavernShelfOrderImported => '最近导入';
+
+  @override
+  String get tavernFavorite => '收藏';
+
+  @override
+  String get tavernUnfavorite => '取消收藏';
+
+  @override
+  String get tavernFavorited => '已收藏';
+
+  @override
+  String get tavernChatSearchHint => '搜对话：角色、标题、最后一句';
+
+  @override
+  String get tavernNoChatMatch => '没有符合的对话';
+
+  @override
+  String get tavernCharacterTabChats => '对话';
+
+  @override
+  String get tavernCharacterTabCard => '设定';
+
+  @override
+  String get tavernCharacterTabSetup => '配置';
+
+  @override
+  String get tavernCharacterNoDefinition => '这张卡没有写设定和说明。';
+
+  @override
+  String get tavernNovelIndent => '小说排版段首空两格';
+
+  @override
+  String get tavernNovelIndentSubtitle => '像书里那样，每段开头空两个字';
+
+  @override
+  String get tavernShelfSelect => '选择';
+
+  @override
+  String tavernShelfPicked(int count) {
+    return '已选 $count 个';
+  }
+
+  @override
+  String get tavernShelfExport => '导出选中的角色卡';
+
+  @override
+  String tavernDeleteCharactersTitle(int count) {
+    return '删除这 $count 个角色？';
+  }
+
+  @override
+  String get tavernQuickRepliesAll => '全部';
+
+  @override
+  String get tavernQuickRepliesManage => '管理快速回复';
+
+  @override
+  String tavernSpeakNext(String name) {
+    return '让$name接着说';
+  }
+
+  @override
+  String get tavernSettingsConnection => '模型与连接';
+
+  @override
+  String get tavernDefaultPreset => '默认预设';
+
+  @override
+  String get tavernDefaultPresetPick => '新对话用的预设';
+
+  @override
+  String tavernGenerationInPreset(String name) {
+    return '改「$name」的参数';
+  }
+
+  @override
+  String tavernGenerationPresetNote(String name) {
+    return '新对话用「$name」：上下文、回复长度和温度在这份预设里改。自带预设的对话以它自己的为准。';
+  }
+
+  @override
+  String get tavernStorage => '存储占用';
+
+  @override
+  String get tavernStorageCounting => '正在计算…';
+
+  @override
+  String get tavernStorageCharacters => '角色卡';
+
+  @override
+  String get tavernStorageChats => '对话、预设和人设';
+
+  @override
+  String get tavernStorageLive2d => 'Live2D 形象';
+
+  @override
+  String get tavernStorageOther => '背景图、世界书、正则和设置';
+
+  @override
+  String get tavernStorageNote => '这些都只存在这台设备上；换手机或卸载前，先「备份整个酒馆」。';
+
+  @override
+  String get tavernDefaultPresetEmpty => '在 资源库 › 预设 里导入以后，就能换成别的。';
+
+  @override
+  String tavernQuickRepliesAdded(int count) {
+    return '加了 $count 条快速回复';
+  }
+
+  @override
+  String tavernQuickRepliesAddedSkipped(int count, int skipped) {
+    return '加了 $count 条快速回复；$skipped 条是 ST 的斜杠命令，没有加';
+  }
+
+  @override
+  String get tavernImportChatNoName => '这份聊天记录没写是哪个角色的，到角色页里导入它';
+
+  @override
+  String tavernImportChatNoCharacter(String name) {
+    return '书架上找不到唯一的「$name」，到角色页里导入这段聊天';
+  }
+
+  @override
+  String tavernImportedChatsTo(int count, String name) {
+    return '$count 段对话导入到了「$name」';
+  }
+
+  @override
+  String tavernImportUnknown(String name) {
+    return '认不出 $name 是什么文件';
+  }
+
+  @override
+  String tavernImportFileFailed(String name, String reason) {
+    return '$name 没能导入：$reason';
+  }
+
+  @override
+  String get tavernIslands => '消息里的网页';
+
+  @override
+  String get tavernIslandsSubtitle => '卡在消息里写的 HTML 和样式（状态栏、面板），单独放进一个网页里显示；关掉就按文字显示';
+
+  @override
+  String get tavernSettingsSafety => '安全';
+
+  @override
+  String get tavernIslandNoScripts => '网页里不运行卡的脚本';
+
+  @override
+  String get tavernIslandNoScriptsSubtitle => '卡自带的 JavaScript 不运行；要靠脚本动起来的状态栏会停住';
+
+  @override
+  String get tavernIslandOffline => '网页不联网';
+
+  @override
+  String get tavernIslandOfflineSubtitle => '只用卡里自带的图片和字体，不从网上加载任何东西';
+
+  @override
+  String get tavernSessionUsage => '本局用量';
+
+  @override
+  String tavernSessionUsageNote(int count) {
+    return '当前这条线上 $count 条回复的合计；换掉的备选不算';
+  }
+
+  @override
+  String get tavernSessionUsageNone => '还没有模型报告过用量';
+
+  @override
+  String get tavernComposerNoKey => '填好 Key 就能开始';
+
+  @override
+  String get tavernWriteOwn => '自己写一个角色';
+
+  @override
+  String get tavernWriteOwnSubtitle => '从一张空白卡开始，名字、设定和开场白都自己填';
+
+  @override
+  String get tavernNewCharacterName => '新角色';
+
+  @override
+  String get tavernSearchGoTo => '到对话里这一条';
+
+  @override
+  String get tavernBookmarks => '书签';
+
+  @override
+  String get tavernBookmarkAdd => '加书签';
+
+  @override
+  String get tavernBookmarkRemove => '去掉书签';
+
+  @override
+  String get tavernBookmarkAdded => '加了书签，在 舞台 › 本局 › 书签 里找';
+
+  @override
+  String get tavernBookmarkRemoved => '书签去掉了';
+
+  @override
+  String get tavernBookmarksEmpty => '还没有书签';
+
+  @override
+  String get tavernBookmarksEmptyMessage => '长按一条消息，选「加书签」';
+
+  @override
+  String get tavernBookmarkGone => '那一条已经不在了，书签去掉了';
+
+  @override
+  String get tavernUsageStats => '用量统计';
+
+  @override
+  String get tavernUsageStatsSubtitle => '每段对话用了多少 token';
+
+  @override
+  String get tavernUsageAllNote => '所有对话当前线上的回复合计；换掉的备选不算';
+
+  @override
+  String tavernUsageChatReplies(int count, String completion) {
+    return '$count 条回复 · 回复 $completion';
+  }
+
+  @override
+  String get tavernSlashNoReply => '还没有可以这样做的回复';
+
+  @override
+  String get tavernRegexTest => '试一下';
+
+  @override
+  String get tavernRegexTestFind => '查找';
+
+  @override
+  String get tavernRegexTestReplace => '替换为';
+
+  @override
+  String get tavernRegexTestInput => '一段文字';
+
+  @override
+  String get tavernRegexTestHint => '粘一段回复进来试试';
+
+  @override
+  String get tavernRegexTestNote => '只用这一条规则在本机试，不发给模型；不管它平时作用在哪、开没开，这里都照样跑。';
+
+  @override
+  String get tavernRegexTestMacros => '{{char}} 这类宏这里不展开，照字面算。';
+
+  @override
+  String get tavernRegexTestNone => '没有匹配，原样不变';
+
+  @override
+  String tavernRegexTestResult(int count) {
+    return '替换后（$count 处）';
+  }
+
+  @override
+  String tavernRegexTestFailed(String reason) {
+    return '没能试：$reason';
+  }
+
+  @override
+  String get tavernStateNote => '卡定义的状态，到当前这条消息为止。这回合变了的标着「+5」这样的记号；点一项看全部，也能直接改，改动记在这条消息上，换回答、切分支会跟着回退。';
+
+  @override
+  String get tavernStatePreview => '还没开始记，下面是卡给的初始值。';
+
+  @override
+  String get tavernStateChanged => '变了';
+
+  @override
+  String get tavernStateHidden => '剧透 · 点开看';
+
+  @override
+  String get tavernStateWhole => '整体';
+
+  @override
+  String get tavernStateEdit => '改';
+
+  @override
+  String get tavernStateEditText => '这段文字原样保存';
+
+  @override
+  String get tavernStateEditJson => '写 JSON：数字、true / false、\"带引号的文字\"、[…]、{…}';
+
+  @override
+  String get tavernStateEditBad => '这不是有效的 JSON，没有改';
+
+  @override
+  String get tavernStateEditSaved => '改好了';
+
+  @override
+  String get tavernStateEditSame => '值没变';
+
+  @override
+  String tavernStateEditRefused(String reason) {
+    return '没改成：$reason';
+  }
+
+  @override
+  String get tavernDirectorAuto => '自动导演';
+
+  @override
+  String get tavernDirectorAutoNote => '只对这段对话。开了以后每隔几个回合，在回复写完后多问一次模型：下一拍往哪走、给你三条可以做的事。每次都会多用一些额度。';
+
+  @override
+  String get tavernDirectorRun => '让导演想一想';
+
+  @override
+  String get tavernDirectorRunning => '导演在想…';
+
+  @override
+  String get tavernDirectorBeat => '下一拍';
+
+  @override
+  String get tavernDirectorSuggestions => '你可以…';
+
+  @override
+  String get tavernDirectorSuggestionsNote => '点一条放进输入框，改不改、发不发由你。';
+
+  @override
+  String get tavernDirectorNotes => '导演笔记';
+
+  @override
+  String get tavernDirectorStale => '这是之前的情况下想的，现在不一定合适，只供参考。';
+
+  @override
+  String tavernDirectorFailed(String reason) {
+    return '上次没想成：$reason';
+  }
+
+  @override
+  String tavernDirectorRunFailed(String reason) {
+    return '没能做到：$reason';
+  }
+
+  @override
+  String get tavernBranchHere => '从这里分叉';
+
+  @override
+  String get tavernBranchedHere => '回到了这一条，后面的内容留在「分支」里';
+
+  @override
+  String get tavernBranchHereFailed => '没能回到这一条';
+
+  @override
+  String tavernStateItems(int count) {
+    return '$count 项';
+  }
+
+  @override
+  String get tavernStateSearch => '搜变量';
+
+  @override
+  String get tavernStateNoMatch => '没有符合的';
+
+  @override
+  String get tavernRuns => '后台记录';
+
+  @override
+  String get tavernRunsNote => '你、模型和卡的规则改了状态，导演、卡事件和剧情每次跑过，都记在这里；最新的在上，最多 100 条。点一条看原始记录。';
+
+  @override
+  String get tavernRunsEmpty => '还没有记录';
+
+  @override
+  String get tavernRunsEmptyMessage => '改了状态，或者导演跑过以后，会记在这里。';
+
+  @override
+  String get tavernRunUser => '你改的';
+
+  @override
+  String get tavernRunModel => '模型改的';
+
+  @override
+  String get tavernRunRules => '卡的规则';
+
+  @override
+  String get tavernRunStopped => '回合中断';
+
+  @override
+  String get tavernRunDirector => '导演';
+
+  @override
+  String get tavernRunDirectorFailed => '导演没成';
+
+  @override
+  String get tavernRunEvent => '卡事件';
+
+  @override
+  String get tavernRunStory => '剧情';
+
+  @override
+  String get tavernRunSecret => '秘密';
+
+  @override
+  String get tavernRunNotKept => '没收下';
+
+  @override
+  String get tavernRunGone => '那条消息已删';
+
+  @override
+  String tavernRunMore(int count) {
+    return '等 $count 处';
+  }
+
+  @override
+  String get tavernInspectCache => '缓存';
+
+  @override
+  String get tavernInspectCacheKept => '和上一回合同前缀';
+
+  @override
+  String tavernInspectCacheBroken(int index) {
+    return '从第 $index 段起变了';
+  }
+
+  @override
+  String tavernInspectCacheMiss(int tokens) {
+    return '这一段和它后面约 $tokens tokens 不会命中缓存，前面的和上一回合一样。常是靠前的世界书条目这回合换了。';
+  }
+
+  @override
+  String get tavernInspectCacheBreak => '缓存从这里断开';
+
+  @override
+  String get tavernPaletteSt => 'ST';
+
+  @override
+  String tavernStTheme(String name) {
+    return 'ST 主题：$name';
+  }
+
+  @override
+  String get tavernStThemeNote => '配色选「ST」时，引号里的话和 *动作* 用它的颜色；太浅或太深看不清的，会调到看得清。';
+
+  @override
+  String get tavernStThemeImport => '导入 ST 主题';
+
+  @override
+  String get tavernStThemeImportNote => '从 SillyTavern 导出的主题文件里取引号和斜体的颜色。';
+
+  @override
+  String get tavernStThemeRemove => '移除';
+
+  @override
+  String tavernStThemeImported(String name) {
+    return '换成了 ST 主题「$name」的配色';
+  }
+
+  @override
+  String tavernStThemeNoColors(String name) {
+    return '「$name」里没有能用的引号或斜体颜色';
+  }
+
+  @override
+  String get tavernPromptContent => '内容';
+
+  @override
+  String get tavernPromptRole => '谁说';
+
+  @override
+  String get tavernPromptRoleSystem => '系统';
+
+  @override
+  String get tavernPromptRoleUser => '用户';
+
+  @override
+  String get tavernPromptRoleAssistant => '助手';
+
+  @override
+  String get tavernPromptPosition => '位置';
+
+  @override
+  String get tavernPromptRelative => '按顺序';
+
+  @override
+  String get tavernPromptInChat => '对话中';
+
+  @override
+  String get tavernPromptDepth => '深度';
+
+  @override
+  String tavernPromptDepthNote(int depth) {
+    return '插进聊天记录，从最后往前数第 $depth 条之前（0 是最末尾），和 ST 的「对话中」一样。';
+  }
+
+  @override
+  String get tavernPromptRelativeNote => '照预设的顺序放，和 ST 的「相对」一样。';
+
+  @override
+  String tavernPromptPlace(int depth) {
+    return '对话中 · 深度 $depth';
+  }
+
+  @override
+  String get tavernPromptOrder => '同深度的先后';
+
+  @override
+  String get tavernPromptOrderNote => '同一深度有几条时，数字小的在前（默认 100）。';
+
+  @override
+  String get tavernPromptForbid => '不让角色卡覆盖';
+
+  @override
+  String get tavernPromptForbidMain => '角色卡自带的系统提示词不会替换这一条。';
+
+  @override
+  String get tavernPromptForbidJailbreak => '角色卡自带的历史后指令不会替换这一条。';
+
+  @override
+  String get tavernLoreCommon => '常用';
+
+  @override
+  String get tavernLoreMore => '更多';
+
+  @override
+  String get tavernLorePosAnTop => '作者注前';
+
+  @override
+  String get tavernLorePosAnBottom => '作者注后';
+
+  @override
+  String get tavernLorePosExampleTop => '示例前';
+
+  @override
+  String get tavernLorePosExampleBottom => '示例后';
+
+  @override
+  String get tavernLorePosOutlet => '出口';
+
+  @override
+  String get tavernLoreLogic => '次关键词怎么算';
+
+  @override
+  String get tavernLoreLogicAndAny => '含任一';
+
+  @override
+  String get tavernLoreLogicAndAll => '全都含';
+
+  @override
+  String get tavernLoreLogicNotAny => '都不含';
+
+  @override
+  String get tavernLoreLogicNotAll => '不全含';
+
+  @override
+  String get tavernLoreProbability => '触发概率';
+
+  @override
+  String get tavernLoreCase => '区分大小写';
+
+  @override
+  String get tavernLoreWhole => '整词匹配';
+
+  @override
+  String get tavernLoreDefault => '默认';
+
+  @override
+  String get tavernLoreYes => '是';
+
+  @override
+  String get tavernLoreNo => '否';
+
+  @override
+  String get tavernLorePosDepth => '按深度';
+
+  @override
+  String get tavernLibraryBookOpen => '看条目、改条目';
+
+  @override
+  String get tavernLibraryBookNote => '改动写回这本书；绑定了它的地方，下一回合就用新内容。';
+
+  @override
+  String get tavernBranchDelete => '删掉这条分支';
+
+  @override
+  String get tavernBranchDeleteTitle => '删掉这条分支？';
+
+  @override
+  String tavernBranchDeleteMessage(int count) {
+    return '这条分支上的 $count 条消息，连同从它分出去的，都会删掉；删了之后几秒内可以撤销。正在走的这条不受影响。';
+  }
+
+  @override
+  String tavernLetterFrom(String from) {
+    return '$from的信';
+  }
+
+  @override
+  String get tavernLetter => '一封信';
+
+  @override
+  String get tavernComponentMore => '展开';
+
+  @override
+  String get tavernComponentLess => '收起';
+
+  @override
+  String get tavernItemTaken => '获得';
+
+  @override
+  String get tavernClue => '线索';
+
+  @override
+  String tavernPhoneFrom(String from) {
+    return '$from 发来消息';
+  }
+
+  @override
+  String get tavernPhoneMessage => '一条消息';
+
+  @override
+  String tavernRollCheck(String skill) {
+    return '检定：$skill';
+  }
+
+  @override
+  String get tavernRoll => '掷骰';
+
+  @override
+  String get tavernRollSuccess => '成功';
+
+  @override
+  String get tavernRollFailure => '失败';
+
+  @override
+  String get tavernGameHere => '这里有一个小游戏，现在还不能在这里玩';
+
+  @override
+  String get tavernRegexEdit => '编辑规则';
+
+  @override
+  String get tavernRegexFieldName => '名字';
+
+  @override
+  String get tavernRegexFieldFindHelp => 'SillyTavern 的写法：/规则/标志，比如 /(早安|晚安)/gi';
+
+  @override
+  String get tavernRegexFieldReplaceHelp => '\$1 是第一组，{{match}} 是整段匹配';
+
+  @override
+  String get tavernRegexFieldTrim => '先去掉的字';
+
+  @override
+  String get tavernRegexFieldTrimHelp => '每行一个；替换之前先从匹配到的字里删掉';
+
+  @override
+  String get tavernRegexPlacement => '用在';
+
+  @override
+  String get tavernRegexPlaceUser => '你的话';
+
+  @override
+  String get tavernRegexPlaceAi => '回复';
+
+  @override
+  String get tavernRegexPlaceSlash => '斜杠命令';
+
+  @override
+  String get tavernRegexPlaceWorld => '世界书';
+
+  @override
+  String get tavernRegexPlaceReasoning => '思考';
+
+  @override
+  String get tavernRegexPhase => '改哪一份';
+
+  @override
+  String get tavernRegexPhaseWrite => '原文';
+
+  @override
+  String get tavernRegexPhaseDisplay => '只改显示';
+
+  @override
+  String get tavernRegexPhasePrompt => '只改发出';
+
+  @override
+  String get tavernRegexPhaseBoth => '显示和发出';
+
+  @override
+  String get tavernRegexPhaseNote => '原文：直接改写存下来的消息。只改显示：存档不变，只是看起来不同。只改发出：只改发给模型的那一份。';
+
+  @override
+  String get tavernRegexMinDepth => '最浅';
+
+  @override
+  String get tavernRegexMaxDepth => '最深';
+
+  @override
+  String get tavernRegexDepthHelp => '空着就是不限；0 是最新一条';
+
+  @override
+  String get tavernRegexSubstitute => '查找里的宏';
+
+  @override
+  String get tavernRegexSubstituteNone => '不展开';
+
+  @override
+  String get tavernRegexSubstituteRaw => '原样展开';
+
+  @override
+  String get tavernRegexSubstituteEscaped => '转义后展开';
+
+  @override
+  String get tavernRegexRunOnEdit => '编辑消息时也跑';
+
+  @override
+  String get tavernRegexFieldEnabled => '启用这条规则';
+
+  @override
+  String get tavernRegexSavedIncompatible => '已保存。这条规则在这里跑不了，用的时候会跳过';
+
+  @override
+  String get tavernRegexGone => '这条规则已经不在了，回列表刷新一下';
+
+  @override
+  String get tavernRegexDeferred => '用到了宏，要到运行时才知道能不能跑';
+
+  @override
+  String get tavernRegexTryDraft => '用现在填的试一下';
+
+  @override
+  String get tavernRegexDepthAny => '不限';
+
+  @override
+  String get tavernCanvas => '整页画布（试用）';
+
+  @override
+  String get tavernCanvasSubtitle => '整段对话放进一张网页，按 SillyTavern 的结构排，卡写给 ST 的样式能跨消息生效。视觉小说不用它；卡里的脚本暂时还不跑。';
+
+  @override
+  String get tavernCanvasReloaded => '画面重新加载了';
 
   @override
   String get updateCheck => '检查更新';
@@ -19266,8 +21177,7 @@ class L10nZh extends L10n {
   String get updateSettingsOpenFailed => '没能打开系统设置';
 
   @override
-  String get updateSettingsOpenFailedMessage =>
-      '到「设置 → 应用 → DSH Go」里允许「安装未知应用」，再回来安装。';
+  String get updateSettingsOpenFailedMessage => '到「设置 → 应用 → DSH Go」里允许「安装未知应用」，再回来安装。';
 
   @override
   String get updateInstallCancelled => '已取消安装';
@@ -19285,8 +21195,7 @@ class L10nZh extends L10n {
   String get updateSignatureMismatch => '签名不一致，不能直接覆盖';
 
   @override
-  String get updateSignatureMismatchMessage =>
-      '手机上的 DSH Go 签名不同（多半是测试包），需要先卸载旧版再装新版。卸载会清空对话、Linux 环境和设置。';
+  String get updateSignatureMismatchMessage => '手机上的 DSH Go 签名不同（多半是测试包），需要先卸载旧版再装新版。卸载会清空对话、Linux 环境和设置。';
 
   @override
   String get updateWrongPackage => '不是 DSH 的安装包';
@@ -19316,7 +21225,7 @@ class L10nZh extends L10n {
   String get updateInstallBlocked => '安装被拦截了';
 
   @override
-  String get updateInstallBlockedMessage => '在系统的安装确认里允许，或去发布页手动下载。';
+  String get updateInstallBlockedMessage => '在系统的安装确认里允许；如果系统直接拦下（小米等机型），试试下面的「安装路线」：Shizuku 或本机 ADB，不用重新签名。';
 
   @override
   String get updateInstallIncomplete => '安装没有完成';
@@ -19405,6 +21314,24 @@ class L10nZh extends L10n {
   String get updateSystemInstallerFailed => '没能打开系统安装器';
 
   @override
+  String get updateExportApk => '导出安装包';
+
+  @override
+  String get updateExportApkTitle => '导出安装包？';
+
+  @override
+  String get updateExportApkMessage =>
+      '会把这次下载并校验过的安装包复制到「下载/DSH-Go」，可以用 MT 管理器之类的工具重新签名后再装。\n\n重新签名后，手机上的签名和官方包不同，App 内更新会一直提示「签名不一致」，以后每次更新都要这样手动重签安装。\n\n如果只是系统拦着装不上（小米等机型），先试「安装路线」里的 Shizuku 或本机 ADB，那条路不用重新签名。';
+
+  @override
+  String updateExportApkDone(String path) {
+    return '已存到 下载/$path';
+  }
+
+  @override
+  String get updateExportApkFailed => '没能导出安装包';
+
+  @override
   String get updateStarProject => '去 Star';
 
   @override
@@ -19442,8 +21369,7 @@ class L10nZh extends L10n {
   String get usageStatsSection => '改进 DSH Go';
 
   @override
-  String get usageStatsFooter =>
-      '这个开关只控制 dsh-go 自身的使用次数、版本、手机品牌和型号、系统版本统计，不含对话、文件和账号；它不控制 Google ML Kit SDK 的统计。';
+  String get usageStatsFooter => '这个开关只控制 dsh-go 自身的使用次数、版本、手机品牌和型号、系统版本统计，不含对话、文件和账号；它不控制 Google ML Kit SDK 的统计。';
 
   @override
   String get usageNoticeBody => '不含对话和个人信息，可随时关闭';
@@ -20027,22 +21953,19 @@ class L10nZh extends L10n {
   String get viewSuggestWordCount => '写个小脚本';
 
   @override
-  String get viewSuggestWordCountPrompt =>
-      '写一个 Python 脚本：统计一个文本文件里出现最多的 20 个词，并运行一次给我看结果。';
+  String get viewSuggestWordCountPrompt => '写一个 Python 脚本：统计一个文本文件里出现最多的 20 个词，并运行一次给我看结果。';
 
   @override
   String get viewSuggestNode => '新建项目';
 
   @override
-  String get viewSuggestNodePrompt =>
-      '在工作区新建一个 Node.js 项目，配好 TypeScript 和一个最小的单元测试。';
+  String get viewSuggestNodePrompt => '在工作区新建一个 Node.js 项目，配好 TypeScript 和一个最小的单元测试。';
 
   @override
   String get viewSuggestGit => '讲讲 Git';
 
   @override
-  String get viewSuggestGitPrompt =>
-      '用一个具体例子解释 git rebase 和 git merge 的区别，各自什么时候用。';
+  String get viewSuggestGitPrompt => '用一个具体例子解释 git rebase 和 git merge 的区别，各自什么时候用。';
 
   @override
   String get viewSuggestWorkspaceHint => '列出文件和项目';
@@ -20825,11 +22748,7 @@ class L10nZh extends L10n {
   }
 
   @override
-  String viewMetricCaptionSemantics(
-    String label,
-    String value,
-    String caption,
-  ) {
+  String viewMetricCaptionSemantics(String label, String value, String caption) {
     return '$label $value，$caption';
   }
 
@@ -21188,8 +23107,7 @@ class L10nZh extends L10n {
   String get wallpaperPreview => '预览';
 
   @override
-  String get wallpaperFooter =>
-      '用于首页、对话和抽屉。提亮在浅色模式、压暗在深色模式下各自生效，文字始终清晰。PNG、JPEG、WebP，15 MB 以内';
+  String get wallpaperFooter => '用于首页、对话和抽屉。提亮在浅色模式、压暗在深色模式下各自生效，文字始终清晰。PNG、JPEG、WebP，15 MB 以内';
 
   @override
   String get wallpaperChanged => '壁纸已更换';
@@ -21362,6 +23280,844 @@ class L10nZh extends L10n {
   }
 
   @override
+  String get workshopTitle => '创意工坊';
+
+  @override
+  String get workshopSubtitle => '大家做的宠物和伙伴，挑喜欢的装上';
+
+  @override
+  String get workshopEntrySubtitle => '找别人做的宠物和伙伴';
+
+  @override
+  String get workshopTabBrowse => '发现';
+
+  @override
+  String get workshopTabMine => '我的投稿';
+
+  @override
+  String get workshopKindAll => '全部';
+
+  @override
+  String get workshopKindPet => '像素宠物';
+
+  @override
+  String get workshopKindCompanion => '伙伴';
+
+  @override
+  String get workshopSearchHint => '搜索名称或作者';
+
+  @override
+  String get workshopGet => '获取';
+
+  @override
+  String get workshopRefresh => '刷新';
+
+  @override
+  String workshopByAuthor(String author) {
+    return '$author 制作';
+  }
+
+  @override
+  String get workshopEmptyTitle => '这里还空着';
+
+  @override
+  String get workshopEmptyMessage => '还没有人投稿。做了宠物或伙伴的话，可以第一个发上来。';
+
+  @override
+  String get workshopNoMatchTitle => '没有找到';
+
+  @override
+  String get workshopNoMatchMessage => '换个名字或作者再试试。';
+
+  @override
+  String get workshopUnavailableTitle => '暂时打不开工坊';
+
+  @override
+  String get workshopNotOpenTitle => '工坊还没有开放';
+
+  @override
+  String get workshopNotOpenMessage => '这个版本还没有接入工坊服务。';
+
+  @override
+  String workshopShowingOlder(String when) {
+    return '没能刷新，显示的是 $when 取到的内容。';
+  }
+
+  @override
+  String get workshopLocalUnknown => '读不出本机已装了哪些，「已安装」的标记可能不准。';
+
+  @override
+  String get workshopStatVersion => '版本';
+
+  @override
+  String get workshopStatSize => '大小';
+
+  @override
+  String get workshopStatLicense => '许可';
+
+  @override
+  String get workshopAbout => '简介';
+
+  @override
+  String get workshopNoDescription => '作者没有写简介。';
+
+  @override
+  String get workshopSource => '来源';
+
+  @override
+  String workshopMinApp(String version) {
+    return '需要 DSH Go $version 或更新的版本。';
+  }
+
+  @override
+  String workshopInstalledVersion(String version) {
+    return '已安装 $version';
+  }
+
+  @override
+  String workshopUpdateTo(String version) {
+    return '更新到 $version';
+  }
+
+  @override
+  String get workshopInstalledWithdrawn => '你装的这个版本已经被撤回。它还能用；有新版本就更新，没有的话建议卸载。';
+
+  @override
+  String get workshopPhasePreparing => '正在准备…';
+
+  @override
+  String get workshopPhaseDownloading => '正在下载';
+
+  @override
+  String get workshopPhaseVerifying => '正在校验…';
+
+  @override
+  String get workshopPhaseCancelling => '正在取消…';
+
+  @override
+  String workshopProgressBytes(String received, String total) {
+    return '$received / $total';
+  }
+
+  @override
+  String get workshopInstallDone => '装好了';
+
+  @override
+  String get workshopInstallDonePet => '装好了，到宠物页就能换上它。';
+
+  @override
+  String get workshopInstallDoneCompanion => '装好了，到伙伴小屋就能见到她。';
+
+  @override
+  String get workshopInstallDoneRefreshIssue => '装好了，但列表没能刷新，重新进来就能看到。';
+
+  @override
+  String get workshopInstallCancelled => '已取消，没有改动本机的内容。';
+
+  @override
+  String get workshopInstallBusy => '上一个安装或卸载还没结束，等它完成再试。';
+
+  @override
+  String get workshopReplaceTitle => '覆盖本机已有的？';
+
+  @override
+  String workshopReplaceMessage(String title) {
+    return '本机已经有一个同名的资源，不是从工坊这一条装的。继续会用「$title」替换它，替换后找不回来。';
+  }
+
+  @override
+  String get workshopReplaceConfirm => '覆盖';
+
+  @override
+  String get workshopReport => '举报';
+
+  @override
+  String get workshopErrorNetwork => '网络不通，稍后再试。';
+
+  @override
+  String get workshopErrorTimeout => '等得太久没有回应，稍后再试。';
+
+  @override
+  String get workshopErrorServer => '工坊服务暂时出了问题，稍后再试。';
+
+  @override
+  String get workshopErrorRateLimited => '操作太频繁了，过一会儿再试。';
+
+  @override
+  String get workshopErrorBadData => '工坊返回的内容不对，没有采用。稍后再试。';
+
+  @override
+  String get workshopErrorCatalogChanged => '这个作品刚刚有变化，请刷新后再看。';
+
+  @override
+  String get workshopErrorNotFound => '找不到这个作品了，可能已经下架。';
+
+  @override
+  String get workshopErrorWithdrawn => '这个版本已经被撤回，不能安装。';
+
+  @override
+  String get workshopErrorMinApp => 'App 版本太旧，更新后才能安装。';
+
+  @override
+  String get workshopErrorUnsupported => '这个版本的 App 还不认识这类作品。';
+
+  @override
+  String get workshopErrorCompanionOff => '伙伴类作品暂时关闭了。';
+
+  @override
+  String get workshopErrorUploadOff => '工坊暂时不接收投稿。';
+
+  @override
+  String get workshopErrorNoSpace => '手机空间不够，腾出一些再试。';
+
+  @override
+  String get workshopErrorStorage => '没能读写手机上的文件。';
+
+  @override
+  String get workshopErrorIntegrity => '下载的内容和登记的不一致，已丢弃。请重试。';
+
+  @override
+  String get workshopErrorDowngrade => '本机装的版本更新，不会换成旧的。';
+
+  @override
+  String get workshopErrorRuntimeMissing => '要先在伙伴小屋里请过一位角色，才能装别的伙伴。';
+
+  @override
+  String get workshopErrorReadersBusy => '她正在用着，先离开伙伴小屋或关掉悬浮窗再试。';
+
+  @override
+  String get workshopErrorInstallRecord => '本机的安装记录对不上，没有动它。';
+
+  @override
+  String get workshopErrorOtherOrigin => '这是从别的工坊装的。';
+
+  @override
+  String get workshopErrorSignIn => '需要先登录论坛账号。';
+
+  @override
+  String get workshopErrorConsent => '需要先同意把登录凭据交给工坊核对身份。';
+
+  @override
+  String get workshopErrorForumMismatch => '登录的论坛和工坊认的不是同一个，请重新登录。';
+
+  @override
+  String get workshopErrorForumDown => '论坛暂时联系不上，稍后再试。';
+
+  @override
+  String get workshopErrorPreferences => '没能保存本机的记录，这一步没有继续。';
+
+  @override
+  String get workshopErrorBusy => '上一步还没结束，稍等。';
+
+  @override
+  String get workshopErrorCancelled => '已取消。';
+
+  @override
+  String get workshopErrorUnknownResult => '不确定有没有成功。先刷新看看，别急着重试。';
+
+  @override
+  String get workshopErrorGeneric => '没有成功，稍后再试。';
+
+  @override
+  String get workshopDisclosureTitle => '让工坊核对你的论坛身份';
+
+  @override
+  String get workshopDisclosureLead => '投稿、管理自己的投稿和举报，工坊都要先知道你是谁。办法是把你的论坛登录凭据（User API Key）发给下面这个工坊服务，由它去问论坛你是哪个账号。';
+
+  @override
+  String get workshopDisclosureWorker => '收到凭据的工坊';
+
+  @override
+  String get workshopDisclosureForum => '核对身份的论坛';
+
+  @override
+  String get workshopDisclosureUse => '投稿、查看或撤回自己的投稿、举报时都会带上它。工坊只拿它向论坛确认身份，不保存。';
+
+  @override
+  String get workshopDisclosureKept => '本机只记下你同意过这两个地址，不另存凭据；换了其中一个会再问。';
+
+  @override
+  String get workshopDisclosureStale => '地址刚刚有变化，请按现在显示的重新确认。';
+
+  @override
+  String get workshopDisclosureAccept => '同意并继续';
+
+  @override
+  String get workshopDisclosureDecline => '暂不';
+
+  @override
+  String get workshopDisclosureUnsaved => '这次同意已经生效，但没能记在本机，下次可能再问一遍。';
+
+  @override
+  String get workshopInstalledEmptyTitle => '还没有从工坊装过东西';
+
+  @override
+  String get workshopInstalledEmptyMessage => '在「发现」里装上的宠物和伙伴会列在这里。';
+
+  @override
+  String get workshopInstalledEmptyAction => '去发现';
+
+  @override
+  String get workshopInstalledLoadFailedTitle => '读不出已安装的内容';
+
+  @override
+  String get workshopInstalledLoadStale => '没能重新读取，显示的是上一次的。';
+
+  @override
+  String get workshopInstalledCatalogStale => '更新和撤回的信息可能不是最新的。';
+
+  @override
+  String get workshopInstalledCatalogUnknown => '暂时查不到更新和撤回的信息。';
+
+  @override
+  String get workshopInstalledStatusUpdate => '有更新';
+
+  @override
+  String get workshopInstalledStatusWithdrawn => '这个版本已被撤回';
+
+  @override
+  String get workshopInstalledStatusOtherOrigin => '来自别的工坊';
+
+  @override
+  String get workshopInstalledStatusNotListed => '工坊里现在找不到它';
+
+  @override
+  String get workshopInstalledStatusCompanionOff => '伙伴类作品暂时关闭';
+
+  @override
+  String get workshopInstalledStatusRewritten => '和工坊里的同一版本不一致';
+
+  @override
+  String get workshopInstalledStatusRemoving => '正在卸载…';
+
+  @override
+  String get workshopInstalledStatusRemoveFailed => '没能卸载';
+
+  @override
+  String get workshopInstalledStatusRemoved => '已卸载';
+
+  @override
+  String get workshopInstalledIssueBroken => '这个包损坏了';
+
+  @override
+  String get workshopInstalledIssueUnreadable => '读不出这个包';
+
+  @override
+  String get workshopInstalledIssueRecord => '安装记录对不上';
+
+  @override
+  String get workshopInstalledIssueOther => '这一项有问题';
+
+  @override
+  String get workshopInstalledNoteBroken => '这个包损坏了，可能用不了。';
+
+  @override
+  String get workshopInstalledNoteUnreadable => '没能读出这个包的文件。';
+
+  @override
+  String get workshopInstalledNoteRecord => '它的安装记录对不上。';
+
+  @override
+  String get workshopInstalledNoteOther => '这一项有问题，读不出更多信息。';
+
+  @override
+  String get workshopInstalledNoteUntrusted => '安装记录不可信，没法从这里卸载它。';
+
+  @override
+  String get workshopInstalledNoteOtherOrigin => '这是从别的工坊装的，这里查不到它的更新。';
+
+  @override
+  String get workshopInstalledNoteNotListed => '工坊里现在找不到它，本机的这一份不受影响。';
+
+  @override
+  String get workshopInstalledNoteRewritten => '工坊里同一版本的内容和本机的不一样，本机的这一份没有改动。';
+
+  @override
+  String get workshopInstalledNoteMinApp => '工坊里现在的版本需要更新 App 才能安装。';
+
+  @override
+  String get workshopInstalledNoteUnavailable => '工坊里现在的版本暂时不能安装。';
+
+  @override
+  String get workshopInstalledNoteGone => '这一项已经不在本机了。';
+
+  @override
+  String get workshopInstalledNoteUnread => '暂时读不到本机的安装记录，下面是刚才看到的状态。';
+
+  @override
+  String workshopInstalledRemoveFailed(String reason) {
+    return '没能卸载。$reason';
+  }
+
+  @override
+  String get workshopInstalledFactKind => '类型';
+
+  @override
+  String get workshopInstalledFactId => '作品 ID';
+
+  @override
+  String get workshopInstalledFactOrigin => '来自';
+
+  @override
+  String get workshopInstalledFactLocalId => '本机标识';
+
+  @override
+  String workshopInstalledRemoveTitle(String title) {
+    return '卸载「$title」？';
+  }
+
+  @override
+  String get workshopInstalledRemoveMessage => '会删掉这台手机上的这一份。想再用，要回工坊重新获取。';
+
+  @override
+  String get workshopInstalledRemoveNoReinstall => '工坊里现在找不到它，卸载后可能装不回来。';
+
+  @override
+  String get workshopInstalledRemovedRefreshIssue => '已卸载，但列表没能刷新，下拉刷新一下。';
+
+  @override
+  String get workshopInstalledRemovedLocalIssue => '已卸载，但有些地方没能跟着更新，重新打开 App 就好。';
+
+  @override
+  String get workshopMinePublish => '投稿';
+
+  @override
+  String get workshopMinePublishHint => '审核通过后出现在「发现」里';
+
+  @override
+  String get workshopMineSignInTitle => '投稿记在论坛账号上';
+
+  @override
+  String get workshopMineSignInMessage => '登录后就能看到自己发过的作品。';
+
+  @override
+  String get workshopMineConsentTitle => '还差一步确认';
+
+  @override
+  String get workshopMineConsentMessage => '工坊要用你的论坛登录凭据核对身份，同意后才能看到自己的投稿。';
+
+  @override
+  String get workshopMineConsentAction => '查看说明';
+
+  @override
+  String get workshopMineEmptyTitle => '还没有投稿';
+
+  @override
+  String get workshopMineEmptyMessage => '做了宠物或伙伴的话，可以发上来给大家用。';
+
+  @override
+  String get workshopMineEmptyFiltered => '没有这类投稿';
+
+  @override
+  String get workshopMineLoadFailed => '没能读到投稿';
+
+  @override
+  String get workshopMineStale => '没读到最新内容，下面是之前读到的。';
+
+  @override
+  String get workshopMineLoadMore => '加载更多';
+
+  @override
+  String get workshopMineStatusPending => '待审核';
+
+  @override
+  String get workshopMineStatusApproved => '已通过';
+
+  @override
+  String get workshopMineStatusRejected => '已拒绝';
+
+  @override
+  String get workshopMineStatusWithdrawn => '已撤回';
+
+  @override
+  String get workshopMineStatusDraft => '草稿';
+
+  @override
+  String get workshopMineDetailTitle => '投稿详情';
+
+  @override
+  String get workshopMineRefreshOne => '刷新这一条';
+
+  @override
+  String get workshopMineAboutPending => '已经提交，正在等审核。通过后会出现在「发现」里。';
+
+  @override
+  String get workshopMineAboutApproved => '审核通过了。现在是否公开，以「发现」里看到的为准。';
+
+  @override
+  String get workshopMineAboutRejected => '没有通过审核。';
+
+  @override
+  String get workshopMineAboutWithdrawn => '已经撤回，不能恢复。';
+
+  @override
+  String get workshopMineAboutDraft => '文件还没有传完，不会进入审核。';
+
+  @override
+  String get workshopMineReviewReason => '审核意见';
+
+  @override
+  String get workshopMineWithdrawReason => '撤回原因';
+
+  @override
+  String get workshopMineWithdrawReasonHint => '比如传错了文件、想改了再发';
+
+  @override
+  String get workshopMineCreatedAt => '提交时间';
+
+  @override
+  String get workshopMineUpdatedAt => '最近更新';
+
+  @override
+  String get workshopMineDetailStale => '这一条没能刷新，显示的是之前读到的状态。';
+
+  @override
+  String get workshopMineAccountChanged => '账号已经换了';
+
+  @override
+  String get workshopMineAccountChangedMessage => '这条投稿属于之前的账号，不再显示。';
+
+  @override
+  String get workshopMineWithdraw => '撤回投稿';
+
+  @override
+  String get workshopMineWithdrawConfirmTitle => '撤回这条投稿？';
+
+  @override
+  String workshopMineWithdrawConfirmMessage(String title) {
+    return '撤回后不能恢复。如果「$title」已经公开，所有人都不能再下载这个版本，同一个版本号也不能重新发布。';
+  }
+
+  @override
+  String get workshopMineWithdrawConfirm => '撤回';
+
+  @override
+  String get workshopMineWithdrawing => '正在撤回…';
+
+  @override
+  String get workshopMineWithdrawDone => '这条投稿已撤回';
+
+  @override
+  String get workshopMineWithdrawUnknown => '不确定有没有撤回成功。先查询结果，不要重复撤回。';
+
+  @override
+  String get workshopMineWithdrawQuery => '查询结果';
+
+  @override
+  String get workshopMineWithdrawStill => '查到它还没有撤回。需要的话可以再撤回一次。';
+
+  @override
+  String get workshopMineWithdrawReconciled => '查到它现在已经是撤回状态。';
+
+  @override
+  String get workshopMineReasonEmpty => '先写下原因。';
+
+  @override
+  String workshopMineReasonTooLong(String max) {
+    return '最多 $max 字，现在超了。';
+  }
+
+  @override
+  String get workshopMineReasonBadChars => '里面有不能用的字符，删掉后再试。';
+
+  @override
+  String get workshopMineReasonRejected => '这段原因没有被接受，改一下再试。';
+
+  @override
+  String workshopReportTarget(String title, String version) {
+    return '$title · $version';
+  }
+
+  @override
+  String get workshopReportReason => '举报原因';
+
+  @override
+  String get workshopReportReasonHint => '它有什么问题，比如侵权、内容不合适';
+
+  @override
+  String get workshopReportNote => '审核员会查看这条举报。作品不会因为举报自动下架。';
+
+  @override
+  String get workshopReportSubmit => '提交举报';
+
+  @override
+  String get workshopReportSending => '正在提交…';
+
+  @override
+  String get workshopReportDone => '举报已送达，审核员会查看。';
+
+  @override
+  String get workshopReportSignInTitle => '举报需要论坛账号';
+
+  @override
+  String get workshopReportSignInMessage => '登录后才能提交举报。';
+
+  @override
+  String get workshopReportConsentMessage => '工坊要用你的论坛登录凭据核对身份，同意后才能举报。';
+
+  @override
+  String get workshopReportUnknownTitle => '不确定有没有送达';
+
+  @override
+  String get workshopReportUnknownMessage => '上一次举报可能已经收到，也可能没有，现在查不到结果。再发一次可能变成重复举报。';
+
+  @override
+  String workshopReportUnknownOther(String id, String version) {
+    return '那一次举报的是 $id $version。';
+  }
+
+  @override
+  String get workshopReportUnknownAgain => '知道可能重复，重新填写';
+
+  @override
+  String get workshopPublishTitle => '投稿';
+
+  @override
+  String get workshopPublishClosedTitle => '工坊暂时不接收投稿';
+
+  @override
+  String get workshopPublishClosedMessage => '已经交上去的仍然可以在「我的投稿」里看。';
+
+  @override
+  String get workshopPublishSignInTitle => '先登录论坛账号';
+
+  @override
+  String get workshopPublishSignInMessage => '工坊靠论坛账号确认投稿的人是谁。';
+
+  @override
+  String get workshopPublishProfileTitle => '还没读到论坛账号资料';
+
+  @override
+  String get workshopPublishProfileMessage => '要先知道你是哪个账号，才能投稿。';
+
+  @override
+  String get workshopPublishCheckFailedTitle => '没能读出上一次投稿的记录';
+
+  @override
+  String get workshopPublishCheckLocked => '为了不重复投稿，读出来之前不能开始新的。';
+
+  @override
+  String get workshopPublishWaitingPrevious => '上一个操作还没结束，稍等。';
+
+  @override
+  String get workshopPublishChooseTitle => '选一个要投稿的';
+
+  @override
+  String get workshopPublishCompanionCurrent => '现在的伙伴';
+
+  @override
+  String get workshopPublishSourcesEmptyTitle => '还没有可以投稿的';
+
+  @override
+  String get workshopPublishSourcesEmptyMessage => '自己导入的像素宠物和现在的伙伴可以投稿。';
+
+  @override
+  String get workshopPublishSourcesIssue => '没能读出本机可以投稿的内容。';
+
+  @override
+  String get workshopPublishPetsIssue => '没能读出本机的像素宠物。';
+
+  @override
+  String get workshopPublishCompanionIssue => '没能读出本机的伙伴。';
+
+  @override
+  String get workshopPublishNoCompanion => '本机还没有伙伴，先到伙伴小屋请一位。';
+
+  @override
+  String get workshopPublishSectionSource => '投稿内容';
+
+  @override
+  String get workshopPublishChange => '更换';
+
+  @override
+  String get workshopPublishSectionNames => '名称';
+
+  @override
+  String get workshopPublishTitleZh => '中文名称';
+
+  @override
+  String get workshopPublishTitleEn => '英文名称';
+
+  @override
+  String get workshopPublishSectionInfo => '作品信息';
+
+  @override
+  String get workshopPublishId => '作品 ID';
+
+  @override
+  String get workshopPublishIdHelper => '小写字母、数字和短横线';
+
+  @override
+  String get workshopPublishAuthor => '作者';
+
+  @override
+  String get workshopPublishLicenseAuthor => '作者授权';
+
+  @override
+  String get workshopPublishSourceLink => '来源链接';
+
+  @override
+  String get workshopPublishSourceHelper => '作品主页或出处，以 https:// 开头';
+
+  @override
+  String get workshopPublishSectionAbout => '介绍（选填）';
+
+  @override
+  String get workshopPublishTags => '标签';
+
+  @override
+  String get workshopPublishTagsHelper => '用逗号分开，最多 8 个';
+
+  @override
+  String get workshopPublishNext => '下一步';
+
+  @override
+  String get workshopPublishPreparing => '正在打包…';
+
+  @override
+  String get workshopPublishBadTitle => '名称不能为空，最多 120 个字';
+
+  @override
+  String get workshopPublishBadId => '只能用小写字母、数字和短横线，最多 40 个字符';
+
+  @override
+  String get workshopPublishBadVersion => '写成 1.0.0 这样的版本号';
+
+  @override
+  String get workshopPublishBadAuthor => '作者不能为空，最多 256 个字';
+
+  @override
+  String get workshopPublishBadLicense => '选一个许可';
+
+  @override
+  String get workshopPublishBadSource => '填一个以 https:// 开头的链接';
+
+  @override
+  String get workshopPublishBadDescription => '简介最多 512 个字';
+
+  @override
+  String get workshopPublishBadTags => '最多 8 个标签，每个不超过 32 个字，不能重复';
+
+  @override
+  String get workshopPublishBadRights => '先确认你有权分享这份内容';
+
+  @override
+  String get workshopPublishFiles => '包里的文件';
+
+  @override
+  String get workshopPublishEdit => '修改资料';
+
+  @override
+  String get workshopPublishRights => '我确认自己有权分享这份内容';
+
+  @override
+  String get workshopPublishReviewNote => '交上去后先由工坊审核，通过了大家才能看到。';
+
+  @override
+  String get workshopPublishSubmit => '投稿';
+
+  @override
+  String get workshopPublishPhaseWorking => '正在处理…';
+
+  @override
+  String get workshopPublishPhaseUploading => '正在上传';
+
+  @override
+  String get workshopPublishPhaseWaiting => '已经传完，等工坊确认…';
+
+  @override
+  String get workshopPublishStay => '离开这一页不会中断。';
+
+  @override
+  String get workshopPublishDoneTitle => '已交给工坊，等待审核';
+
+  @override
+  String get workshopPublishDoneMessage => '进度可以在「我的投稿」里看。';
+
+  @override
+  String get workshopPublishBackToMine => '回到我的投稿';
+
+  @override
+  String get workshopPublishApprovedTitle => '这份投稿已经通过审核';
+
+  @override
+  String get workshopPublishApprovedMessage => '有没有上架，以「发现」里看到的为准。';
+
+  @override
+  String get workshopPublishRejectedTitle => '这份投稿没有通过审核';
+
+  @override
+  String get workshopPublishWithdrawnTitle => '这份投稿已经撤回';
+
+  @override
+  String workshopPublishReason(String reason) {
+    return '原因：$reason';
+  }
+
+  @override
+  String get workshopPublishAgain => '重新投稿';
+
+  @override
+  String get workshopPublishAgainMessage => '改好以后可以重新投一次。';
+
+  @override
+  String get workshopPublishRecordKept => '结果已经确认，但本机的投稿记录没能清掉。';
+
+  @override
+  String get workshopPublishLeftovers => '本机留下的临时文件没能清掉。';
+
+  @override
+  String get workshopPublishPendingTitle => '有一份投稿还没结束';
+
+  @override
+  String get workshopPublishPendingMessage => '上次没有交完。继续会用同一份内容接着交，不会多出一份。';
+
+  @override
+  String get workshopPublishPendingLocked => '这份投稿的内容已经定下，暂时不能修改，也不能换成别的。问题解决后可以接着交。';
+
+  @override
+  String get workshopPublishPendingUnsent => '这次还没有发出去。问题解决后可以接着交，也可以回去修改资料或换一个来投。';
+
+  @override
+  String get workshopPublishEditUnsent => '回去修改';
+
+  @override
+  String get workshopPublishUnknownTitle => '不确定有没有交上去';
+
+  @override
+  String get workshopPublishUnknownMessage => '工坊没有回话，结果还不知道。查看结果会拿同一份投稿再问一次：已经交上的不会重复，没交完的接着交。';
+
+  @override
+  String get workshopPublishContinue => '继续投稿';
+
+  @override
+  String get workshopPublishCheckResult => '查看结果';
+
+  @override
+  String get workshopPublishCheckAgain => '重新查询';
+
+  @override
+  String get workshopPublishErrorInvalid => '有几项资料要改一下。';
+
+  @override
+  String get workshopPublishErrorMismatch => '打好的包和填写的资料对不上，请再试一次。';
+
+  @override
+  String get workshopPublishErrorPending => '还有一份投稿没有结束，先把它处理完。';
+
+  @override
+  String get workshopPublishErrorTooLarge => '包太大了，超过了工坊的上限。';
+
+  @override
+  String get workshopPublishErrorMetadata => '资料没有通过工坊的检查，改一改再试。';
+
+  @override
+  String get workshopPublishErrorNotReady => '还没准备好，稍等再试。';
+
+  @override
+  String get workshopPublishErrorAgain => '现在还不能重新投稿。';
+
+  @override
   String get workspaceRecoveryTitle => '工作区索引救援';
 
   @override
@@ -21397,8 +24153,7 @@ class L10nZh extends L10n {
   String get workspaceRecoveryUnavailable => '当前版本尚不支持工作区索引救援，请检查本机引擎状态并更新应用。';
 
   @override
-  String get workspaceRecoveryRestartIncomplete =>
-      '索引模式已切换，但还无法确认引擎已停止，未重新启动。请等停止完成后再启动。';
+  String get workspaceRecoveryRestartIncomplete => '索引模式已切换，但还无法确认引擎已停止，未重新启动。请等停止完成后再启动。';
 
   @override
   String get workspaceRecoverySaveFailed => '索引模式保存失败，未请求重新启动。请查看本机引擎状态和日志。';

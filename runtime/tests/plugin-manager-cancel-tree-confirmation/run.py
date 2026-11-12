@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Real rc4 runCli + public RPC; controlled PM, exact owned Linux processes only."""
+"""Real 0.2.2-rc.1 runCli + public RPC; controlled PM, exact owned Linux processes only."""
 import argparse, concurrent.futures, ctypes, hashlib, http.cookiejar, json, os, pathlib, re, shutil, signal, subprocess, tempfile, threading, time, traceback, urllib.request, uuid
 
 p = argparse.ArgumentParser()

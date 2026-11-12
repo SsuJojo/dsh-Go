@@ -68,12 +68,14 @@ class VoiceInputController extends ChangeNotifier with WidgetsBindingObserver {
     required this.input,
     required this.bridge,
     required this.client,
+    Object? Function()? inputOwner,
     Future<VoiceMode> Function()? mode,
     bool Function()? modelReady,
     this.onRecognized,
     this.requiredProviderId,
     bool observeLifecycle = true,
   }) : _mode = mode ?? _automatic,
+       _inputOwner = inputOwner ?? client,
        _modelReady = modelReady ?? _noModel,
        _observing = observeLifecycle {
     if (_observing) {
@@ -94,6 +96,10 @@ class VoiceInputController extends ChangeNotifier with WidgetsBindingObserver {
   final TextEditingController input;
   final VoiceBridge bridge;
   final DshClient? Function() client;
+
+  /// The draft receiving phone recognition. Defaults to the client; the chat
+  /// supplies its saved host selection, which survives transport replacement.
+  final Object? Function() _inputOwner;
   final Future<VoiceMode> Function() _mode;
 
   /// The on-device voice model is ready for this host (voice settings):
@@ -124,6 +130,7 @@ class VoiceInputController extends ChangeNotifier with WidgetsBindingObserver {
   bool _fallbackTried = false;
   bool _switching = false;
   DshClient? _runClient;
+  Object? _runInputOwner;
   MuxGeneration? _runGeneration;
   StreamSubscription<VoiceEvent>? _events;
   Timer? _finalTimeout;
@@ -140,11 +147,11 @@ class VoiceInputController extends ChangeNotifier with WidgetsBindingObserver {
   bool get available => _caps.recognizer || engineReady;
 
   bool _current(int operation) => !_disposed && active && operation == _operation;
-  // Phone recognition does not use the Host transport. A different client
-  // still changes the draft's owner; engine recording/fallback keeps its generation.
-  bool get _hostCurrent =>
-      identical(_runClient, client()) &&
-      (_engine == VoiceEngine.system || identical(_runGeneration, _runClient?.mux.generation));
+  // Phone recognition belongs to the draft, not its Host transport. Starting
+  // before an engine is selected, recording and fallback keep the original link.
+  bool get _hostCurrent => _engine == VoiceEngine.system
+      ? _runInputOwner == _inputOwner()
+      : identical(_runClient, client()) && identical(_runGeneration, _runClient?.mux.generation);
 
   Future<void> refresh() {
     if (_disposed) return Future.value();
@@ -228,6 +235,7 @@ class VoiceInputController extends ChangeNotifier with WidgetsBindingObserver {
     _fallbackTried = false;
     _switching = false;
     _runClient = client();
+    _runInputOwner = _inputOwner();
     _runGeneration = _runClient?.mux.generation;
     _setPhase(VoicePhase.starting);
     final VoicePermission permission;
@@ -585,6 +593,7 @@ class VoiceInputController extends ChangeNotifier with WidgetsBindingObserver {
     _requestingPermission = false;
     _switching = false;
     _target = null;
+    _runInputOwner = null;
     _finalTimeout?.cancel();
     _finalTimeout = null;
     unawaited(_events?.cancel());
